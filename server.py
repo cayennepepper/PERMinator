@@ -1,9 +1,11 @@
 from flask import Flask
+from flask import render_template
+
 app = Flask(__name__)
 
 @app.route('/')
 def index_page():
-    return render_template('client/index.html')
+	return render_template('index.html')
 
 @app.route('/professor/<pid>')
 def  professor_home(pid): 
@@ -30,4 +32,4 @@ def  submit_perms(sid):
 	return 'SUBMIT PERMS '
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
