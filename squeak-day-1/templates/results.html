@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <title>Squeak</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+<div class="page">
+    <h1>Squeak</h1>
+    <h2>You searched for '{{search_term}}' in {{location}}</h2>
+    <ul>
+        {% for num in range (0,20) %}
+        <li>{{num+1}}</li>
+        {% for link in links %}
+        <li><a href = "{{links}}">{{link}}</a></li>
+        {% endfor%}
+    </ul>
+    <img width='50px' height='50px' src="/static/fork-knife.jpg" />
+</div>
+</body>
+</html>
