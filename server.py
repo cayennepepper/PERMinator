@@ -13,7 +13,7 @@ def  professor_home(pid):
 
 @app.route('/student/<sid>')
 def  student_home(sid):
-	return 'PERMS FOR '+sid
+	return render_template('studentHome.html')
 
 @app.route('/myCourse/<cid>')
 def  course(cid):
