@@ -2,9 +2,10 @@ from flask import Flask
 from flask import render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
-from flask.ext.triangle import Form
+from flask.ext.triangle import Triangle
 
-app = Flask(__name__, template_folder="app")
+app = Flask(__name__, template_folder="app", static_path='/static')
+Triangle(app)
 #sets up db connection
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:@localhost/PERMinator?charset=utf8&use_unicode=0'
 db = SQLAlchemy(app)
@@ -32,7 +33,7 @@ class Student(db.Model):
 
 @app.route('/')
 def index_page():
-	return render_template('view2/view2.html')
+	return render_template('view1/view1.html')
 
 @app.route('/professor/<pid>')
 def  professor_home(pid): 
