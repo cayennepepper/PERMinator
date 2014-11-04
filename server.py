@@ -2,7 +2,9 @@ from flask import Flask
 from flask import render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+from flask.ext.triangle import Form
+
+app = Flask(__name__, template_folder="app")
 #sets up db connection
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:@localhost/PERMinator?charset=utf8&use_unicode=0'
 db = SQLAlchemy(app)
@@ -30,7 +32,7 @@ class Student(db.Model):
 
 @app.route('/')
 def index_page():
-	return render_template('index.html')
+	return render_template('view2/view2.html')
 
 @app.route('/professor/<pid>')
 def  professor_home(pid): 
@@ -38,7 +40,7 @@ def  professor_home(pid):
 
 @app.route('/student/<sid>')
 def  student_home(sid):
-	return render_template('studentHome.html')
+	return render_template('student/studentHome.html')
 
 @app.route('/myCourse/<cid>')
 def  course(cid):
