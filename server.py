@@ -40,8 +40,8 @@ def  professor_home(pid):
 	return 'HOME PAGE FOR PROFESSOR '+pid
 
 @app.route('/student/<sid>')
-def  student_home(sid):
-	return render_template('student/studentHome.html')
+def  student_home(sid='0'):
+	return render_template('student/studentHome.html', default = sid)
 
 @app.route('/myCourse/<cid>')
 def  course(cid):

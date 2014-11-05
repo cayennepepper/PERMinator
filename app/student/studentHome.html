@@ -7,7 +7,7 @@
     <script src="/static/bower_components/angular/angular.min.js"></script>
     <title>Student Home</title>
   </head>
-  <body>
+  <body ng-init="yourName='{{default}}';">
     <label>Name:</label>
     <input type="text" data-ng-model="yourName" placeholder="Enter a name here">
     <p>This is the partial for view 1.</p>
