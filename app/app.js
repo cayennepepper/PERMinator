@@ -10,3 +10,13 @@ angular.module('myApp', [
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/view1'});
 }]);
+
+function TutoCtrl($scope, $http) {
+
+    $scope.send = function() {
+        $http.post('/profile', $scope.profile)
+             .success(function(){alert('ok')})
+             .error(function(){alert('fail')});
+    }
+
+}
