@@ -1,6 +1,6 @@
 #sets up the inital database
 from server import db
-from server import Student
+from models import Student
 
 #start anew
 db.drop_all()
