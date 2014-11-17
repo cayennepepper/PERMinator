@@ -10,7 +10,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__, static_url_path='')
 app.debug = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:@localhost/todo?charset=utf8&use_unicode=0'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:@localhost/PERMinator?charset=utf8&use_unicode=0'
 db = SQLAlchemy(app)
 
 class Item(db.Model):
