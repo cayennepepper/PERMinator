@@ -32,6 +32,12 @@ class Item(db.Model):
 
 db.create_all();
 
+@app.route('/student/<student:id>')
+def index():
+    todos = db.session.query(Item).all()
+    _todos = [todo.serialize() for todo in todos if todo!=None]
+    return render_template('index.html', todos=_todos)
+
 @app.route('/')
 def index():
     todos = db.session.query(Item).all()
