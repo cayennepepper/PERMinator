@@ -6,6 +6,7 @@ from flask import (
     render_template,
     request)
 from flask.ext.sqlalchemy import SQLAlchemy
+from models import *
 
 app = Flask(__name__, static_url_path='')
 app.debug = True
@@ -13,24 +14,11 @@ app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:@localhost/PERMinator?charset=utf8&use_unicode=0'
 db = SQLAlchemy(app)
 
-class Item(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  title = db.Column(db.String(50))
-
-  def __init__(self, json):
-    print json
-    self.title = json[u'title']
-
-  def __repr__(self):
-    return "<Item(id='%s', title='%s')>" % (self.id, self.title)
-
-  def serialize(self): #lets us serialize it!!
-        result = {}
-        for key in self.__mapper__.c.keys():
-            result[key] = getattr(self,key)
-        return result
-
-db.create_all();
+@app.route('/professor/<int:pid>')
+def prof_home(pid):
+    prof_teach = db.session.query(Teach).filter(Teach.profID==pid).all()
+    sections = [teach.section.serialize() for teach in prof_teach]
+    return render_template('prof_home.html', sections=sections)
 
 @app.route('/')
 def index():

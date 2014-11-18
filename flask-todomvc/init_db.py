@@ -1,5 +1,4 @@
 #sets up the inital database
-from server import db
 from models import *
 from datetime import datetime, time, timedelta
 
@@ -16,7 +15,7 @@ db.session.add_all([(
 	])
 db.session.commit()
 db.session.add_all([
-	(Section( id=1,sectionNum=1, cap =20, exp = time(2), course="CS133"))
+	(Section( id=1,sectionNum=1, cap =20, exp = timedelta(days=14), course="CS133"))
 	])
 db.session.commit()
 db.session.add_all([

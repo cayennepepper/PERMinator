@@ -1,6 +1,10 @@
 from server import db
 from sqlalchemy import ForeignKey
 
+def serialize_timedelta(time_object):
+  return str(time_object.days)+":"+str(time_object.seconds)
+
+
 #DB SCHEMA: STUDENT MODEL
 class Student(db.Model):
   #reference PERMs via 'PERMs'
@@ -40,7 +44,7 @@ class Section(db.Model):
   sectionID = db.Column(db.Integer, primary_key=True, autoincrement=False)
   sectionNum = db.Column(db.Integer)
   enrollmentCap = db.Column(db.Integer)
-  defaultExpiration = db.Column(db.Time)
+  defaultExpiration = db.Column(db.Interval)
   courseID = db.Column(db.String(20), ForeignKey(Course.courseID))
 
   #reference course via 'course'
@@ -56,6 +60,14 @@ class Section(db.Model):
   def __repr__(self):
     return "<Section(sectionID='%s', enrollmentCap='%s', defaultExpiration='%s', courseID='%s', sectionNum ='%s')>" % (
       self.sectionID, self.enrollmentCap, self.defaultExpiration, self.courseID, self.sectionNum)
+
+  def serialize(self): #lets us serialize it!!
+    result = {}
+    for key in self.__mapper__.c.keys():
+        result[key] = getattr(self,key)
+        if (key=="defaultExpiration"):
+          result[key] = serialize_timedelta(getattr(self,key))
+    return result
 
 class PERM(db.Model):
   blurb = db.Column(db.String(200))
@@ -83,6 +95,12 @@ class PERM(db.Model):
   def __repr__(self):
     return "<PERM(section='%s', student='%s', blurb='%s', status='%s', submissionTime='%s', expirationTime='%s', sectionRank='%s')>" % (
       self.sectionID, self.studentID, self.blurb, self.status, self.submissionTime, self.expirationTime, self.sectionRank)
+
+  def serialize(self): #lets us serialize it!!
+    result = {}
+    for key in self.__mapper__.c.keys():
+        result[key] = getattr(self,key)
+    return result
 
 class Professor(db.Model):
   #reference teach via 'teaches'
@@ -112,6 +130,27 @@ class Teach(db.Model):
 
   def __repr__(self):
     return "<Teach(profID='%s', sectionID='%s')>" % (self.profID, self.sectionID)
+
+
+#*************************************************
+#for the tutorial todo only
+class Item(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  title = db.Column(db.String(50))
+
+  def __init__(self, json):
+    print json
+    self.title = json[u'title']
+
+  def __repr__(self):
+    return "<Item(id='%s', title='%s')>" % (self.id, self.title)
+
+  def serialize(self): #lets us serialize it!!
+    result = {}
+    for key in self.__mapper__.c.keys():
+        result[key] = getattr(self,key)
+    return result
+
 
 
 
