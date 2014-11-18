@@ -3,6 +3,7 @@ from sqlalchemy import ForeignKey
 
 #DB SCHEMA: STUDENT MODEL
 class Student(db.Model):
+  #reference PERMs via 'PERMs'
   id = db.Column(db.Integer, primary_key=True, autoincrement=False)
   sFirstName = db.Column(db.String(50))
   sLastName = db.Column(db.String(50))
@@ -23,7 +24,8 @@ class Student(db.Model):
       self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail)
 
 class Course(db.Model):
-  courseID = db.Column(db.Integer, primary_key=True, autoincrement=False)
+  #reference sections via 'sections'
+  courseID = db.Column(db.String(20), primary_key=True, autoincrement=False)
   credits = db.Column(db.Numeric)
 
   def __init__(self, id, credits):
@@ -34,33 +36,44 @@ class Course(db.Model):
     return "<Course(courseID='%s', credits='%s')>" % (self.courseID, self.credits)
 
 class Section(db.Model):
-  sectionID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  #reference PERMs via 'PERMs'
+  sectionID = db.Column(db.Integer, primary_key=True, autoincrement=False)
+  sectionNum = db.Column(db.Integer)
   enrollmentCap = db.Column(db.Integer)
   defaultExpiration = db.Column(db.Time)
-  courseID = db.Column(db.Integer, ForeignKey(Course.courseID))
+  courseID = db.Column(db.String(20), ForeignKey(Course.courseID))
 
-  def __init__(self,id,cap,exp,course):
-    self.sectionID = id
+  #reference course via 'course'
+  course = db.relationship("Course", backref=db.backref('sections', order_by=sectionNum))
+
+  def __init__(self,cap,exp,course, sectionNum,id):
     self.enrollmentCap = cap
     self.defaultExpiration = exp
     self.courseID = course
+    self.sectionNum = sectionNum
+    self.sectionID = id
 
   def __repr__(self):
-    return "<Section(sectionID='%s', enrollmentCap='%s', defaultExpiration='%s', courseID='%s')>" % (
-      self.sectionID, self.enrollmentCap, self.defaultExpiration, self.courseID)
+    return "<Section(sectionID='%s', enrollmentCap='%s', defaultExpiration='%s', courseID='%s', sectionNum ='%s')>" % (
+      self.sectionID, self.enrollmentCap, self.defaultExpiration, self.courseID, self.sectionNum)
 
 class PERM(db.Model):
-  section = db.Column(db.Integer, ForeignKey(Section.sectionID), primary_key=True, autoincrement=False)
-  student = db.Column(db.Integer, ForeignKey(Student.id), primary_key=True, autoincrement=False)
   blurb = db.Column(db.String(200))
-  status = db.Column(db.Enum("Revoked", "Approved", "Denied", "Cancelled"))
+  status = db.Column(db.Enum("Revoked", "Approved", "Denied", "Cancelled", "Requested"))
   submissionTime = db.Column(db.DateTime)
   expirationTime = db.Column(db.DateTime)
   sectionRank = db.Column(db.Integer)
 
+  studentID = db.Column(db.Integer, ForeignKey(Student.id), primary_key=True, autoincrement=False)
+  #reference student via 'student'
+  student= db.relationship("Student", backref=db.backref('PERMs', order_by=submissionTime))
+  sectionID = db.Column(db.Integer, ForeignKey(Section.sectionID), primary_key=True, autoincrement=False)
+  #reference section via 'section'
+  section = db.relationship("Section", backref=db.backref('PERMs', order_by=studentID))
+
   def __init__(self,section,student,blurb,status,submissionTime,expirationTime,sectionRank):
-    self.section = section
-    self.student = student
+    self.sectionID = section
+    self.studentID = student
     self.blurb = blurb
     self.status = status
     self.submissionTime = submissionTime
@@ -69,7 +82,7 @@ class PERM(db.Model):
 
   def __repr__(self):
     return "<PERM(section='%s', student='%s', blurb='%s', status='%s', submissionTime='%s', expirationTime='%s', sectionRank='%s')>" % (
-      self.section, self.student, self.blurb, self.status, self.submissionTime, self.expirationTime, self.sectionRank)
+      self.sectionID, self.studentID, self.blurb, self.status, self.submissionTime, self.expirationTime, self.sectionRank)
 
 class Professor(db.Model):
   profID = db.Column(db.Integer, primary_key=True, autoincrement=False)
@@ -85,8 +98,16 @@ class Professor(db.Model):
     return "<Professor(profID='%s', FirstName='%s', LastName='%s')>" % (self.profID, self.pFirstName, self.pLastName)
 
 class Teach(db.Model):
-  prof = db.Column(db.Integer, ForeignKey(Professor.profID), primary_key=True, autoincrement=False)
-  section = db.Column(db.Integer, ForeignKey(Section.sectionID), primary_key=True,autoincrement=False)
+  profID = db.Column(db.Integer, ForeignKey(Professor.profID), primary_key=True, autoincrement=False)
+  sectionID = db.Column(db.Integer, ForeignKey(Section.sectionID), primary_key=True,autoincrement=False)
+
+  def __init__(self, profID, sectionID):
+    self.profID = profID
+    self.sectionID = sectionID
+
+  def __repr__(self):
+    return "<Teach(profID='%s', sectionID='%s')>" % (self.profID, self.sectionID)
+
 
 
 
