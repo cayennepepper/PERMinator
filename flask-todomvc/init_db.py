@@ -11,15 +11,17 @@ db.create_all()
 
 db.session.add_all([(
 	Student(id=45, sFirstName='Sarah', sLastName='Jundt', year=2015, college = "Pomona", sEmail = "sarah@pomona.edu")),
-	(Course(id="CS133", credits=1.0)) 
+	(Course(id="CS133", credits=1.0)),
+	(Professor(profID=90, pFirstName="Melanie", pLastName="Wu")),
 	])
 db.session.commit()
 db.session.add_all([
-	(Section(sectionNum=1, id=1, cap =20, exp = time(2), course="CS133"))
+	(Section( id=1,sectionNum=1, cap =20, exp = time(2), course="CS133"))
 	])
 db.session.commit()
 db.session.add_all([
 	(PERM(section = 1, student = 45, blurb = "Sarah's PERM for CS133 Section 1", 
-		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None))
+		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None)),
+	(Teach(profID=90, sectionID=1))
 	])
 db.session.commit()

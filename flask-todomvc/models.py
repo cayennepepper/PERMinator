@@ -36,7 +36,7 @@ class Course(db.Model):
     return "<Course(courseID='%s', credits='%s')>" % (self.courseID, self.credits)
 
 class Section(db.Model):
-  #reference PERMs via 'PERMs'
+  #reference PERMs via 'PERMs', teach table via 'taught_by'
   sectionID = db.Column(db.Integer, primary_key=True, autoincrement=False)
   sectionNum = db.Column(db.Integer)
   enrollmentCap = db.Column(db.Integer)
@@ -85,6 +85,7 @@ class PERM(db.Model):
       self.sectionID, self.studentID, self.blurb, self.status, self.submissionTime, self.expirationTime, self.sectionRank)
 
 class Professor(db.Model):
+  #reference teach via 'teaches'
   profID = db.Column(db.Integer, primary_key=True, autoincrement=False)
   pFirstName = db.Column(db.String(50))
   pLastName = db.Column(db.String(50))
@@ -100,6 +101,10 @@ class Professor(db.Model):
 class Teach(db.Model):
   profID = db.Column(db.Integer, ForeignKey(Professor.profID), primary_key=True, autoincrement=False)
   sectionID = db.Column(db.Integer, ForeignKey(Section.sectionID), primary_key=True,autoincrement=False)
+  #reference section via 'section'
+  section = db.relationship("Section", backref=db.backref('taught_by', order_by=profID))
+  #reference prof via 'prof'
+  prof = db.relationship("Professor", backref=db.backref('teaches', order_by=sectionID))
 
   def __init__(self, profID, sectionID):
     self.profID = profID
