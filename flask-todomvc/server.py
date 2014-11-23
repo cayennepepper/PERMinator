@@ -14,11 +14,12 @@ app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:@localhost/PERMinator?charset=utf8&use_unicode=0'
 db = SQLAlchemy(app)
 
-@app.route('/professor/<int:pid>')
+@app.route('/professor/<int:pid>/sections')
 def prof_home(pid):
     prof_teach = db.session.query(Teach).filter(Teach.profID==pid).all()
     sections = [teach.section.serialize() for teach in prof_teach]
     return render_template('prof_home.html', sections=sections)
+
 
 @app.route('/')
 def index():
