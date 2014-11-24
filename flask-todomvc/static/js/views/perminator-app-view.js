@@ -22,6 +22,9 @@ var app = app || {};
 
 			this.listenTo(app.prof_sections, 'add', this.addOne);
 			this.listenTo(app.prof_sections, 'reset', this.addAll);
+
+			this.listenTo(app.prof_perms, 'add', this.addOne);
+			this.listenTo(app.prof_perms, 'reset', this.addAll);
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
@@ -35,6 +38,13 @@ var app = app || {};
 		addAll: function () {
 			this.$list.html('');
 			app.prof_sections.each(this.addOne, this);
+			app.prof_perms.each(this.addOne, this);
+		},
+
+
+		addOne: function (prof-perm) {
+			var view = new app.ProfPermView({ model: prof-perm });
+			this.$list.append(view.render().el);
 		},
 
 

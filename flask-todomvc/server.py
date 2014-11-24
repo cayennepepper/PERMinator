@@ -20,6 +20,11 @@ def prof_home(pid):
     sections = [teach.section.serialize() for teach in prof_teach]
     return render_template('prof_home.html', sections=sections)
 
+@app.route('/course/<string:cid>')
+def prof_perms(cid):
+    perm_set = db.session.query(Section).join(PERM).filter(Section.courseID==cid).all()
+    perms = [perm.serialize() for perm in perm_set]
+    return render_template('prof_perms.html', perms=perms)
 
 @app.route('/')
 def index():
