@@ -21,7 +21,7 @@
 		<script type="text/template" id="prof-perm-template">
 			<div class="view">
 				<input id="expdate" placeholder=<%- expirationTime %>>
-				 <%- blurb %>
+				<%- blurb %>
 			</div>
 		</script>
 		<script type="text/template" id="stats-template">
@@ -55,6 +55,7 @@
         <script>
         $(function(){
             app.prof_perms.reset({{ perms | tojson }});
+            app.prof_perms.url = '{{ url_for("perm_create") }}';
         });
         </script>
 	</body>
