@@ -18,34 +18,40 @@ var app = app || {};
 		// collection, when items are added or changed. Kick things off by
 		// loading any preexisting todos that might be saved in *localStorage*.
 		initialize: function () {
-			this.$list = $('#todo-list');
+			this.$prof_perm_list = $('#prof-perm-list');
+			this.$list = $('#todo-list')
 
-			this.listenTo(app.prof_sections, 'add', this.addOne);
-			this.listenTo(app.prof_sections, 'reset', this.addAll);
+			this.listenTo(app.prof_sections, 'add', this.addOneSection);
+			this.listenTo(app.prof_sections, 'reset', this.addAllSections);
 
-			// this.listenTo(app.prof_perms, 'add', this.addOne);
-			// this.listenTo(app.prof_perms, 'reset', this.addAll);
+			this.listenTo(app.prof_perms, 'add', this.addOnePERM);
+			this.listenTo(app.prof_perms, 'reset', this.addAllPERMs);
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
 		// appending its element to the `<ul>`.
-		addOne: function (section) {
+		addOneSection: function (section) {
 			var view = new app.SectionView({ model: section });
 			this.$list.append(view.render().el);
 		},
 
 		// Add all items in the **Todos** collection at once.
-		addAll: function () {
+		addAllSections: function () {
 			this.$list.html('');
-			app.prof_sections.each(this.addOne, this);
-			// app.prof_perms.each(this.addOne, this);
+			app.prof_sections.each(this.addOneSection, this);
 		},
 
 
-		// addOne: function (prof-perm) {
-		// 	var view = new app.ProfPermView({ model: prof-perm });
-		// 	this.$list.append(view.render().el);
-		// },
+		addOnePERM: function (prof_perm) {
+			var view = new app.ProfPermView({ model: prof_perm });
+			this.$prof_perm_list.append(view.render().el);
+		},
+
+		// Add all items in the **Todos** collection at once.
+		addAllPERMs: function () {
+			this.$prof_perm_list.html('');
+			app.prof_perms.each(this.addOnePERM, this);
+		},
 
 
 	});

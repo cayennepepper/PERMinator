@@ -22,8 +22,10 @@ def prof_home(pid):
 
 @app.route('/course/<string:cid>')
 def prof_perms(cid):
-    perm_set = db.session.query(Section).join(PERM).filter(Section.courseID==cid).all()
+    perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).all()
+    print perm_set
     perms = [perm.serialize() for perm in perm_set]
+    print perms
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/')
