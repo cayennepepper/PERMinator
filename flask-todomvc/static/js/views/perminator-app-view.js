@@ -26,6 +26,10 @@ var app = app || {};
 
 			this.listenTo(app.prof_perms, 'add', this.addOnePERM);
 			this.listenTo(app.prof_perms, 'reset', this.addAllPERMs);
+			this.$studentpermList = $('#studentperm-list');
+
+			this.listenTo(app.studentperms, 'add', this.addOneStudentPerm);
+			this.listenTo(app.studentperms, 'reset', this.addAllStudentPerms);
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
@@ -52,6 +56,16 @@ var app = app || {};
 			this.$prof_perm_list.html('');
 			app.prof_perms.each(this.addOnePERM, this);
 		},
+
+		addOneStudentPerm:  function(studentperm) {
+			var view = new app.StudentpermView({model: studentperm});
+			this.$studentpermList.append(view.render().el);
+		},
+
+		addAllStudentPerms: function () {
+			this.$studentpermList.html('');
+			app.studentperms.each(this.addOneStudentPerm, this);
+		}
 
 
 	});

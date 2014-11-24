@@ -20,6 +20,7 @@ var app = app || {};
 		// Delegated events for creating new items, and clearing completed ones.
 		events: {
 			'keypress #new-todo': 'createOnEnter',
+			'keypress #new-section-perm': 'createOnEnterNewPerm',
 			'click #clear-completed': 'clearCompleted',
 			'click #toggle-all': 'toggleAllComplete'
 		},
@@ -39,6 +40,7 @@ var app = app || {};
 			this.listenTo(app.todos, 'change:completed', this.filterOne);
 			this.listenTo(app.todos, 'filter', this.filterAll);
 			this.listenTo(app.todos, 'all', this.render);
+
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
@@ -98,6 +100,12 @@ var app = app || {};
 			};
 		},
 
+		// permAttributes: function() {
+		// 	return {
+		// 		sectionId: this.$input.val().trim(),
+		// 	}
+		// }
+
 		// If you hit return in the main input field, create new **Todo** model,
 		// persisting it to *localStorage*.
 		createOnEnter: function (e) {
@@ -106,6 +114,13 @@ var app = app || {};
 				this.$input.val('');
 			}
 		},
+
+		// createOnEnterNewPerm: function (e) {
+		// 	if (e.which === ENTER_KEY && this.$input.val().trim()) {
+		// 		app.sections.create(this.permAttributes());
+		// 		this.$input.val('');
+		// 	}
+		// },
 
 		// Clear all completed todo items, destroying their models.
 		clearCompleted: function () {

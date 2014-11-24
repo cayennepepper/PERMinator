@@ -13,7 +13,7 @@ var app = app || {};
 		tagName:  'li',
 
 		// Cache the template function for a single item.
-		template: _.template($('#item-template').html()),
+		template: _.template($('#studentperm-template').html()),
 
 		// The DOM events specific to an item.
 		events: {
@@ -21,6 +21,7 @@ var app = app || {};
 			'dblclick label': 'edit',
 			'click .destroy': 'clear',
 			'keypress .edit': 'updateOnEnter',
+			'keypress': 'updateOnEnter',
 			'keydown .edit': 'revertOnEscape',
 			'blur .edit': 'close'
 		},
@@ -30,9 +31,8 @@ var app = app || {};
 		// app, we set a direct reference on the model for convenience.
 		initialize: function () {
 			this.$newperm = this.$('#input-perm');
-			this.$sectionid = this.$newperm.('#section-field');
+			this.$sectionid = this.$newperm.$('#section-field');
 			this.$blurb = this.$newperm.$('#blurb-field');
-
 
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
