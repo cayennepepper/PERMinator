@@ -8,7 +8,8 @@ var app = app || {};
 	// ----------
 	var TodoRouter = Backbone.Router.extend({
 		routes: {
-			'*filter': 'setFilter'
+			'*filter': 'setFilter',
+			'/student/*': 'randomFunc'
 		},
 
 		setFilter: function (param) {
@@ -17,7 +18,11 @@ var app = app || {};
 
 			// Trigger a collection filter event, causing hiding/unhiding
 			// of Todo view items
-			app.todos.trigger('filter');
+			// app.todos.trigger('filter');
+		},
+
+		randomFunc: function(param) {
+			console.log(param);
 		}
 	});
 
