@@ -1,8 +1,15 @@
 from server import db
+from datetime import datetime
 from sqlalchemy import ForeignKey
 
 def serialize_timedelta(time_object):
   return str(time_object.days)+":"+str(time_object.seconds)
+
+def serialize_permtime(date_time):
+  d = str(date_time.day);
+  m = str(date_time.month);
+  y = str(date_time.year);
+  return m + "/" + d + "/" + y
 
 
 #DB SCHEMA: STUDENT MODEL
@@ -99,6 +106,10 @@ class PERM(db.Model):
   def serialize(self): #lets us serialize it!!
     result = {}
     for key in self.__mapper__.c.keys():
+      k = getattr(self,key)
+      if( isinstance(k,datetime) ) :
+        result[key] = serialize_permtime(k)
+      else :
         result[key] = getattr(self,key)
     return result
 
