@@ -14,6 +14,13 @@ var app = app || {};
 		// the App already present in the HTML.
 		el: '#todoapp',
 
+		events: {
+			'keypress #blurb-field': 'createOnEnterNewPerm'
+
+		},
+
+
+
 		// At initialization we bind to the relevant events on the `Todos`
 		// collection, when items are added or changed. Kick things off by
 		// loading any preexisting todos that might be saved in *localStorage*.
@@ -26,10 +33,13 @@ var app = app || {};
 
 			this.listenTo(app.prof_perms, 'add', this.addOnePERM);
 			this.listenTo(app.prof_perms, 'reset', this.addAllPERMs);
+			
 			this.$studentpermList = $('#studentperm-list');
-
 			this.listenTo(app.studentperms, 'add', this.addOneStudentPerm);
 			this.listenTo(app.studentperms, 'reset', this.addAllStudentPerms);
+
+			this.$new_section_input = $('#section-field');
+			this.$new_blurb_input = $('#blurb-field');
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
@@ -65,6 +75,29 @@ var app = app || {};
 		addAllStudentPerms: function () {
 			this.$studentpermList.html('');
 			app.studentperms.each(this.addOneStudentPerm, this);
+		},
+
+		permAttributes: function() {
+			return {
+				sectionId: this.$new_section_input.val().trim(),
+				blurb: this.$new_blurb_input.val().trim()
+			};
+		},
+
+		createOnEnterNewPerm: function (e) {
+			if (e.which === ENTER_KEY && this.$new_blurb_input.val().trim()) {
+				console.log("LALA");
+				console.log(this.$new_blurb_input.val().trim());
+				console.log(app.studentperms);
+				app.studentperms.create(this.permAttributes());
+				console.log("WOW");
+				this.$new_section_input.val('');
+				this.$new_blurb_input.val('');
+			}
+		},
+
+		typeSomeStuff: function(e) {
+			console.log("RAWR");
 		}
 
 

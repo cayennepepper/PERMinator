@@ -30,9 +30,9 @@ var app = app || {};
 		// a one-to-one correspondence between a **Todo** and a **TodoView** in this
 		// app, we set a direct reference on the model for convenience.
 		initialize: function () {
-			this.$newperm = this.$('#input-perm');
-			this.$sectionid = this.$newperm.$('#section-field');
-			this.$blurb = this.$newperm.$('#blurb-field');
+			this.$newperm = $('#input-perm');
+			this.$sectionid = $('#section-field');
+			this.$blurb = $('#blurb-field');
 
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
@@ -115,6 +115,7 @@ var app = app || {};
 
 		// If you hit `enter`, we're through editing the item.
 		updateOnEnter: function (e) {
+			console.log("aloha");
 			if (e.which === ENTER_KEY) {
 				console.log("hiiiii");
 				this.close();

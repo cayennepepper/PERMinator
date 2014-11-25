@@ -8,7 +8,7 @@ var app = app || {};
 		// Default attributes for the section
 		defaults: {
 			section:'',
-			studentId:'',
+			studentID:'',
 			blurb:'',
 			status:'',
 			submissionTime:'',

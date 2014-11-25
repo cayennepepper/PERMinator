@@ -28,12 +28,25 @@ def prof_perms(cid):
     print perms
     return render_template('prof_perms.html', perms=perms)
 
+@app.route('/student/<string:sid>')
+def student_home(sid):
+    student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
+    student_perms = [studentperm.serialize() for studentperm in student_perms]
+    return render_template('studentHome.html', studentperms=student_perms)
+
+@app.route('/student/perm', methods=['POST'])
+def studentperm_create():
+    st_perm = request.get_json()
+    print st_perm
+    db.session.add(PERM(sectionID=st_perm[u'sectionId'], studentID='123', blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime='0:0:0', expirationTime='1:1:1', sectionRank=None))
+    db.session.commit()
+    return "Good"
+
 @app.route('/')
 def index():
     todos = db.session.query(Item).all()
     _todos = [todo.serialize() for todo in todos if todo!=None]
     return render_template('index.html', todos=_todos)
-
 
 @app.route('/todos/', methods=['POST'])
 def todo_create():
