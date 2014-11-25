@@ -13,8 +13,8 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
-			'change #statusSelect': 'changeStatus',
-			'click #expdate': 'edit',
+			'change .statusSelect': 'changeStatus',
+			'click .expdate': 'edit',
 			'keypress': 'updateOnEnter',
 			'keydown': 'revertOnEscape',
 		},
