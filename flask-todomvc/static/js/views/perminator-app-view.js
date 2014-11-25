@@ -32,12 +32,13 @@ var app = app || {};
 			this.listenTo(app.prof_perms, 'add', this.addOnePERM);
 			this.listenTo(app.prof_perms, 'reset', this.addAllPERMs);
 			
+			//Student PERM page
 			this.$studentpermList = $('#studentperm-list');
 			this.listenTo(app.studentperms, 'add', this.addOneStudentPerm);
 			this.listenTo(app.studentperms, 'reset', this.addAllStudentPerms);
-
 			this.$new_section_input = $('#section-field');
 			this.$new_blurb_input = $('#blurb-field');
+			this.$new_course_input = $('#course-field');
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
@@ -59,12 +60,13 @@ var app = app || {};
 			this.$prof_perm_list.append(view.render().el);
 		},
 
-		// Add all items in the **Todos** collection at once.
 		addAllPERMs: function () {
 			this.$prof_perm_list.html('');
 			app.prof_perms.each(this.addOnePERM, this);
 		},
 
+
+		//Students' Perms
 		addOneStudentPerm:  function(studentperm) {
 			var view = new app.StudentpermView({model: studentperm});
 			this.$studentpermList.append(view.render().el);
@@ -77,6 +79,7 @@ var app = app || {};
 
 		permAttributes: function() {
 			return {
+				courseId: this.$new_course_input.val().trim(),
 				sectionId: this.$new_section_input.val().trim(),
 				blurb: this.$new_blurb_input.val().trim()
 			};
@@ -84,13 +87,10 @@ var app = app || {};
 
 		createOnEnterNewPerm: function (e) {
 			if (e.which === ENTER_KEY && this.$new_blurb_input.val().trim()) {
-				console.log("LALA");
-				console.log(this.$new_blurb_input.val().trim());
-				console.log(app.studentperms);
 				app.studentperms.create(this.permAttributes());
-				console.log("WOW");
 				this.$new_section_input.val('');
 				this.$new_blurb_input.val('');
+				this.$new_course_input.val('');
 			}
 		},
 
