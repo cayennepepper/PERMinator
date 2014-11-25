@@ -20,7 +20,8 @@
 		</footer>
 		<script type="text/template" id="prof-perm-template">
 			<div class="view">
-				 <%- blurb %>
+				<input id="expdate" placeholder=<%- expirationTime %>>
+				<%- blurb %>
 			</div>
 		</script>
 		<script type="text/template" id="stats-template">
@@ -45,6 +46,7 @@
 		<script src="/bower_components/backbone/backbone.js"></script>
 		<script src="/js/models/prof-perm.js"></script>
 		<script src="/js/collections/prof-perms.js"></script>
+		<script src="/js/collections/studentperms.js"></script>
 		<script src="/js/collections/sections.js"></script>
 		<script src="/js/views/prof-perm-view.js"></script>
 		<script src="/js/views/perminator-app-view.js"></script>
@@ -53,6 +55,7 @@
         <script>
         $(function(){
             app.prof_perms.reset({{ perms | tojson }});
+            app.prof_perms.url = '{{ url_for("perm_create") }}';
         });
         </script>
 	</body>

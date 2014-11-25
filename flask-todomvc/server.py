@@ -7,6 +7,8 @@ from flask import (
     request)
 from flask.ext.sqlalchemy import SQLAlchemy
 from models import *
+import re
+from datetime import datetime
 
 app = Flask(__name__, static_url_path='')
 app.debug = True
@@ -23,9 +25,7 @@ def prof_home(pid):
 @app.route('/course/<string:cid>')
 def prof_perms(cid):
     perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).all()
-    print perm_set
     perms = [perm.serialize() for perm in perm_set]
-    print perms
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')
@@ -34,7 +34,7 @@ def student_home(sid):
     student_perms = [studentperm.serialize() for studentperm in student_perms]
     return render_template('studentHome.html', studentperms=student_perms)
 
-@app.route('/student/perm', methods=['POST'])
+@app.route('/perms/', methods=['POST'])
 def studentperm_create():
     st_perm = request.get_json()
     print st_perm
@@ -42,6 +42,31 @@ def studentperm_create():
     db.session.commit()
     return "Good"
 
+@app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
+def perm_update(pid):
+    new_item = request.get_json()
+    #get the datetime from the string
+    new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
+    if new_exp_time!=None:
+        new_year = new_exp_time.group(5)
+        if (new_year!=None):
+            new_year = int(new_year)
+            if (new_year<2000):
+                new_year = new_year+2000
+        else:
+            new_year = datetime.now().year
+        new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
+        db.session.query(PERM).filter(PERM.id==pid).update({
+        PERM.status:new_item[u'status'], 
+        PERM.expirationTime:new_exp_datetime, 
+        PERM.sectionRank:new_item[u'sectionRank'], 
+        PERM.blurb:new_item[u'blurb']
+        })
+        db.session.commit()
+        return "Fine"
+    else:
+        return "Invalid Expiration Date", 409
+    
 @app.route('/')
 def index():
     todos = db.session.query(Item).all()
