@@ -13,6 +13,7 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
+			'change #statusSelect': 'changeStatus',
 			'click #expdate': 'edit',
 			'keypress': 'updateOnEnter',
 			'keydown': 'revertOnEscape',
@@ -43,16 +44,30 @@ var app = app || {};
 			// this.$expDate.focus();
 		},
 
+
+		changeStatus: function() {
+			this.close();
+		},
+
 		// Re-render the titles of the todo item.
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
 
+
+
 		// Close the `"editing"` mode, saving changes to the todo.
 		close: function () {
+
+
+			var newSelect = $('#statusSelect').val();
+			console.log(newSelect);
+
 			var value = $('#expdate').val();
 			var trimmedValue = value.trim();
+
+			this.model.save({ status: newSelect });
 
 			// We don't want to handle blur events from an item that is no
 			// longer being edited. Relying on the CSS class here has the

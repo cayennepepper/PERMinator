@@ -14,6 +14,10 @@ var app = app || {};
 		// Re-render the titles of the todo item.
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
+			this.$el.toggleClass('completed', this.model.get('completed'));
+			this.$input = this.$('.edit');
+
+			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
 	});
