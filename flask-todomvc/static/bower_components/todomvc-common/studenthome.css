@@ -187,6 +187,11 @@ input[type="checkbox"] {
 	height: 100%;
 }
 
+#course-field {
+	width: 80%;
+	height: 100%;
+}
+
 #main {
 	position: relative;
 	z-index: 2;
@@ -218,39 +223,39 @@ label[for='toggle-all'] {
 	color: #737373;
 }
 
-#studentperm-list {
+#studentperm-template {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-#studentperm-list li {
+#studentperm-template li {
 	position: relative;
 	font-size: 24px;
 	border-bottom: 1px dotted #ccc;
 }
 
-#studentperm-list li:last-child {
+#studentperm-template li:last-child {
 	border-bottom: none;
 }
 
-#studentperm-list li.editing {
+#studentperm-template li.editing {
 	border-bottom: none;
 	padding: 0;
 }
 
-#studentperm-list li.editing .edit {
+#studentperm-template li.editing .edit {
 	display: block;
 	width: 506px;
 	padding: 13px 17px 12px 17px;
 	margin: 0 0 0 43px;
 }
 
-#studentperm-list li.editing .view {
+#studentperm-template li.editing .view {
 	display: none;
 }
 
-#studentperm-list li .toggle {
+#studentperm-template li .toggle {
 	text-align: center;
 	width: 40px;
 	/* auto, since non-WebKit browsers doesn't support input styling */
@@ -267,7 +272,7 @@ label[for='toggle-all'] {
 	appearance: none;
 }
 
-#studentperm-list li .toggle:after {
+#studentperm-template li .toggle:after {
 	content: '✔';
 	/* 40 + a couple of pixels visual adjustment */
 	line-height: 43px;
@@ -276,14 +281,14 @@ label[for='toggle-all'] {
 	text-shadow: 0 -1px 0 #bfbfbf;
 }
 
-#studentperm-list li .toggle:checked:after {
+#studentperm-template li .toggle:checked:after {
 	color: #85ada7;
 	text-shadow: 0 1px 0 #669991;
 	bottom: 1px;
 	position: relative;
 }
 
-#studentperm-list li label {
+#studentperm-template li label {
 	white-space: pre;
 	word-break: break-word;
 	padding: 15px 60px 15px 15px;
@@ -294,12 +299,12 @@ label[for='toggle-all'] {
 	transition: color 0.4s;
 }
 
-#studentperm-list li.completed label {
+#studentperm-template li.completed label {
 	color: #a9a9a9;
 	text-decoration: line-through;
 }
 
-#studentperm-list li .destroy {
+#studentperm-template li .destroy {
 	display: none;
 	position: absolute;
 	top: 0;
@@ -314,7 +319,7 @@ label[for='toggle-all'] {
 	transition: all 0.2s;
 }
 
-#studentperm-list li .destroy:hover {
+#studentperm-template li .destroy:hover {
 	text-shadow: 0 0 1px #000,
 				 0 0 10px rgba(199, 107, 107, 0.8);
 	-webkit-transform: scale(1.3);
@@ -322,19 +327,19 @@ label[for='toggle-all'] {
 	transform: scale(1.3);
 }
 
-#studentperm-list li .destroy:after {
+#studentperm-template li .destroy:after {
 	content: '✖';
 }
 
-#studentperm-list li:hover .destroy {
+#studentperm-template li:hover .destroy {
 	display: block;
 }
 
-#studentperm-list li .edit {
+#studentperm-template li .edit {
 	display: none;
 }
 
-#studentperm-list li.editing:last-child {
+#studentperm-template li.editing:last-child {
 	margin-bottom: -1px;
 }
 
@@ -429,11 +434,11 @@ label[for='toggle-all'] {
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#toggle-all,
-	#studentperm-list li .toggle {
+	#studentperm-template li .toggle {
 		background: none;
 	}
 
-	#studentperm-list li .toggle {
+	#studentperm-template li .toggle {
 		height: 40px;
 	}
 

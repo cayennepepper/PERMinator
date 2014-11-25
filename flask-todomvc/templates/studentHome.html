@@ -12,15 +12,16 @@
 				<h1>PERMs</h1>
 				<table id="input-perm">
 					<tr>
-						<td><input id="section-field" placeholder="Input a section id you'd like to perm" autofocus></td>
-						<td><input id="blurb-field" placeholder="Type your blurb here"></td>
+						<td><input id="course-field" placeholder="Course ID"></td>
+						<td><input id="section-field" placeholder="Section ID" autofocus></td>
+						<td><input id="blurb-field" class="blurbEnter" placeholder="Type your blurb here"></td>
 					</tr>
 				</table>
-				<input id="new-todo" placeholder="Write random crap here">
+				<!-- <input id="new-todo" placeholder="Write random crap here"> -->
 			</header>
 			<section id="main">
-				<input id="toggle-all" type="checkbox">
-				<label for="toggle-all">Mark all as complete</label>
+<!-- 				<input id="toggle-all" type="checkbox">
+				<label for="toggle-all">Mark all as complete</label> -->
 				<ul id="studentperm-list"></ul>
 			</section>
 			<footer id="footer"></footer>
@@ -32,7 +33,7 @@
 		</footer>
 		<script type="text/template" id="studentperm-template">
 			<div class="view">
-				<%- ", Section "+section+ ", blurb: " +blurb %></a>
+				<%- "SectionId "+sectionId+ ", Blurb: " +blurb %></a>
 			</div>
 		</script>
 		<script type="text/template" id="stats-template">
@@ -58,13 +59,15 @@
 		<script src="/js/models/studentperm.js"></script>
 		<script src="/js/collections/studentperms.js"></script>
 		<script src="/js/views/studentperm-view.js"></script>
+		<script src="/js/collections/prof-perms.js"></script>
+		<script src="/js/collections/sections.js"></script>
 		<script src="/js/views/perminator-app-view.js"></script>
 		<script src="/js/routers/perminator-router.js"></script>
 		<script src="/js/app.js"></script>
         <script>
         $(function(){
-            app.todos.url = '{{ url_for("todo_create") }}';
-            app.todos.reset({{ todos | tojson }});
+            app.studentperms.url = '{{ url_for("studentperm_create") }}';
+            app.studentperms.reset({{ studentperms | tojson }});
         });
         </script>
 	</body>

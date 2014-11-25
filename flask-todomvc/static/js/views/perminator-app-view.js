@@ -14,6 +14,11 @@ var app = app || {};
 		// the App already present in the HTML.
 		el: '#todoapp',
 
+		events: {
+			'keypress #blurb-field': 'createOnEnterNewPerm'
+
+		},
+
 		// At initialization we bind to the relevant events on the `Todos`
 		// collection, when items are added or changed. Kick things off by
 		// loading any preexisting todos that might be saved in *localStorage*.
@@ -26,10 +31,14 @@ var app = app || {};
 
 			this.listenTo(app.prof_perms, 'add', this.addOnePERM);
 			this.listenTo(app.prof_perms, 'reset', this.addAllPERMs);
+			
+			//Student PERM page
 			this.$studentpermList = $('#studentperm-list');
-
 			this.listenTo(app.studentperms, 'add', this.addOneStudentPerm);
 			this.listenTo(app.studentperms, 'reset', this.addAllStudentPerms);
+			this.$new_section_input = $('#section-field');
+			this.$new_blurb_input = $('#blurb-field');
+			this.$new_course_input = $('#course-field');
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
@@ -51,12 +60,13 @@ var app = app || {};
 			this.$prof_perm_list.append(view.render().el);
 		},
 
-		// Add all items in the **Todos** collection at once.
 		addAllPERMs: function () {
 			this.$prof_perm_list.html('');
 			app.prof_perms.each(this.addOnePERM, this);
 		},
 
+
+		//Students' Perms
 		addOneStudentPerm:  function(studentperm) {
 			var view = new app.StudentpermView({model: studentperm});
 			this.$studentpermList.append(view.render().el);
@@ -65,8 +75,28 @@ var app = app || {};
 		addAllStudentPerms: function () {
 			this.$studentpermList.html('');
 			app.studentperms.each(this.addOneStudentPerm, this);
-		}
+		},
 
+		permAttributes: function() {
+			return {
+				courseId: this.$new_course_input.val().trim(),
+				sectionId: this.$new_section_input.val().trim(),
+				blurb: this.$new_blurb_input.val().trim()
+			};
+		},
+
+		createOnEnterNewPerm: function (e) {
+			if (e.which === ENTER_KEY && this.$new_blurb_input.val().trim()) {
+				app.studentperms.create(this.permAttributes());
+				this.$new_section_input.val('');
+				this.$new_blurb_input.val('');
+				this.$new_course_input.val('');
+			}
+		},
+
+		typeSomeStuff: function(e) {
+			console.log("RAWR");
+		}
 
 	});
 })(jQuery);

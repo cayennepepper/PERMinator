@@ -11,14 +11,7 @@ var app = app || {};
 	// server.
 	var Studentperms = Backbone.Collection.extend({
 		// Reference to this collection's model.
-		model: app.Studentperms,
-
-		// Filter down the list of all todo items that are finished.
-		completed: function () {
-			return this.filter(function (todo) {
-				return todo.get('completed');
-			});
-		},
+		model: app.Studentperm,
 
 		// Filter down the list to only todo items that are still not finished.
 		remaining: function () {
@@ -34,10 +27,6 @@ var app = app || {};
 			return this.last().get('order') + 1;
 		},
 
-		// Todos are sorted by their original insertion order.
-		comparator: function (todo) {
-			return todo.get('order');
-		}
 	});
 
 	// Create our global collection of **Todos**.

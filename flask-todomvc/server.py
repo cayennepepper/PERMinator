@@ -28,9 +28,18 @@ def prof_perms(cid):
     perms = [perm.serialize() for perm in perm_set]
     return render_template('prof_perms.html', perms=perms)
 
+@app.route('/student/<string:sid>')
+def student_home(sid):
+    student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
+    student_perms = [studentperm.serialize() for studentperm in student_perms]
+    return render_template('studentHome.html', studentperms=student_perms)
+
 @app.route('/perms/', methods=['POST'])
-#sarah is using for the URL ONLY
-def perm_create():
+def studentperm_create():
+    st_perm = request.get_json()
+    print st_perm
+    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=45, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=1))
+    db.session.commit()
     return "Good"
 
 @app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
@@ -58,13 +67,11 @@ def perm_update(pid):
     else:
         return "Invalid Expiration Date", 409
     
-
 @app.route('/')
 def index():
     todos = db.session.query(Item).all()
     _todos = [todo.serialize() for todo in todos if todo!=None]
     return render_template('index.html', todos=_todos)
-
 
 @app.route('/todos/', methods=['POST'])
 def todo_create():
