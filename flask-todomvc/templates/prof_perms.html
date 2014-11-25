@@ -21,9 +21,10 @@
 		<script type="text/template" id="prof-perm-template">
 			<div class="view">
 				<i><%- status %></i>
-				<input id="expdate" placeholder=<%- expirationTime %>>
-				 <%- blurb %>
-				<select name="statusSelect">
+				<input id="expdate" maxlength="10" size="10" value=<%- expirationTime %>>
+				<%- blurb %>
+				<select id="statusSelect">
+					<option value="NoVal">Take Action!</option>
 					<option value="Approved">Approve</option>
 					<option value="Denied">Deny</option>
 				</select>
