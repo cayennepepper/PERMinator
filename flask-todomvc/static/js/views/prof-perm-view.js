@@ -46,8 +46,7 @@ var app = app || {};
 
 
 		changeStatus: function() {
-			var newSelect = $('#statusSelect').val();
-			console.log("hiahsd");
+			var newSelect = this.$('.statusSelect').val();
 			if(newSelect !== "NoVal") {
 				this.model.save({ status: newSelect });
 				this.model.trigger('change');	
@@ -62,7 +61,7 @@ var app = app || {};
 
 		// Close the `"editing"` mode, saving changes to the todo.
 		close: function () {
-			var value = $('#expdate').val();
+			var value = this.$('.expdate').val();
 			var trimmedValue = value.trim();
 
 
