@@ -57,22 +57,6 @@ var app = app || {};
 			return this;
 		},
 
-		// toggleVisible: function () {
-		// 	this.$el.toggleClass('hidden', this.isHidden());
-		// },
-
-		// isHidden: function () {
-		// 	var isCompleted = this.model.get('completed');
-		// 	return (// hidden cases only
-		// 		(!isCompleted && app.TodoFilter === 'completed') ||
-		// 		(isCompleted && app.TodoFilter === 'active')
-		// 	);
-		// },
-
-		// // Toggle the `"completed"` state of the model.
-		// toggleCompleted: function () {
-		// 	this.model.toggle();
-		// },
 
 		// Switch this view into `"editing"` mode, displaying the input field.
 		edit: function () {

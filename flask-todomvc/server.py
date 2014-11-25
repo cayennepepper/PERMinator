@@ -38,7 +38,7 @@ def student_home(sid):
 def studentperm_create():
     st_perm = request.get_json()
     print st_perm
-    db.session.add(PERM(sectionID=st_perm[u'sectionId'], studentID='123', blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime='0:0:0', expirationTime='1:1:1', sectionRank=None))
+    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=45, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=1))
     db.session.commit()
     return "Good"
 

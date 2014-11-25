@@ -19,8 +19,6 @@ var app = app || {};
 
 		},
 
-
-
 		// At initialization we bind to the relevant events on the `Todos`
 		// collection, when items are added or changed. Kick things off by
 		// loading any preexisting todos that might be saved in *localStorage*.
@@ -99,7 +97,6 @@ var app = app || {};
 		typeSomeStuff: function(e) {
 			console.log("RAWR");
 		}
-
 
 	});
 })(jQuery);

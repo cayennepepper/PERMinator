@@ -27,10 +27,6 @@ var app = app || {};
 			return this.last().get('order') + 1;
 		},
 
-		// Todos are sorted by their original insertion order.
-		comparator: function (todo) {
-			return todo.get('order');
-		}
 	});
 
 	// Create our global collection of **Todos**.
