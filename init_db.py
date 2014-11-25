@@ -26,6 +26,15 @@ db.session.add_all([
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None))
 	])
 db.session.add_all([
-	(Teach(profID=90, sectionID=1))
+	(Teach(profID=90, sectionID=1)),
+	(Major(college="Pomona", name="Computer Science")),
+	(Major(college="HMC", name="Computer Science")),
+	(Major(college="Pomona", name="Biology"))
+	])
+db.session.commit()
+pomona_cs_major = db.session.query(Major).filter(Major.college=="Pomona" and Major.name=="Computer Science").first()
+db.session.add_all([
+	(MajorsIn(majorID=pomona_cs_major.id, studentID=45)),
+	(MajorsIn(majorID=pomona_cs_major.id, studentID=10234873))
 	])
 db.session.commit()

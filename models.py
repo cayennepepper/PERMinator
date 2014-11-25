@@ -11,10 +11,8 @@ def serialize_permtime(date_time):
   y = str(date_time.year);
   return m + "/" + d + "/" + y
 
-
-#DB SCHEMA: STUDENT MODEL
 class Student(db.Model):
-  #reference PERMs via 'PERMs'
+  #reference PERMs via 'PERMs', majorsIn table via 'majors_in'
   id = db.Column(db.Integer, primary_key=True, autoincrement=False)
   sFirstName = db.Column(db.String(50))
   sLastName = db.Column(db.String(50))
@@ -142,6 +140,33 @@ class Teach(db.Model):
 
   def __repr__(self):
     return "<Teach(profID='%s', sectionID='%s')>" % (self.profID, self.sectionID)
+
+class Major(db.Model):
+  #reference majorsIn students via 'students_in'
+  id = db.Column(db.Integer, primary_key=True)
+  college = db.Column(db.Enum("HMC", "CMC", "Pomona", "Pitzer", "Scripps"))
+  name = db.Column(db.String(50))
+
+  def __init__(self, college, name):
+    self.college = college
+    self.name = name
+
+  def __repr__(self):
+    return "<Major(college='%s', name='%s')>" % (self.college, self.name)
+  
+class MajorsIn(db.Model):
+  majorID = db.Column(db.Integer, ForeignKey(Major.id), primary_key=True, autoincrement=False)
+  #reference major via 'major'
+  major = db.relationship("Major", backref=db.backref('students_in'))
+  studentID = db.Column(db.Integer, ForeignKey(Student.id), primary_key=True, autoincrement=False)
+  #reference student via 'student'
+  student = db.relationship("Student", backref=db.backref('majors_in'))
+
+  def __init__(self, majorID,studentID):
+    self.majorID = majorID
+    self.studentID = studentID
+  def __repr__(self):
+    return "<MajorsIn(studentID='%s', majorID='%s')>" % (self.studentID, self.majorID)
 
 
 
