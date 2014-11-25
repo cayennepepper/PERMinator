@@ -1,63 +1,72 @@
-from flask import Flask
-from flask import render_template
+""" server.py """
+from flask import (
+    Flask,
+    abort,
+    jsonify,
+    render_template,
+    request)
 from flask.ext.sqlalchemy import SQLAlchemy
+from models import *
+import re
+from datetime import datetime
 
-from flask.ext.triangle import Triangle
+app = Flask(__name__, static_url_path='')
+app.debug = True
 
-app = Flask(__name__, template_folder="app", static_path='/static')
-Triangle(app)
-#sets up db connection
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:@localhost/PERMinator?charset=utf8&use_unicode=0'
 db = SQLAlchemy(app)
 
-#DB SCHEMA: STUDENT MODEL
-class Student(db.Model):
-  id = db.Column(db.Integer, primary_key=True, autoincrement=False)
-  sFirstName = db.Column(db.String(50))
-  sLastName = db.Column(db.String(50))
-  year = db.Column(db.Integer)
-  college = db.Column(db.String(6))
-  sEmail = db.Column(db.String(50))
+@app.route('/professor/<int:pid>/sections')
+def prof_home(pid):
+    prof_teach = db.session.query(Teach).filter(Teach.profID==pid).all()
+    sections = [teach.section.serialize() for teach in prof_teach]
+    return render_template('prof_home.html', sections=sections)
 
-  def __init__(self, id, sFirstName, sLastName, year, college, sEmail):
-    self.id = id
-    self.sFirstName = sFirstName
-    self.sLastName = sLastName
-    self.year = year
-    self.college = college
-    self.sEmail = sEmail
-    
-  def __repr__(self):
-    return "<Student(id='%s', sFirstName='%s', sLastName='%s', year='%s', college='%s', sEmail='%s')>" % (
-      self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail)
+@app.route('/course/<string:cid>')
+def prof_perms(cid):
+    perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).all()
+    perms = [perm.serialize() for perm in perm_set]
+    return render_template('prof_perms.html', perms=perms)
 
-@app.route('/')
-def index_page():
-	return render_template('view1/view1.html')
+@app.route('/student/<string:sid>')
+def student_home(sid):
+    student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
+    student_perms = [studentperm.serialize() for studentperm in student_perms]
+    return render_template('studentHome.html', studentperms=student_perms)
 
-@app.route('/professor/<pid>')
-def  professor_home(pid): 
-	return 'HOME PAGE FOR PROFESSOR '+pid
+@app.route('/perms/', methods=['POST'])
+def studentperm_create():
+    st_perm = request.get_json()
+    print st_perm
+    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=45, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=1))
+    db.session.commit()
+    return "Good"
 
-@app.route('/student/<sid>')
-def  student_home(sid='0'):
-	return render_template('student/studentHome.html', default = sid)
+@app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
+def perm_update(pid):
+    new_item = request.get_json()
+    #get the datetime from the string
+    new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
+    if new_exp_time!=None:
+        new_year = new_exp_time.group(5)
+        if (new_year!=None):
+            new_year = int(new_year)
+            if (new_year<2000):
+                new_year = new_year+2000
+        else:
+            new_year = datetime.now().year
+        new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
+        db.session.query(PERM).filter(PERM.id==pid).update({
+        PERM.status:new_item[u'status'], 
+        PERM.expirationTime:new_exp_datetime, 
+        PERM.sectionRank:new_item[u'sectionRank'], 
+        PERM.blurb:new_item[u'blurb']
+        })
+        db.session.commit()
+        return "Fine"
+    else:
+        return "Invalid Expiration Date", 409
 
-@app.route('/myCourse/<cid>')
-def  course(cid):
-	return 'COURSE '+cid
-
-@app.route('/deptCourse/<cid>')
-def  dept_course(cid):
-	return 'DEPT COURSE '+cid
-
-@app.route('/student/<sid>/edit')
-def  edit_perms(sid):
-	return 'EDIT PERMS '
-
-@app.route('/student/<sid>/submit')
-def  submit_perms(sid):
-	return 'SUBMIT PERMS '
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=8000)
