@@ -20,8 +20,13 @@
 		</footer>
 		<script type="text/template" id="prof-perm-template">
 			<div class="view">
+				<i><%- status %></i>
 				<input id="expdate" placeholder=<%- expirationTime %>>
-				<%- blurb %>
+				 <%- blurb %>
+				<select name="statusSelect">
+					<option value="Approved">Approve</option>
+					<option value="Denied">Deny</option>
+				</select>
 			</div>
 		</script>
 		<script type="text/template" id="stats-template">
