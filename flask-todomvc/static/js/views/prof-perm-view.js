@@ -47,8 +47,8 @@ var app = app || {};
 
 		changeStatus: function() {
 			var newSelect = $('#statusSelect').val();
+			console.log("hiahsd");
 			if(newSelect !== "NoVal") {
-				console.log("hiahsd");
 				this.model.save({ status: newSelect });
 				this.model.trigger('change');	
 			}
