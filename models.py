@@ -32,6 +32,14 @@ class Student(db.Model):
     return "<Student(id='%s', sFirstName='%s', sLastName='%s', year='%s', college='%s', sEmail='%s')>" % (
       self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail)
 
+  def serialize(self): #lets us serialize it!!
+    result = {}
+    for key in self.__mapper__.c.keys():
+      result[key] = getattr(self,key)
+      if (key=="defaultExpiration"):
+        result[key] = serialize_timedelta(getattr(self,key))
+    return result
+
 class Course(db.Model):
   #reference sections via 'sections'
   id = db.Column(db.String(20), primary_key=True, autoincrement=False)

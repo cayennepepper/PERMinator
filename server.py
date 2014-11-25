@@ -24,8 +24,11 @@ def prof_home(pid):
 
 @app.route('/course/<string:cid>')
 def prof_perms(cid):
-    perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).all()
-    perms = [perm.serialize() for perm in perm_set]
+    perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).join(Student).filter(Student.id == PERM.studentID).all()
+    perms = []
+    for p in perm_set :
+        stu = db.session.query(Student).filter(Student.id == p.studentID).first()
+        perms.append(dict(p.serialize().items() + stu.serialize().items() ))
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')
