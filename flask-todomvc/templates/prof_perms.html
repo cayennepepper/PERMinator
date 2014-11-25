@@ -60,6 +60,7 @@
         <script>
         $(function(){
             app.prof_perms.reset({{ perms | tojson }});
+            app.prof_perms.url = '{{ url_for("perm_create") }}';
         });
         </script>
 	</body>
