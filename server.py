@@ -28,7 +28,7 @@ def prof_perms(cid):
     perms = []
     for p in perm_set :
         stu = db.session.query(Student).filter(Student.id == p.studentID).first()
-        perms.append(dict(p.serialize().items() + stu.serialize().items() ))
+        perms.append(dict(p.serialize().items() + stu.serialize(True).items() ))
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')
@@ -48,6 +48,7 @@ def studentperm_create():
 @app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
 def perm_update(pid):
     new_item = request.get_json()
+    print "updating"
     #get the datetime from the string
     new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
     if new_exp_time!=None:
@@ -59,6 +60,7 @@ def perm_update(pid):
         else:
             new_year = datetime.now().year
         new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
+        print new_exp_datetime
         db.session.query(PERM).filter(PERM.id==pid).update({
         PERM.status:new_item[u'status'], 
         PERM.expirationTime:new_exp_datetime, 
@@ -66,6 +68,7 @@ def perm_update(pid):
         PERM.blurb:new_item[u'blurb']
         })
         db.session.commit()
+        print "new:", db.session.query(PERM).filter(PERM.id==pid).all()
         return "Fine"
     else:
         return "Invalid Expiration Date", 409
