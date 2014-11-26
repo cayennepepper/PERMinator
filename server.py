@@ -25,10 +25,7 @@ def prof_home(pid):
 @app.route('/course/<string:cid>')
 def prof_perms(cid):
     perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).join(Student).filter(Student.id == PERM.studentID).all()
-    perms = []
-    for p in perm_set :
-        stu = db.session.query(Student).filter(Student.id == p.studentID).first()
-        perms.append(dict(p.serialize().items() + stu.serialize(True).items() ))
+    perms = [dict(p.serialize().items() + p.student.serialize(True).items()) for p in perm_set]
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')
@@ -55,7 +52,7 @@ def perm_update(pid):
         new_year = new_exp_time.group(5)
         if (new_year!=None):
             new_year = int(new_year)
-            if (new_year<2000):
+            if (new_year<100):
                 new_year = new_year+2000
         else:
             new_year = datetime.now().year
