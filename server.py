@@ -24,8 +24,15 @@ def prof_home(pid):
 
 @app.route('/course/<string:cid>')
 def prof_perms(cid):
+    perms = []
+
     perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).join(Student).filter(Student.id == PERM.studentID).all()
-    perms = [dict(p.serialize().items() + p.student.serialize(True).items()) for p in perm_set]
+    for p in perm_set :
+        m = {}
+        for i in range(len(p.student.majors_in)) :
+            m = dict(m.items() + p.student.majors_in[i].major.serialize(i).items())
+        print m
+        perms = [dict(p.serialize().items() + p.student.serialize(True).items() + m.items()) for p in perm_set]
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')
@@ -38,7 +45,7 @@ def student_home(sid):
 def studentperm_create():
     st_perm = request.get_json()
     print st_perm
-    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=45, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=1))
+    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=10234873, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=1))
     db.session.commit()
     return "Good"
 
@@ -62,7 +69,7 @@ def perm_update(pid):
         PERM.status:new_item[u'status'], 
         PERM.expirationTime:new_exp_datetime, 
         PERM.sectionRank:new_item[u'sectionRank'], 
-        PERM.blurb:new_item[u'blurb']
+        PERM.blurb:new_item[u'`blurb']
         })
         db.session.commit()
         print "new:", db.session.query(PERM).filter(PERM.id==pid).all()

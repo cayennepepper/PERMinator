@@ -29,12 +29,16 @@ db.session.add_all([
 	(Teach(profID=90, sectionID=1)),
 	(Major(college="Pomona", name="Computer Science")),
 	(Major(college="HMC", name="Computer Science")),
+	(Major(college="Pitzer", name="French")),
 	(Major(college="Pomona", name="Biology"))
 	])
 db.session.commit()
 pomona_cs_major = db.session.query(Major).filter(Major.college=="Pomona" and Major.name=="Computer Science").first()
+pomona_fr_major = db.session.query(Major).filter(Major.college=="Pitzer" and Major.name=="French").first()
 db.session.add_all([
 	(MajorsIn(majorID=pomona_cs_major.id, studentID=45)),
-	(MajorsIn(majorID=pomona_cs_major.id, studentID=10234873))
+	(MajorsIn(majorID=pomona_fr_major.id, studentID=45)),
+	(MajorsIn(majorID=pomona_cs_major.id, studentID=10234873)),
+	(MajorsIn(majorID=pomona_fr_major.id, studentID=10234873))
 	])
 db.session.commit()

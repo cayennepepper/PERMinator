@@ -36,10 +36,8 @@ class Student(db.Model):
   def serialize(self, ignore_id=False): #lets us serialize it!!
     result = {}
     for key in self.__mapper__.c.keys():
-      if (key!="id"):
+      if (not ignore_id or key!="id"):
         result[key] = getattr(self,key)
-        if (key=="defaultExpiration"):
-          result[key] = serialize_timedelta(getattr(self,key))
     return result
 
 class Course(db.Model):
@@ -163,6 +161,12 @@ class Major(db.Model):
 
   def __repr__(self):
     return "<Major(college='%s', name='%s')>" % (self.college, self.name)
+
+  def serialize(self, i=0): #lets us serialize it!!
+    result = {}
+    for key in self.__mapper__.c.keys():
+        result["major" + key + str(i)] = getattr(self,key)
+    return result
   
 class MajorsIn(db.Model):
   majorID = db.Column(db.Integer, ForeignKey(Major.id), primary_key=True, autoincrement=False)
@@ -175,6 +179,7 @@ class MajorsIn(db.Model):
   def __init__(self, majorID,studentID):
     self.majorID = majorID
     self.studentID = studentID
+
   def __repr__(self):
     return "<MajorsIn(studentID='%s', majorID='%s')>" % (self.studentID, self.majorID)
 
