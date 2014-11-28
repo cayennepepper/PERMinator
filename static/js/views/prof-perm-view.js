@@ -13,7 +13,9 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
-			'change .statusSelect': 'changeStatus',
+			'click .statusAccept': 'acceptStatus',
+			'click .statusDeny': 'denyStatus',
+			'change .statusSelect': 'selectStatus',
 			'click .expdate': 'edit',
 			'keypress': 'updateOnEnter',
 			'keydown': 'revertOnEscape',
@@ -45,7 +47,20 @@ var app = app || {};
 		},
 
 
-		changeStatus: function() {
+		acceptStatus: function() {
+			this.changeStatus("Approved")
+		},
+
+		denyStatus: function() {
+			this.changeStatus("Denied")
+		},
+
+		changeStatus: function(newStatus) {
+			this.model.save({ status: newStatus });
+			this.model.trigger('change');
+		},
+
+		selectStatus: function() {
 			var newSelect = this.$('.statusSelect').val();
 			if(newSelect !== "NoVal") {
 				this.model.save({ status: newSelect });
@@ -63,7 +78,6 @@ var app = app || {};
 		close: function () {
 			var value = this.$('.expdate').val();
 			var trimmedValue = value.trim();
-
 
 			// We don't want to handle blur events from an item that is no
 			// longer being edited. Relying on the CSS class here has the

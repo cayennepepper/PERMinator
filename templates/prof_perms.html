@@ -19,22 +19,30 @@
 		<footer id="info">
 		</footer>
 		<script type="text/template" id="prof-perm-template">
-			<div class="view">
-				<i><%- status %></i>
-				<form>
-					<button>Accept</button>
-					<button>Reject</button>
-				</form>
+			<span style="display: inline-block;  vertical-align: middle;">
+				<div style="vertical-align:middle">
+					<center><i><%- status %></i></center>
+				</div>
+				<div style="vertical-align:middle">
+					<% if (status == "Requested" || status == "Revoked" || status == "Denied") { %>
+    					<button class="statusAccept">Accept</button>
+    					<% if(status == "Requested" || status == "Revoked") { %>
+    						<button class="statusDeny">Deny</button>
+    					<% } %>
+					<% } %>
+				</div>
+			</span>
+			<% if(status != "Denied") { %>
 				<input class="expdate" maxlength="10" size="10" value=<%- expirationTime %>>
-				<b><%- sFirstName + " " + sLastName %></b>
-				<i><%- college %></i>
-				<%- majors %>
-				<select class= "statusSelect">
-					<option value="NoVal">Take Action!</option>
-					<option value="Approved">Approve</option>
-					<option value="Denied">Deny</option>
-				</select>
-			</div>
+    		<% } %>
+			<b><%- sFirstName + " " + sLastName %></b>
+			<i><%- college %></i>
+			<%- majors %>
+			<!-- <select class= "statusSelect">
+				<option value="NoVal">Take Action!</option>
+				<option value="Approved">Approve</option>
+				<option value="Denied">Deny</option>				
+			</select> -->
 		</script>
 		<script type="text/template" id="stats-template">
 			<span id="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %> left</span>

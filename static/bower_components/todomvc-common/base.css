@@ -4,7 +4,7 @@ body {
 	padding: 0;
 }
 
-button {
+/*button {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -17,6 +17,11 @@ button {
 	-ms-appearance: none;
 	-o-appearance: none;
 	appearance: none;
+}*/
+
+button {
+	width: 50px;
+	font: 'Helvetica Neue';
 }
 
 body {

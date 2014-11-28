@@ -25,13 +25,12 @@ def prof_home(pid):
 @app.route('/course/<string:cid>')
 def prof_perms(cid):
     perms = []
-
     perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).join(Student).filter(Student.id == PERM.studentID).all()
     for p in perm_set :
         m = ""
         for i in range(len(p.student.majors_in)) :
             m = m + str(p.student.majors_in[i].major.serializeString(i))
-        print m
+        m = m[:len(m)-2]
     perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":m}.items() ) for p in perm_set]
     return render_template('prof_perms.html', perms=perms)
 
@@ -69,7 +68,7 @@ def perm_update(pid):
         PERM.status:new_item[u'status'], 
         PERM.expirationTime:new_exp_datetime, 
         PERM.sectionRank:new_item[u'sectionRank'], 
-        PERM.blurb:new_item[u'`blurb']
+        PERM.blurb:new_item[u'blurb']
         })
         db.session.commit()
         print "new:", db.session.query(PERM).filter(PERM.id==pid).all()
