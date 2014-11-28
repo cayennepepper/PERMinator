@@ -167,6 +167,15 @@ class Major(db.Model):
     for key in self.__mapper__.c.keys():
         result["major" + key + str(i)] = getattr(self,key)
     return result
+
+  def serializeString(self,i=0):
+    result = ""
+    for key in self.__mapper__.c.keys():
+        if(key != "id") :
+          result = result + " " + str(getattr(self,key))
+        if(key == "name") :
+          result = result + ", "
+    return result
   
 class MajorsIn(db.Model):
   majorID = db.Column(db.Integer, ForeignKey(Major.id), primary_key=True, autoincrement=False)

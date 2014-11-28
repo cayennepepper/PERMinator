@@ -28,11 +28,11 @@ def prof_perms(cid):
 
     perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).join(Student).filter(Student.id == PERM.studentID).all()
     for p in perm_set :
-        m = {}
+        m = ""
         for i in range(len(p.student.majors_in)) :
-            m = dict(m.items() + p.student.majors_in[i].major.serialize(i).items())
+            m = m + str(p.student.majors_in[i].major.serializeString(i))
         print m
-        perms = [dict(p.serialize().items() + p.student.serialize(True).items() + m.items()) for p in perm_set]
+    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":m}.items() ) for p in perm_set]
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')
