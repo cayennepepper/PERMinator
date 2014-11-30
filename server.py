@@ -44,12 +44,15 @@ def student_home(sid):
 def studentperm_create():
     st_perm = request.get_json()
     #Find section id based on given course
+    db_section_id_q = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionId'], Section.courseID==st_perm[u'course']).first()
+    db_section_id = int(db_section_id_q.serialize()['id'])
+
     course_id = st_perm[u'course']
     section_number = st_perm[u'sectionId']
     section_rank = st_perm[u'sectionRank']
     # db.session.query()
 
-    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=10234873, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=section_rank))
+    db.session.add(PERM(section=db_section_id, student=10234873, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=section_rank))
     db.session.commit()
     return "Good"
 

@@ -192,6 +192,9 @@ class MajorsIn(db.Model):
   def __repr__(self):
     return "<MajorsIn(studentID='%s', majorID='%s')>" % (self.studentID, self.majorID)
 
+# class SectionOfCourse(db.Model):
+#   sectionID= db.Column(db.Integer, ForeignKey(Section.id), primary_key=True, autoincrement=False)
+  
 
 
 
