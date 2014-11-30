@@ -15,7 +15,7 @@ var app = app || {};
 		el: '#todoapp',
 
 		events: {
-			'keypress #blurb-field': 'createOnEnterNewPerm'
+			'keypress #section-rank-field': 'createOnEnterNewPerm'
 
 		},
 
@@ -39,6 +39,7 @@ var app = app || {};
 			this.$new_section_input = $('#section-field');
 			this.$new_blurb_input = $('#blurb-field');
 			this.$new_course_input = $('#course-field');
+			this.$new_section_rank_input = $('#section-rank-field');
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
@@ -79,9 +80,11 @@ var app = app || {};
 
 		permAttributes: function() {
 			return {
-				courseId: this.$new_course_input.val().trim(),
+				// courseId: this.$new_course_input.val().trim(),
 				sectionId: this.$new_section_input.val().trim(),
-				blurb: this.$new_blurb_input.val().trim()
+				blurb: this.$new_blurb_input.val().trim(),
+				sectionRank: this.$new_section_rank_input.val().trim(),
+				course:this.$new_course_input.val().trim()
 			};
 		},
 
@@ -91,6 +94,7 @@ var app = app || {};
 				this.$new_section_input.val('');
 				this.$new_blurb_input.val('');
 				this.$new_course_input.val('');
+				this.$new_section_rank_input.val('');
 			}
 		},
 

@@ -33,6 +33,7 @@ var app = app || {};
 			this.$newperm = $('#input-perm');
 			this.$sectionid = $('#section-field');
 			this.$blurb = $('#blurb-field');
+			this.$course = $('#course-field');
 
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
@@ -71,6 +72,7 @@ var app = app || {};
 
 			var sid = this.$sectionid.val().trim();
 			var blb = this.$blurb.val().trim();
+			var crs = this.$course.val().trim();
 
 
 			// We don't want to handle blur events from an item that is no
@@ -81,8 +83,8 @@ var app = app || {};
 				return;
 			}
 
-			if (sid && blb) {
-				this.model.save({ section: sid, blurb: blb });
+			if (sid && blb && crs) {
+				this.model.save({ section: sid, blurb: blb, course: crs});
 
 				if (value !== trimmedValue) {
 					// Model values changes consisting of whitespaces only are not causing change to be triggered

@@ -7,6 +7,7 @@ var app = app || {};
 	app.Studentperm = Backbone.Model.extend({
 		// Default attributes for the section
 		defaults: {
+			course:'',
 			section:'',
 			studentID:'',
 			blurb:'',

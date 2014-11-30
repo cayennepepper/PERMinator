@@ -14,7 +14,8 @@
 					<tr>
 						<td><input id="course-field" placeholder="Course ID"></td>
 						<td><input id="section-field" placeholder="Section ID" autofocus></td>
-						<td><input id="blurb-field" class="blurbEnter" placeholder="Type your blurb here"></td>
+						<td><input id="blurb-field" class="blurbEnter" placeholder="Type blurb here"></td>
+						<td><input id="section-rank-field" placeholder="Rank same-course sections"></td>
 					</tr>
 				</table>
 				<!-- <input id="new-todo" placeholder="Write random crap here"> -->
@@ -33,7 +34,26 @@
 		</footer>
 		<script type="text/template" id="studentperm-template">
 			<div class="view">
-				<%- "SectionId "+sectionId+ ", Blurb: " +blurb %></a>
+				<table style="display:inline" id="perm-display-table">
+					<tr>
+						<td>
+							<p style="display:inline"><b>Course: </b></p>
+							<p style="display:inline" contenteditable="false"><%-course%></p>
+						</td>
+						<td>
+							<p style="display:inline"><b>  Section: </b></p>
+							<p style="display:inline" contenteditable="false"><%-sectionId%></p>
+						</td>
+						<td>
+							<p style="display:inline"><b>  Blurb: </b></p>
+							<p style="display:inline" contenteditable="true"><%-blurb%></p>
+						</td>
+						<td>
+							<p style="display:inline"><b>  Section Rank: </b></p>
+							<p style="display:inline" contenteditable="true"><%-sectionId%></p>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</script>
 		<script type="text/template" id="stats-template">

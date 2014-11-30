@@ -43,8 +43,13 @@ def student_home(sid):
 @app.route('/perms/', methods=['POST'])
 def studentperm_create():
     st_perm = request.get_json()
-    print st_perm
-    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=10234873, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=1))
+    #Find section id based on given course
+    course_id = st_perm[u'course']
+    section_number = st_perm[u'sectionId']
+    section_rank = st_perm[u'sectionRank']
+    # db.session.query()
+
+    db.session.add(PERM(section=int(st_perm[u'sectionId']), student=10234873, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=section_rank))
     db.session.commit()
     return "Good"
 
