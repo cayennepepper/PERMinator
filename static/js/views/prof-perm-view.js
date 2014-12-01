@@ -13,6 +13,8 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
+			'click .showBlurb': 'showBlurb',
+			'click .hideBlurb': 'hideBlurb',
 			'click .statusAccept': 'acceptStatus',
 			'click .statusDeny': 'denyStatus',
 			'change .statusSelect': 'selectStatus',
@@ -46,6 +48,13 @@ var app = app || {};
 			// this.$expDate.focus();
 		},
 
+		showBlurb: function() {
+			this.model.save({ showBlurb: true });
+		},
+
+		hideBlurb: function() {
+			this.model.save({ showBlurb: false });
+		},
 
 		acceptStatus: function() {
 			this.changeStatus("Approved")

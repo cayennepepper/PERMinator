@@ -90,6 +90,8 @@ class PERM(db.Model):
   expirationTime = db.Column(db.DateTime)
   sectionRank = db.Column(db.Integer)
 
+  showBlurb = False
+
   studentID = db.Column(db.Integer, ForeignKey(Student.id), primary_key=True, autoincrement=False)
   #reference student via 'student'
   student= db.relationship("Student", backref=db.backref('PERMs', order_by=submissionTime))
