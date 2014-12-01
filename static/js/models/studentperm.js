@@ -16,12 +16,5 @@ var app = app || {};
 			expirationTime:'',
 			sectionRank:'',
 		},
-
-		// Sample
-		changeDefaultExpiration: function (newExpirationDelta) {
-			// this.save({
-			// 	defaultExpiration: newExpirationDelta
-			// });
-		}
 	});
 })();

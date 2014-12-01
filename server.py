@@ -38,21 +38,26 @@ def prof_perms(cid):
 def student_home(sid):
     student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
     student_perms = [studentperm.serialize() for studentperm in student_perms]
+    new_student_perms = []
+    for studentperm in student_perms:
+        #Get the course id
+        db_section_id_q = db.session.query(Section).filter(Section.id==studentperm['sectionID']).first()
+        db.session.commit()
+        db_section_course_id = db_section_id_q.serialize()['courseID']
+        #Set course id in student perms
+        studentperm['course'] = db_section_course_id
     return render_template('studentHome.html', studentperms=student_perms)
 
 @app.route('/perms/', methods=['POST'])
 def studentperm_create():
     st_perm = request.get_json()
     #Find section id based on given course
-    db_section_id_q = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionId'], Section.courseID==st_perm[u'course']).first()
+    db_section_id_q = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionID'], Section.courseID==st_perm[u'course']).first()
     db_section_id = int(db_section_id_q.serialize()['id'])
 
-    course_id = st_perm[u'course']
-    section_number = st_perm[u'sectionId']
     section_rank = st_perm[u'sectionRank']
-    # db.session.query()
 
-    db.session.add(PERM(section=db_section_id, student=10234873, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=section_rank))
+    db.session.add(PERM(section=db_section_id, student=123, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=section_rank))
     db.session.commit()
     return "Good"
 

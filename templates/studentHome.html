@@ -21,8 +21,6 @@
 				<!-- <input id="new-todo" placeholder="Write random crap here"> -->
 			</header>
 			<section id="main">
-<!-- 				<input id="toggle-all" type="checkbox">
-				<label for="toggle-all">Mark all as complete</label> -->
 				<ul id="studentperm-list"></ul>
 			</section>
 			<footer id="footer"></footer>
@@ -34,23 +32,30 @@
 		</footer>
 		<script type="text/template" id="studentperm-template">
 			<div class="view">
-				<table style="display:inline" id="perm-display-table">
+				<perm-display-table id="perm-display-table">
 					<tr>
-						<td>
+						<td id="student-perm-display-course">
 							<p style="display:inline"><b>Course: </b></p>
 							<p style="display:inline" contenteditable="false"><%-course%></p>
 						</td>
-						<td>
+						<td id="student-perm-display-sectionid">
 							<p style="display:inline"><b>  Section: </b></p>
-							<p style="display:inline" contenteditable="false"><%-sectionId%></p>
+							<p style="display:inline" contenteditable="false"><%-sectionID%></p>
 						</td>
-						<td>
+						<td id="student-perm-display-blurb">
 							<p style="display:inline"><b>  Blurb: </b></p>
 							<p style="display:inline" contenteditable="true"><%-blurb%></p>
 						</td>
-						<td>
+						<td id="student-perm-display-sectionrank">
 							<p style="display:inline"><b>  Section Rank: </b></p>
-							<p style="display:inline" contenteditable="true"><%-sectionId%></p>
+							<p style="display:inline" contenteditable="true"><%-sectionRank%></p>
+						</td>
+						<td id="student-perm-display-status">
+							<p style="display:inline"><b>  Status: </b></p>
+							<p style="display:inline" contenteditable="false"><%-status%></p>
+						</td>
+						<td id="student-perm-display-cancel">
+							<button type="button" id="perm-cancel-button"> Cancel </button>
 						</td>
 					</tr>
 				</table>

@@ -47,14 +47,14 @@ var app = app || {};
 			// We want to filter out the second redundant render, which is caused by this `id` change.
 			// It's known Backbone LocalStorage bug, therefore we've to create a workaround.
 			// https://github.com/tastejs/todomvc/issues/469
-			if (this.model.changed.id !== undefined) {
-				return;
-			}
+			// if (this.model.changed.id !== undefined) {
+			// 	return;
+			// }
 
 			this.$el.html(this.template(this.model.toJSON()));
 			// this.$el.toggleClass('completed', this.model.get('completed'));
 			// this.toggleVisible();
-			this.$input = this.$('.edit');
+			// this.$input = this.$('.edit');
 			return this;
 		},
 

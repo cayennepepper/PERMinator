@@ -24,7 +24,7 @@ body {
 	line-height: 1.4em;
 	background: #eaeaea url('bg.png');
 	color: #4d4d4d;
-	width: 800px;
+	width: 900px;
 	margin: 0 auto;
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
@@ -110,7 +110,7 @@ input[type="checkbox"] {
 	border-top-right-radius: 1px;
 }
 
-#new-todo,
+/*#new-todo,
 .edit {
 	position: relative;
 	margin: 0;
@@ -141,7 +141,7 @@ input[type="checkbox"] {
 	background: rgba(0, 0, 0, 0.02);
 	z-index: 2;
 	box-shadow: none;
-}
+}*/
 
 #input-perm,
 .edit {
@@ -200,6 +200,12 @@ input[type="checkbox"] {
 #section-rank-field,
 .unranked {
 	/*visibility: hidden;*/
+}
+
+#perm-cancel-button {
+	border-width: 2px;
+	color: #003366;
+	border-style: solid;
 }
 
 #main {
@@ -351,6 +357,11 @@ label[for='toggle-all'] {
 
 #studentperm-template li.editing:last-child {
 	margin-bottom: -1px;
+}
+
+#student-perm-display {
+	width: 80%;
+	height: 100%;
 }
 
 #footer {

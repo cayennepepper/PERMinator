@@ -11,6 +11,7 @@ db.create_all()
 db.session.add_all([(
 	Student(id=45, sFirstName='Sarah', sLastName='Jundt', year=2015, college = "Pomona", sEmail = "sarah@pomona.edu")),
 	(Student(id=10234873, sFirstName='George', sLastName='Price', year=2015, college = "Pomona", sEmail = "gwp02011@pomona.edu")),
+	(Student(id=123, sFirstName='Anna', sLastName='Turner', year=2015, college="Pomona", sEmail="anna@edu")),
 	(Course(id="CS133", credits=1.0)),
 	(Course(id="RLST40", credits=1.0)),
 	(Professor(profID=90, pFirstName="Melanie", pLastName="Wu")),
@@ -46,11 +47,3 @@ db.session.add_all([
 	])
 db.session.commit()
 
-
-#Fills a few entries into section-course relation table
-# one_thirty_three = db.session.query(Course).first()
-# one_thirty_three_section = db.session.query(Section).first()
-# db.session.add_all([
-# 	(SectionOfCourse(courseId=one_thirty_three.id, sectionId=one_thirty_three_section.id))
-# 	])
-# db.session.commit()
