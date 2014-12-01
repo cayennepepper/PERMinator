@@ -43,10 +43,10 @@
 						<% } %>
 					</div>
 				</span>
-				<div class="info">
-					<b id="name"><%- sFirstName + " " + sLastName %></b>	
-					<i><%- college %></i>
-					<%- majors %>
+				<div id="info">
+					<div id="name"><b><%- sFirstName + " " + sLastName %></b></div>	
+					<div id="college"><i><%- college %></i></div>
+					<div id="majors"><%- majors %></div>
 				</div>
 				<!-- <select class= "statusSelect">
 					<option value="NoVal">Take Action!</option>
@@ -54,7 +54,7 @@
 					<option value="Denied">Deny</option>				
 				</select> -->
 			</div>
-			<div>
+			<div id="blurb">
 				<% if(showBlurb) { %>
 					<%- blurb %>
 				<% } %>
