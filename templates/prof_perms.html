@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Backbone.js • TodoMVC</title>
-		<link rel="stylesheet" href="/bower_components/todomvc-common/base.css">
+		<link rel="stylesheet" href="/bower_components/todomvc-common/coursepage.css">
 	</head>
 	<body>
 		<section id="todoapp">
@@ -25,11 +25,16 @@
 				<% } else { %>
 					<button class="showBlurb" style="width:15px;padding:0px;">►</button>
 				<% } %>
-				<span style="display: inline-block;  vertical-align: middle;">
-					<div style="vertical-align:middle">
+				<span>
+					<div>
 						<center><i><%- status %></i></center>
 					</div>
-					<div style="vertical-align:middle">
+					<div>
+					<% if(status != "Denied") { %>
+						<input class="expdate" maxlength="10" size="10" value=<%- expirationTime %>>
+					<% } %>
+					</div>
+					<div id="statusButton">
 						<% if (status == "Requested" || status == "Revoked" || status == "Denied") { %>
 	    					<button class="statusAccept">Accept</button>
    	 						<% if(status == "Requested" || status == "Revoked") { %>
@@ -38,12 +43,11 @@
 						<% } %>
 					</div>
 				</span>
-				<% if(status != "Denied") { %>
-					<input class="expdate" maxlength="10" size="10" value=<%- expirationTime %>>
-    			<% } %>
-				<b><%- sFirstName + " " + sLastName %></b>
-				<i><%- college %></i>
-				<%- majors %>
+				<div class="info">
+					<b id="name"><%- sFirstName + " " + sLastName %></b>	
+					<i><%- college %></i>
+					<%- majors %>
+				</div>
 				<!-- <select class= "statusSelect">
 					<option value="NoVal">Take Action!</option>
 					<option value="Approved">Approve</option>
@@ -55,23 +59,6 @@
 					<%- blurb %>
 				<% } %>
 			</div>
-		</script>
-		<script type="text/template" id="stats-template">
-			<span id="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %> left</span>
-			<ul id="filters">
-				<li>
-					<a class="selected" href="#/">All</a>
-				</li>
-				<li>
-					<a href="#/active">Active</a>
-				</li>
-				<li>
-					<a href="#/completed">Completed</a>
-				</li>
-			</ul>
-			<% if (completed) { %>
-			<button id="clear-completed">Clear completed (<%= completed %>)</button>
-			<% } %>
 		</script>
 		<script src="/bower_components/jquery/jquery.js"></script>
 		<script src="/bower_components/underscore/underscore.js"></script>
