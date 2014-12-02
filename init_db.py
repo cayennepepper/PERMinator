@@ -38,12 +38,13 @@ db.session.add_all([
 	])
 db.session.commit()
 pomona_cs_major = db.session.query(Major).filter(Major.college=="Pomona" and Major.name=="Computer Science").first()
-pomona_fr_major = db.session.query(Major).filter(Major.college=="Pitzer" and Major.name=="French").first()
+pomona_bio_major = db.session.query(Major).filter(Major.college=="HMC" and Major.name=="Computer Science").first()
+pitzer_fr_major = db.session.query(Major).filter(Major.college=="Pitzer" and Major.name=="French").first()
 db.session.add_all([
-	(MajorsIn(majorID=pomona_cs_major.id, studentID=45)),
-	(MajorsIn(majorID=pomona_fr_major.id, studentID=45)),
+	(MajorsIn(majorID=pitzer_fr_major.id, studentID=10234873)),
 	(MajorsIn(majorID=pomona_cs_major.id, studentID=10234873)),
-	(MajorsIn(majorID=pomona_fr_major.id, studentID=10234873))
+	(MajorsIn(majorID=pomona_bio_major.id, studentID=45)),
+	(MajorsIn(majorID=pomona_cs_major.id, studentID=45))
 	])
 db.session.commit()
 
