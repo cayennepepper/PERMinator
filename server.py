@@ -22,10 +22,10 @@ def prof_home(pid):
     sections = [teach.section.serialize() for teach in prof_teach]
     return render_template('prof_home.html', sections=sections)
 
-@app.route('/course/<string:cid>')
-def prof_perms(cid):
+@app.route('/section/<string:secid>')
+def prof_perms(secid):
     perms = []
-    perm_set = db.session.query(PERM).join(Section).filter(Section.courseID==cid).join(Student).filter(Student.id == PERM.studentID).all()
+    perm_set = db.session.query(PERM).join(Section).filter(Section.id==secid).join(Student).filter(Student.id == PERM.studentID).all()
     mMap = {}
     for p in perm_set :
         m = ""

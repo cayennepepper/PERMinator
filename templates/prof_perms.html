@@ -25,13 +25,35 @@
 				<% } else { %>
 					<button class="showBlurb" style="width:15px;padding:0px;">►</button>
 				<% } %>
+				<span style="width:15px"></span>
 				<span>
 					<div>
-						<center><i><%- status %></i></center>
+						<% if(status != "Revoked") { %>
+							<center><i><%- status %></i></center>
+						<% } %>
 					</div>
 					<div>
-					<% if(status != "Denied") { %>
+					<% if(status != "Denied" && status != "Revoked") { %>
 						<input class="expdate" maxlength="10" size="10" value=<%- expirationTime %>>
+					<% } %>
+					<% if(status == "Revoked") { %>
+						<% var future = new Date(); %>
+						<% future.setDate(future.getDate() + 7); %>
+						<% var dd = future.getDate(); %>
+						<% var mm = future.getMonth()+1; %> <!--january is 0 -->
+						<% var yyyy = future.getFullYear(); %>
+						<span>
+							<i><%- status %> 
+								<% expParts = expirationTime.split("/") %>
+								<% expDate = new Date(parseInt(expParts[2]), parseInt(expParts[0])-1, parseInt(expParts[1])) %>
+								<% if (expDate < new Date()) { %>
+									<%- expirationTime %>
+									<input class="expdate" maxlength="10" size="10" value =<%- mm + "/" + dd + "/" + yyyy %>>
+								<% } else { %>
+									<input class="expdate" maxlength="10" size="10" value =<%- expirationTime %>>
+								<% } %>
+							</i>
+						</span>
 					<% } %>
 					</div>
 					<div id="statusButton">
@@ -57,7 +79,7 @@
 					</div>
 			<div>
 				<% if(showBlurb) { %>
-					<%- blurb %>
+					<span style="width:48px"></span><%- blurb %>
 				<% } %>
 			</div>
 		</script>
