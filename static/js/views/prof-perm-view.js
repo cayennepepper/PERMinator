@@ -57,11 +57,12 @@ var app = app || {};
 		},
 
 		acceptStatus: function() {
-			this.changeStatus("Approved")
+			this.close();
+			this.changeStatus("Approved");
 		},
 
 		denyStatus: function() {
-			this.changeStatus("Denied")
+			this.changeStatus("Denied");
 		},
 
 		changeStatus: function(newStatus) {
