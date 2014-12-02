@@ -43,24 +43,18 @@
 						<% } %>
 					</div>
 				</span>
-				<div class="info">
-					<b id="name"><%- sFirstName + " " + sLastName %></b>	
-					<i><%- college %></i>
-					<% majorSet = majors.split("MAJ_DIV") %>
-					<span>
-					<% for(maj in majorSet) { %>
-						<div style="width:200px">
-						<%- majorSet[maj] %>
-						</div>
-					<% } %>
-					</span>
-				</div>
-				<!-- <select class= "statusSelect">
-					<option value="NoVal">Take Action!</option>
-					<option value="Approved">Approve</option>
-					<option value="Denied">Deny</option>				
-				</select> -->
-			</div>
+				<div id="info">
+					<div id="name"><b><%- sFirstName + " " + sLastName %></b></div>	
+					<div id="college"><i><%- college %></i></div>
+					<div id="majors"><% majorSet = majors.split("MAJ_DIV") %>
+						<span>
+							<% for(maj in majorSet) { %>
+								<div style="width:200px">
+								<%- majorSet[maj] %>
+								</div>
+							<% } %>
+						</span>
+					</div>
 			<div>
 				<% if(showBlurb) { %>
 					<%- blurb %>

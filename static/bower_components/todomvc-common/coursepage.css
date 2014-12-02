@@ -138,13 +138,33 @@ body {
 	width: 60px;
 }
 
-#prof-perm-list .info {
+#prof-perm-list #info {
 	display: inline;
+	position: relative
 	padding: 0 5px;
 }
-#prof-perm-list .info #name {
-	display: inline;
+#prof-perm-list #info #name {
+	display: inline-block;
 	padding: 0 5px;
+	width: 90px;
+	vertical-align: top;
+}
+
+#prof-perm-list #info #college {
+	display: inline-block;
+	width: 50px;
+	padding: 0 5px;
+	vertical-align: top;
+}
+#prof-perm-list #info #majors {
+	display: inline-block;
+	width: 200px;
+	padding: 0 5px;
+	vertical-align: top;
+}
+
+#prof-perm-list #blurb {
+	padding: 10px;
 }
 
 #footer {
