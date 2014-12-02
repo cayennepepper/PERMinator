@@ -98,7 +98,15 @@ var app = app || {};
 			}
 
 			if (trimmedValue) {
-				this.model.save({ expirationTime: trimmedValue });
+				this.model.save({ expirationTime: trimmedValue }, 
+					{dataType: 'text',
+						error: function(model, response){
+						model.set({errorMsg: response.responseText});
+						model.trigger('change');
+				}, success: function(model, response){
+						model.set({errorMsg: null});
+						model.trigger('change');
+				}});
 
 				if (value !== trimmedValue) {
 					// Model values changes consisting of whitespaces only are not causing change to be triggered

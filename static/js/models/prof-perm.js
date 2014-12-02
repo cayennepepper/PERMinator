@@ -8,7 +8,8 @@ var app = app || {};
 		
 		defaults:  {
 			sectionID: 0,
-			showBlurb: false
+			showBlurb: false, 
+			errorMsg: null
 		}
 	});
 })();

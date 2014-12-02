@@ -134,6 +134,12 @@ body {
 #prof-perm-list #statusButton {
 	display: inline;
 }
+
+#prof-perm-list #error {
+	color: rgb(200,0,0);
+	text-align: -webkit-match-parent;
+	padding: 0 50px;
+}
 #prof-perm-list #statusButton button {
 	width: 60px;
 }

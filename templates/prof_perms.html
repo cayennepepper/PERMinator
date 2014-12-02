@@ -77,6 +77,11 @@
 							<% } %>
 						</span>
 					</div>
+			<div id="error">
+						<% if (errorMsg!=null) { %>
+	    					<%-errorMsg%>
+	    				<% } %>
+					</div>
 			<div>
 				<% if(showBlurb) { %>
 					<span style="width:48px"></span><%- blurb %>

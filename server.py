@@ -8,7 +8,7 @@ from flask import (
 from flask.ext.sqlalchemy import SQLAlchemy
 from models import *
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__, static_url_path='')
 app.debug = True
@@ -65,7 +65,6 @@ def studentperm_create():
 @app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
 def perm_update(pid):
     new_item = request.get_json()
-    print "updating"
     #get the datetime from the string
     new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
     if new_exp_time!=None:
@@ -77,16 +76,17 @@ def perm_update(pid):
         else:
             new_year = datetime.now().year
         new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
-        print new_exp_datetime
-        db.session.query(PERM).filter(PERM.id==pid).update({
-        PERM.status:new_item[u'status'], 
-        PERM.expirationTime:new_exp_datetime, 
-        PERM.sectionRank:new_item[u'sectionRank'], 
-        PERM.blurb:new_item[u'blurb']
-        })
-        db.session.commit()
-        print "new:", db.session.query(PERM).filter(PERM.id==pid).all()
-        return "Fine"
+        if (datetime.now() - new_exp_datetime > timedelta(0)):
+            return "Invalid Expiration Date: In the Past", 409
+        else :
+            db.session.query(PERM).filter(PERM.id==pid).update({
+            PERM.status:new_item[u'status'], 
+            PERM.expirationTime:new_exp_datetime, 
+            PERM.sectionRank:new_item[u'sectionRank'], 
+            PERM.blurb:new_item[u'blurb']
+            })
+            db.session.commit()
+            return "success"
     else:
         return "Invalid Expiration Date", 409
 
