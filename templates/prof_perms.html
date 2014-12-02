@@ -46,7 +46,14 @@
 				<div class="info">
 					<b id="name"><%- sFirstName + " " + sLastName %></b>	
 					<i><%- college %></i>
-					<%- majors %>
+					<% majorSet = majors.split("MAJ_DIV") %>
+					<span>
+					<% for(maj in majorSet) { %>
+						<div style="width:200px">
+						<%- majorSet[maj] %>
+						</div>
+					<% } %>
+					</span>
 				</div>
 				<!-- <select class= "statusSelect">
 					<option value="NoVal">Take Action!</option>
