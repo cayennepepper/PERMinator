@@ -25,7 +25,7 @@ def prof_home(pid):
 @app.route('/section/<string:secid>')
 def prof_perms(secid):
     perms = []
-    perm_set = db.session.query(PERM).join(Section).filter(Section.id==secid).join(Student).filter(Student.id == PERM.studentID).all()
+    perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").join(Section).filter(Section.id==secid).join(Student).filter(Student.id == PERM.studentID).all()
     mMap = {}
     for p in perm_set :
         m = ""
@@ -77,7 +77,7 @@ def perm_update(pid):
             new_year = datetime.now().year
         new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
         if (datetime.now() - new_exp_datetime > timedelta(0)):
-            return "Invalid Expiration Date: In the Past", 409
+            return "ERROR: Past Expiration Date", 409
         else :
             db.session.query(PERM).filter(PERM.id==pid).update({
             PERM.status:new_item[u'status'], 
@@ -88,7 +88,7 @@ def perm_update(pid):
             db.session.commit()
             return "success"
     else:
-        return "Invalid Expiration Date", 409
+        return "ERROR: Invalid Expiration Date", 409
 
 
 if __name__ == '__main__':
