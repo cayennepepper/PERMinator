@@ -27,7 +27,7 @@
 				<% } %>
 				<span style="width:15px"></span>
 				<span>
-					<div>
+					<div class=<%-status%>>
 						<% if(status != "Revoked") { %>
 							<center><i><%- status %></i></center>
 						<% } %>
@@ -43,7 +43,7 @@
 						<% var mm = future.getMonth()+1; %> <!--january is 0 -->
 						<% var yyyy = future.getFullYear(); %>
 						<span>
-							<i><%- status %> 
+							<i class=<%-status%>><%- status %> 
 								<% expParts = expirationTime.split("/") %>
 								<% expDate = new Date(parseInt(expParts[2]), parseInt(expParts[0])-1, parseInt(expParts[1])) %>
 								<% if (expDate < new Date()) { %>
@@ -77,26 +77,38 @@
 							<% } %>
 						</span>
 					</div>
+					<div id="satisfiesMajor">
 					<% if(satisfiesMaj) { %>
 						<%- "Satisfies major" %>
 					<% } else { %>
 						<%- "Doesn't satisfy major" %>
 					<% } %>
-				</div>
-				</div>
-				<div id="sections">
-						<span>
-							<% for(section in perms) { %>
-									<div><b><%- "Section "+perms[section].sectionNum%></b></div>
-									<% if (perms[section].sectionRank!=null) { %>
-										<div><%- "Rank: "+perms[section].sectionRank%></div>
-										<% } %>
-									<% if (perms[section].sectionID!=sectionID) { %>
-										<div><%- "Status: "+perms[section].status %></div>
-										<% } %>
-								<% } %>
-						</span>
 					</div>
+				</div>
+				<% for (section =1; section <=totalSections; section++) { %>
+					<div id="section">
+						<% if (perms[section]!=null){ %>
+							<div><b><%- "Section "+section%></b></div>
+							<% if (perms[section].sectionRank!=null) { %>
+								<% if (perms[section].sectionRank==1) { %>
+									<div>First Choice</div>
+									<% } %>
+									<% if (perms[section].sectionRank==2) { %>
+									<div>Second Choice</div>
+									<% } %>
+									<% if (perms[section].sectionRank==3) { %>
+									<div>Third Choice</div>
+									<% } %>
+									<% if (perms[section].sectionRank==4) { %>
+									<div>Fourth Choice</div>
+									<% } %>
+								<% } %>
+							<% if (perms[section].sectionID!=sectionID) { %>
+								<div class=<%-perms[section].status%>><%- perms[section].status %></div>
+								<% } %>
+								<%}%>
+						</div>
+					<% } %>
 			<div id="error">
 						<% if (errorMsg!=null) { %>
 	    					<%-errorMsg%>

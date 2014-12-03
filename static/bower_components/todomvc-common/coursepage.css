@@ -9,7 +9,7 @@ body {
 	line-height: 1.4em;
 	background: #eaeaea url('bg.png');
 	color: #4d4d4d;
-	width: 900px;
+	width: 1000px;
 	margin: 0 auto;
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
@@ -136,7 +136,7 @@ body {
 }
 
 #prof-perm-list #error {
-	color: rgb(200,0,0);
+	color: rgb(500,0,0);
 	text-align: -webkit-match-parent;
 	padding: 0 50px;
 }
@@ -146,39 +146,42 @@ body {
 
 #prof-perm-list #info {
 	display: inline;
-	position: relative
+	position: relative;
 	padding: 0 5px;
 }
-#prof-perm-list #info #name {
-	display: inline-block;
+
+#prof-perm-list #info div {
 	padding: 0 5px;
-	width: 90px;
 	vertical-align: top;
+	display: inline-block;
+
+}
+#prof-perm-list #info #name {
+	width: 90px;
 }
 
 #prof-perm-list #info #college {
-	display: inline-block;
 	width: 50px;
-	padding: 0 5px;
-	vertical-align: top;
 }
 #prof-perm-list #info #majors {
-	display: inline-block;
 	width: 200px;
-	padding: 0 5px;
-	vertical-align: top;
+}
+#prof-perm-list #info #satisfiesMajor {
+	width: 80px;
 }
 
-#prof-perm-list #info #sections {
+#prof-perm-list #section {
 	display: inline-block;
-	width: 200px;
+	width: 100px;
 	vertical-align: top;
 }
-#prof-perm-list #info #sections div {
-	display: inline-block;
-	width: 100%;
-	vertical-align: top;
+#prof-perm-list .Approved {
+	color: rgb(0,150,0);
 }
+#prof-perm-list .Denied {
+	color: rgb(150,0,0);
+}
+
 
 #prof-perm-list #blurb {
 	padding: 10px;

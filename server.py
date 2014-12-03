@@ -46,8 +46,8 @@ def prof_perms(secid):
             satisfyingCourses = satisfyingCourses + "   " + maj.getSatisfyingCourses()
         mMap[str(p.id)] = m
         satMap[str(p.id)] = str(thisCourse.id) in satisfyingCourses
-        student_sections[str(p.id)]= [dict(perm.serialize().items()+{"sectionNum":sectionNum}.items()) for (sectionNum, perm) in student_perms if perm!=None]
-    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() + {"perms":student_sections[str(p.id)]}.items() ) for p in perm_set]
+        student_sections[str(p.id)]= {sectionNum:perm.serialize() for (sectionNum, perm) in student_perms if perm!=None}
+    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"totalSections":len(sections)}.items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() + {"perms":student_sections[str(p.id)]}.items()) for p in perm_set]
     return render_template('prof_perms.html', perms=perms, courseID = sections[0].courseID, sectionNum = this_section_num)
 
 
