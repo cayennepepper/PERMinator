@@ -28,6 +28,7 @@ def prof_perms(secid):
     perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").filter(PERM.sectionID==secid).join(Student).filter(Student.id == PERM.studentID).all()
     mMap = {}
     sections = db.session.query(Section).get(secid).course.sections
+    this_section_num = db.session.query(Section).get(secid).sectionNum
     student_sections = {}
     for p in perm_set :
         student_perms = []
@@ -42,7 +43,7 @@ def prof_perms(secid):
         student_sections[str(p.id)]= [dict(perm.serialize().items()+{"sectionNum":sectionNum}.items()) for (sectionNum, perm) in student_perms if perm!=None]
         print student_sections
     perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":mMap[str(p.id)]}.items() + {"perms":student_sections[str(p.id)]}.items() ) for p in perm_set]
-    return render_template('prof_perms.html', perms=perms)
+    return render_template('prof_perms.html', perms=perms, courseID = sections[0].courseID, sectionNum = this_section_num)
 
 @app.route('/student/<string:sid>')
 def student_home(sid):
