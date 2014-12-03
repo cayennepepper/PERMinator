@@ -19,18 +19,20 @@ class Student(db.Model):
   year = db.Column(db.Integer)
   college = db.Column(db.String(6))
   sEmail = db.Column(db.String(50))
+  courseHistory = db.Column(db.String(5000))
 
-  def __init__(self, id, sFirstName, sLastName, year, college, sEmail):
+  def __init__(self, id, sFirstName, sLastName, year, college, sEmail, courseHistory):
     self.id = id
     self.sFirstName = sFirstName
     self.sLastName = sLastName
     self.year = year
     self.college = college
     self.sEmail = sEmail
+    self.courseHistory = courseHistory
     
   def __repr__(self):
-    return "<Student(id='%s', sFirstName='%s', sLastName='%s', year='%s', college='%s', sEmail='%s')>" % (
-      self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail)
+    return "<Student(id='%s', sFirstName='%s', sLastName='%s', year='%s', college='%s', sEmail='%s', courseHistory='%s')>" % (
+      self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail,self.courseHistory)
 
   #ignore_id is a boolean. true if we don't want to serialize the id
   def serialize(self, ignore_id=False): #lets us serialize it!!

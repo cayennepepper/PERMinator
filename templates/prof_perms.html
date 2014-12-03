@@ -84,7 +84,15 @@
 					</div>
 			<div>
 				<% if(showBlurb) { %>
-					<span style="width:48px"></span><%- blurb %>
+					<div>
+						<span style="width:48px"></span><i><%- blurb %></i><p>
+					</div>
+					<% historySet = courseHistory.split("COURSE_DIV") %>
+					<% for(histCourse in historySet) { %>
+						<div>
+								<span style="width:48px"></span><%- historySet[histCourse] %>
+						</div>
+					<% } %>
 				<% } %>
 			</div>
 		</script>
