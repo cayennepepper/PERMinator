@@ -19,18 +19,22 @@ db.session.add_all([(
 db.session.commit()
 db.session.add_all([
 	(Section( id=1,sectionNum=1, cap =20, exp = timedelta(days=14), course="CS133")),
+	(Section( id=3,sectionNum=2, cap =20, exp = timedelta(days=14), course="CS133")),
 	(Section( id=2,sectionNum=1, cap =40, exp = timedelta(days=14), course="RLST40")),
 	])
 db.session.commit()
 print "Okay"
 db.session.add_all([
 	(PERM(section = 1, student = 45, blurb = "Sarah's PERM for CS133 Section 1", 
-		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None)),
+		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1)),
+	(PERM(section = 3, student =45 , blurb = "Sarah's PERM for CS133 Section 2", 
+		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 2)),
 	(PERM(section = 1, student = 10234873, blurb = "Potential CS minor with a lot of interests", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None))
 	])
 db.session.add_all([
 	(Teach(profID=90, sectionID=1)),
+	(Teach(profID=90, sectionID=3)),
 	(Major(college="Pomona", name="Computer Science")),
 	(Major(college="HMC", name="Computer Science")),
 	(Major(college="Pitzer", name="French")),
