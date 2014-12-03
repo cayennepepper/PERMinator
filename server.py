@@ -26,13 +26,20 @@ def prof_home(pid):
 def prof_perms(secid):
     perms = []
     perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").join(Section).filter(Section.id==secid).join(Student).filter(Student.id == PERM.studentID).all()
+    thisCourse = db.session.query(Section).filter(Section.id==secid).first( )
     mMap = {}
+    satMap = {}
     for p in perm_set :
+        satisfyingCourses = ""
         m = ""
         for i in range(len(p.student.majors_in)) :
-            m = m + str(p.student.majors_in[i].major.serializeString(i)) + "MAJ_DIV"
+            maj = p.student.majors_in[i].major
+            m = m + str(maj.serializeString(i)) + "MAJ_DIV"
+            satisfyingCourses = satisfyingCourses + "   " + maj.getSatisfyingCourses()
         mMap[str(p.id)] = m
-    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":mMap[str(p.id)]}.items() ) for p in perm_set]
+        satMap[str(p.id)] = str(thisCourse.id) in satisfyingCourses
+
+    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() ) for p in perm_set]
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')

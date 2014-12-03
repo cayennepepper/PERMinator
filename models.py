@@ -158,13 +158,15 @@ class Major(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   college = db.Column(db.Enum("HMC", "CMC", "Pomona", "Pitzer", "Scripps"))
   name = db.Column(db.String(50))
+  satisfiedBy = db.Column(db.String(2000))
 
-  def __init__(self, college, name):
+  def __init__(self, college, name, satisfiedBy):
     self.college = college
     self.name = name
+    self.satisfiedBy = satisfiedBy
 
   def __repr__(self):
-    return "<Major(college='%s', name='%s')>" % (self.college, self.name)
+    return "<Major(college='%s', name='%s', satisfiedBy='%s')>" % (self.college, self.name, self.satisfiedBy)
 
   def serialize(self, i=0): #lets us serialize it!!
     result = {}
@@ -180,6 +182,9 @@ class Major(db.Model):
         if(key == "college") :
           result = result + "MAJ_DIV"
     return str(getattr(self,"name")) + " (" + str(getattr(self,"college")) + ")";
+
+  def getSatisfyingCourses(self):
+    return str(getattr(self,"satisfiedBy"));
   
 class MajorsIn(db.Model):
   majorID = db.Column(db.Integer, ForeignKey(Major.id), primary_key=True, autoincrement=False)

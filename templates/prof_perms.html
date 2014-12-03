@@ -77,6 +77,12 @@
 							<% } %>
 						</span>
 					</div>
+					<% if(satisfiesMaj) { %>
+						<%- "Satisfies" %>
+					<% } else { %>
+						<%- "Doesn't satisfy" %>
+					<% } %>
+				</div>
 			<div id="error">
 						<% if (errorMsg!=null) { %>
 	    					<%-errorMsg%>

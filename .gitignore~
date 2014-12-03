@@ -5,3 +5,4 @@ tmp
 .DS_Store
 .idea
 *.pyc
+gp_course_hist.txt
