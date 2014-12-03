@@ -30,6 +30,7 @@ def prof_perms(secid):
     mMap = {}
     satMap = {}
     sections = db.session.query(Section).get(secid).course.sections
+    this_section_num = db.session.query(Section).get(secid).sectionNum
     student_sections = {}
     for p in perm_set :
         satisfyingCourses = ""
@@ -47,7 +48,8 @@ def prof_perms(secid):
         satMap[str(p.id)] = str(thisCourse.id) in satisfyingCourses
         student_sections[str(p.id)]= [dict(perm.serialize().items()+{"sectionNum":sectionNum}.items()) for (sectionNum, perm) in student_perms if perm!=None]
     perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() + {"perms":student_sections[str(p.id)]}.items() ) for p in perm_set]
-    return render_template('prof_perms.html', perms=perms)
+    return render_template('prof_perms.html', perms=perms, courseID = sections[0].courseID, sectionNum = this_section_num)
+
 
 @app.route('/student/<string:sid>')
 def student_home(sid):
