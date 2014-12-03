@@ -25,12 +25,19 @@ def prof_home(pid):
 @app.route('/section/<string:secid>')
 def prof_perms(secid):
     perms = []
-    perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").join(Section).filter(Section.id==secid).join(Student).filter(Student.id == PERM.studentID).all()
+    perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").filter(PERM.sectionID==secid).join(Student).filter(Student.id == PERM.studentID).all()
     thisCourse = db.session.query(Section).filter(Section.id==secid).first( )
     mMap = {}
     satMap = {}
+    sections = db.session.query(Section).get(secid).course.sections
+    student_sections = {}
     for p in perm_set :
         satisfyingCourses = ""
+        student_perms = []
+        print student_perms
+        for section in sections:
+            this_student = p.student.id
+            student_perms.append((section.sectionNum, db.session.query(PERM).filter(PERM.sectionID==section.id).filter(PERM.status!="Cancelled").filter(PERM.studentID==this_student).first()))
         m = ""
         for i in range(len(p.student.majors_in)) :
             maj = p.student.majors_in[i].major
@@ -38,8 +45,8 @@ def prof_perms(secid):
             satisfyingCourses = satisfyingCourses + "   " + maj.getSatisfyingCourses()
         mMap[str(p.id)] = m
         satMap[str(p.id)] = str(thisCourse.id) in satisfyingCourses
-
-    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() ) for p in perm_set]
+        student_sections[str(p.id)]= [dict(perm.serialize().items()+{"sectionNum":sectionNum}.items()) for (sectionNum, perm) in student_perms if perm!=None]
+    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() + {"perms":student_sections[str(p.id)]}.items() ) for p in perm_set]
     return render_template('prof_perms.html', perms=perms)
 
 @app.route('/student/<string:sid>')

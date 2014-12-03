@@ -169,6 +169,17 @@ body {
 	vertical-align: top;
 }
 
+#prof-perm-list #info #sections {
+	display: inline-block;
+	width: 200px;
+	vertical-align: top;
+}
+#prof-perm-list #info #sections div {
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
+}
+
 #prof-perm-list #blurb {
 	padding: 10px;
 }

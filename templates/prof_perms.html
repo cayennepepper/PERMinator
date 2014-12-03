@@ -78,11 +78,23 @@
 						</span>
 					</div>
 					<% if(satisfiesMaj) { %>
-						<%- "Satisfies" %>
+						<%- "Satisfies major" %>
 					<% } else { %>
-						<%- "Doesn't satisfy" %>
+						<%- "Doesn't satisfy major" %>
 					<% } %>
 				</div>
+				</div>
+				<div id="sections">
+						<span>
+							<% for(section in perms) { %>
+									<div><b><%- "Section "+perms[section].sectionNum%></b></div>
+									<% if (perms[section].sectionRank!=null) { %>
+										<div><%- "Rank: "+perms[section].sectionRank%></div>
+										<% } %>
+									<div><%- "Status: "+perms[section].status %></div>
+								<% } %>
+						</span>
+					</div>
 			<div id="error">
 						<% if (errorMsg!=null) { %>
 	    					<%-errorMsg%>
