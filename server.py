@@ -63,29 +63,34 @@ def prof_perms(secid):
 
 @app.route('/student/<string:sid>')
 def student_home(sid):
-
     #404 redirect
     student = db.session.query(Student).filter(Student.id==sid).first()
     if(student is None) :
         return render_template('four_oh_four.html'), 404
-
     student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
     student_perms = [studentperm.serialize() for studentperm in student_perms]
+
     new_student_perms = []
     for studentperm in student_perms:
-        #Get the course id
-        db_section_id_q = db.session.query(Section).filter(Section.id==studentperm['sectionID']).first()
+        #Get the course id and section number
+        db_section_pre = db.session.query(Section).filter(Section.id==studentperm['sectionID'])
+        db_section_id_q = db_section_pre.first()
         db.session.commit()
+
+        db_section_num = db_section_id_q.serialize()['sectionNum']
         db_section_course_id = db_section_id_q.serialize()['courseID']
-        #Set course id in student perms
+
+        #Set course id in student perms, sectionNum
         studentperm['course'] = db_section_course_id
+        studentperm['sectionNum'] = db_section_num
+
     return render_template('studentHome.html', studentperms=student_perms)
 
 @app.route('/perms/', methods=['POST'])
 def studentperm_create():
     st_perm = request.get_json()
     #Find section id based on given course
-    db_section_id_q = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionID'], Section.courseID==st_perm[u'course']).first()
+    db_section_id_q = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionNum'], Section.courseID==st_perm[u'course']).first()
     db_section_id = int(db_section_id_q.serialize()['id'])
 
     section_rank = st_perm[u'sectionRank']

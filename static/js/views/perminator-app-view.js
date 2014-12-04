@@ -83,8 +83,7 @@ var app = app || {};
 
 		permAttributes: function() {
 			return {
-				// courseId: this.$new_course_input.val().trim(),
-				sectionID: this.$new_section_input.val().trim(),
+				sectionNum: this.$new_section_input.val().trim(),
 				blurb: this.$new_blurb_input.val().trim(),
 				sectionRank: this.$new_section_rank_input.val().trim(),
 				course:this.$new_course_input.val().trim()
@@ -93,7 +92,6 @@ var app = app || {};
 
 		createOnEnterNewPerm: function (e) {
 			if (e.which === ENTER_KEY && this.$new_blurb_input.val().trim()) {
-				console.log("Created a new perm");
 				app.studentperms.create(this.permAttributes());
 				this.$new_section_input.val('');
 				this.$new_blurb_input.val('');
