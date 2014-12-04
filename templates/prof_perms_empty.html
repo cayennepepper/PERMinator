@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-framework="backbonejs">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>PERMinator</title>
+		<link rel="stylesheet" href="/bower_components/todomvc-common/coursepage.css">
+	</head>
+	<body>
+		<section id="todoapp">
+			<header id="header">
+				<h1>PERMs for {{courseID}}-{{sectionNum}}</h1>
+			</header>
+			<section id="main">
+				<div id="empty">There are no PERMs for this section!</div>
+			</section>
+			<footer id="footer"></footer>
+		</section>
+		<footer id="info">
+		</footer>
+		<script src="/bower_components/jquery/jquery.js"></script>
+		<script src="/bower_components/underscore/underscore.js"></script>
+		<script src="/bower_components/backbone/backbone.js"></script>
+		<script src="/js/collections/prof-perms.js"></script>
+		<script src="/js/collections/studentperms.js"></script>
+		<script src="/js/collections/sections.js"></script>
+		<script src="/js/views/perminator-app-view.js"></script>
+		<script src="/js/routers/perminator-router.js"></script>
+		<script src="/js/app.js"></script>
+	</body>
+</html>
