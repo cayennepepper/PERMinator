@@ -12,6 +12,16 @@
 				<h1>PERMs for {{courseID}}-{{sectionNum}}</h1>
 			</header>
 			<section id="main">
+				<div id="tableHeader">
+					<div style="width:185px"></div>
+					<div class="name">Name</div>
+					<div class="college">School</div>
+					<div class="majors">.  Major</div>
+					<div class="satisfiesMajor">Satisfies Major?</div>
+					<div>PERMs for Sections of {{courseID}}</div>
+					<script> 
+					</script>
+				</div>
 				<ul id="prof-perm-list"></ul>
 			</section>
 			<footer id="footer"></footer>
@@ -26,7 +36,7 @@
 					<button class="showBlurb" style="width:15px;padding:0px;">►</button>
 				<% } %>
 				<span style="width:15px"></span>
-				<span>
+				<span class="status">
 					<div class=<%-status%>>
 						<% if(status != "Revoked") { %>
 							<center><i><%- status %></i></center>
@@ -66,9 +76,9 @@
 					</div>
 				</span>
 				<div id="info">
-					<div id="name"><b><%- sFirstName + " " + sLastName %></b></div>	
-					<div id="college"><i><%- college %></i></div>
-					<div id="majors"><% majorSet = majors.split("MAJ_DIV") %>
+					<div class="name"><b><%- sFirstName + " " + sLastName %></b></div>	
+					<div class="college"><i><%- college %></i></div>
+					<div class="majors"><% majorSet = majors.split("MAJ_DIV") %>
 						<span>
 							<% for(maj in majorSet) { %>
 								<div style="width:200px">
@@ -77,7 +87,7 @@
 							<% } %>
 						</span>
 					</div>
-					<div id="satisfiesMajor">
+					<div class="satisfiesMajor">
 					<% if(satisfiesMaj) { %>
 						<%- "Satisfies major" %>
 					<% } else { %>
@@ -88,10 +98,17 @@
 				<% for (section =1; section <=totalSections; section++) { %>
 					<div id="section">
 						<% if (perms[section]!=null){ %>
-							<div><b><%- "Section "+section%></b></div>
-							<% if (perms[section].sectionRank!=null) { %>
+							<% if (section=={{sectionNum}}) { %>
+									<div><b><%- "This Section"%></b></div>
+									<% } %>
+							<% if (section!={{sectionNum}}) { %>
+								<div><b><%- "Section "+section%></b></div>
+								<% } %>
+							<% if (perms[section].sectionRank==null) { %>
+								<div class="blue">Only Choice</div>
+								<% } %>
 								<% if (perms[section].sectionRank==1) { %>
-									<div>First Choice</div>
+									<div class="blue">First Choice</div>
 									<% } %>
 									<% if (perms[section].sectionRank==2) { %>
 									<div>Second Choice</div>
@@ -102,7 +119,7 @@
 									<% if (perms[section].sectionRank==4) { %>
 									<div>Fourth Choice</div>
 									<% } %>
-								<% } %>
+								
 							<% if (perms[section].sectionID!=sectionID) { %>
 								<div class=<%-perms[section].status%>><%- perms[section].status %></div>
 								<% } %>

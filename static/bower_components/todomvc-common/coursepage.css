@@ -18,6 +18,10 @@ body {
 	font-smoothing: antialiased;
 }
 
+.blue {
+	color: rgb(0,0,200);
+}
+
 #todoapp {
 	background: #fff;
 	background: rgba(255, 255, 255, 0.9);
@@ -108,6 +112,16 @@ body {
 	padding: 5px;
 }
 
+#tableHeader {
+	border-bottom: 1px dotted #ccc;
+	font-weight: bold;
+	padding: 0 5px;
+}
+#tableHeader div {
+	display: inline-block;
+	padding: 0 5px;
+}
+
 #prof-perm-list li:last-child {
 	border-bottom: none;
 }
@@ -156,17 +170,17 @@ body {
 	display: inline-block;
 
 }
-#prof-perm-list #info #name {
+.name {
 	width: 90px;
 }
-
-#prof-perm-list #info #college {
+.college {
 	width: 50px;
 }
-#prof-perm-list #info #majors {
+.majors {
 	width: 200px;
+	align: left;
 }
-#prof-perm-list #info #satisfiesMajor {
+.satisfiesMajor {
 	width: 80px;
 }
 
