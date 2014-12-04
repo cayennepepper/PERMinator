@@ -88,11 +88,12 @@
 						</span>
 					</div>
 					<div class="satisfiesMajor">
-					<% if(satisfiesMaj) { %>
-						<%- "Satisfies major" %>
-					<% } else { %>
-						<%- "Doesn't satisfy major" %>
-					<% } %>
+						<span style="width:18px"></span>
+						<% if(satisfiesMaj) { %>
+							<%- "✓" %>
+						<% } else { %>
+							<%- "✘" %>
+						<% } %>
 					</div>
 				</div>
 				<% for (section =1; section <=totalSections; section++) { %>
