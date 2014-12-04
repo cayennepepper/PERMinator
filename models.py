@@ -34,12 +34,24 @@ class Student(db.Model):
     return "<Student(id='%s', sFirstName='%s', sLastName='%s', year='%s', college='%s', sEmail='%s', courseHistory='%s')>" % (
       self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail,self.courseHistory)
 
+  def getAlphabatizedCourses(self):
+    courseHistory = getattr(self,"courseHistory")
+    course_div = "COURSE_DIV"
+    courses = courseHistory.split(course_div)
+    courses.sort()
+    courseHistory = ""
+    for c in courses:
+      courseHistory = courseHistory + c + course_div
+    return courseHistory
+
   #ignore_id is a boolean. true if we don't want to serialize the id
   def serialize(self, ignore_id=False): #lets us serialize it!!
     result = {}
     for key in self.__mapper__.c.keys():
       if (not ignore_id or key!="id"):
         result[key] = getattr(self,key)
+      if (key=="courseHistory"):
+        result[key] = self.getAlphabatizedCourses()
     return result
 
 class Course(db.Model):
