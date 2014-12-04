@@ -4,7 +4,7 @@ body {
 	padding: 0;
 }
 
-button {
+/*button {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -17,7 +17,7 @@ button {
 	-ms-appearance: none;
 	-o-appearance: none;
 	appearance: none;
-}
+}*/
 
 body {
 	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -203,9 +203,8 @@ input[type="checkbox"] {
 }
 
 #perm-cancel-button {
-	border-width: 2px;
-	color: #003366;
-	border-style: solid;
+	width: 15px;
+	padding:0px;
 }
 
 #main {
