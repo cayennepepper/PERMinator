@@ -87,7 +87,7 @@ class Section(db.Model):
 class PERM(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   blurb = db.Column(db.String(200))
-  status = db.Column(db.Enum("Revoked", "Approved", "Denied", "Cancelled", "Requested"))
+  status = db.Column(db.Enum("Expired", "Approved", "Denied", "Cancelled", "Requested"))
   submissionTime = db.Column(db.DateTime)
   expirationTime = db.Column(db.DateTime)
   sectionRank = db.Column(db.Integer)

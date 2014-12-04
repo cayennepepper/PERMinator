@@ -9,6 +9,6 @@ while(True):
 	for perm in perms:
 		if perm.status=="Approved" and perm.expirationTime - now <=timedelta(0):
 			#expired
-			db.session.query(PERM).filter(PERM.id==perm.id).update({PERM.status:"Revoked"})
+			db.session.query(PERM).filter(PERM.id==perm.id).update({PERM.status:"Expired"})
 	db.session.commit()
 	time.sleep(86000)

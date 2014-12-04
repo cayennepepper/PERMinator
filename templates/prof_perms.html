@@ -38,15 +38,15 @@
 				<span style="width:15px"></span>
 				<span class="status">
 					<div class=<%-status%>>
-						<% if(status != "Revoked") { %>
+						<% if(status != "Expired") { %>
 							<center><i><%- status %></i></center>
 						<% } %>
 					</div>
 					<div>
-					<% if(status != "Denied" && status != "Revoked") { %>
+					<% if(status != "Denied" && status != "Expired") { %>
 						<input class="expdate" maxlength="10" size="10" value=<%- expirationTime %>>
 					<% } %>
-					<% if(status == "Revoked") { %>
+					<% if(status == "Expired") { %>
 						<% var future = new Date(); %>
 						<% future.setDate(future.getDate() + 7); %>
 						<% var dd = future.getDate(); %>
@@ -67,9 +67,9 @@
 					<% } %>
 					</div>
 					<div id="statusButton">
-						<% if (status == "Requested" || status == "Revoked" || status == "Denied") { %>
+						<% if (status == "Requested" || status == "Expired" || status == "Denied") { %>
 	    					<button class="statusAccept">Accept</button>
-   	 						<% if(status == "Requested" || status == "Revoked") { %>
+   	 						<% if(status == "Requested" || status == "Expired") { %>
    	 							<button class="statusDeny">Deny</button>
     						<% } %>
 						<% } %>
