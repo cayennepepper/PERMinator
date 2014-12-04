@@ -19,6 +19,11 @@ db = SQLAlchemy(app)
 @app.route('/professor/<int:pid>/sections')
 def prof_home(pid):
     prof_teach = db.session.query(Teach).filter(Teach.profID==pid).all()
+
+    #404 redirect
+    if(len(prof_teach) == 0) :
+        return render_template('four_oh_four.html'), 404
+
     sections = [teach.section.serialize() for teach in prof_teach]
     return render_template('prof_home.html', sections=sections)
 
@@ -27,6 +32,11 @@ def prof_perms(secid):
     perms = []
     perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").filter(PERM.sectionID==secid).join(Student).filter(Student.id == PERM.studentID).all()
     thisCourse = db.session.query(Section).filter(Section.id==secid).first( )
+
+    #404 redirect
+    if(thisCourse is None) :
+        return render_template('four_oh_four.html'), 404
+
     mMap = {}
     satMap = {}
     sections = db.session.query(Section).get(secid).course.sections
@@ -53,6 +63,12 @@ def prof_perms(secid):
 
 @app.route('/student/<string:sid>')
 def student_home(sid):
+
+    #404 redirect
+    student = db.session.query(Student).filter(Student.id==sid).first()
+    if(student is None) :
+        return render_template('four_oh_four.html'), 404
+
     student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
     student_perms = [studentperm.serialize() for studentperm in student_perms]
     new_student_perms = []
@@ -105,6 +121,10 @@ def perm_update(pid):
             return "success"
     else:
         return "ERROR: Invalid Expiration Date", 409
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('four_oh_four.html'), 404
 
 
 if __name__ == '__main__':
