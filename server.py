@@ -33,33 +33,31 @@ def prof_perms(secid):
     this_section_num = this_section.sectionNum
     this_course_id = this_section.courseID
     perms = []
+    #404 redirect
+    if(this_section is None) :
+        return render_template('four_oh_four.html'), 404
     perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").filter(PERM.sectionID==secid).join(Student).filter(Student.id == PERM.studentID).all()
     if (len(perm_set)==0):
         return render_template("prof_perms_empty.html", courseID = this_course_id, sectionNum = this_section_num)
-    thisCourse = db.session.query(Section).filter(Section.id==secid).first( )
-
-    #404 redirect
-    if(thisCourse is None) :
-        return render_template('four_oh_four.html'), 404
+    
 
     mMap = {}
     satMap = {}
     sections = db.session.query(Section).get(secid).course.sections
     student_sections = {}
     for p in perm_set :
-        satisfyingCourses = ""
         student_perms = []
-        print student_perms
         for section in sections:
             this_student = p.student.id
             student_perms.append((section.sectionNum, db.session.query(PERM).filter(PERM.sectionID==section.id).filter(PERM.status!="Cancelled").filter(PERM.studentID==this_student).first()))
         m = ""
+        satisfyingCourses = []
         for i in range(len(p.student.majors_in)) :
             maj = p.student.majors_in[i].major
             m = m + str(maj.serializeString(i)) + "MAJ_DIV"
-            satisfyingCourses = satisfyingCourses + "   " + maj.getSatisfyingCourses()
+            satisfyingCourses = satisfyingCourses+[satisfiesMajor.courseID for satisfiesMajor in maj.satisfied_by]
         mMap[str(p.id)] = m
-        satMap[str(p.id)] = str(thisCourse.id) in satisfyingCourses
+        satMap[str(p.id)] = satisfyingCourses
         student_sections[str(p.id)]= {sectionNum:perm.serialize() for (sectionNum, perm) in student_perms if perm!=None}
     perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"totalSections":len(sections)}.items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() + {"perms":student_sections[str(p.id)]}.items()) for p in perm_set]
     return render_template('prof_perms.html', perms=perms, courseID = this_course_id, sectionNum = this_section_num)

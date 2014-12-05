@@ -51,7 +51,9 @@ pitzer_fr_major = db.session.query(Major).filter(Major.college=="Pitzer" and Maj
 db.session.add_all([
 	(MajorsIn(majorID=pitzer_fr_major.id, studentID=10234873)),
 	(MajorsIn(majorID=pomona_bio_major.id, studentID=45)),
-	(MajorsIn(majorID=pomona_cs_major.id, studentID=45))
+	(MajorsIn(majorID=pomona_cs_major.id, studentID=45)),
+	(SatisfiesMajor(majorID=pomona_cs_major.id, courseID="CS133")),
+	(SatisfiesMajor(majorID=pitzer_fr_major.id, courseID="RLST40")),
 	])
 db.session.commit()
 

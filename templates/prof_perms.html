@@ -90,11 +90,11 @@
 					<div class="satisfiesMajor">
 						<span style="width:10px"></span>
 						<font size="5">
-							<% if(satisfiesMaj) { %>
+						<% for(i=0; i<satisfiesMaj.length; i++) { %>
+							<% if("{{courseID}}"==satisfiesMaj[i]) { %>
 								✓
-							<% } else { %>
-								✘
 							<% } %>
+						<% } %>
 						</font>
 					</div>
 				</div>
