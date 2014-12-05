@@ -93,7 +93,7 @@ var app = app || {};
 			// longer being edited. Relying on the CSS class here has the
 			// benefit of us not having to maintain state in the DOM and the
 			// JavaScript logic.
-			if (!this.$el.hasClass('editing')) {
+			if (!this.$el.hasClass('editing') && this.model.get('status')!="Expired") {
 				return;
 			}
 
