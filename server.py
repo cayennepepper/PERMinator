@@ -107,12 +107,14 @@ def studentperm_create():
 
     db.session.add(PERM(section=db_section_id, student=st_perm[u'studentID'], blurb=st_perm[u'blurb'], status=st_perm[u'status'], submissionTime=now_time, expirationTime=future_time, sectionRank=section_rank))
     db.session.commit()
-    return "Good"
+    perm = db.session.query(PERM).filter(PERM.sectionID==db_section_id, PERM.studentID==st_perm[u'studentID']).first()
+    return jsonify(perm.serialize())
 
 @app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
 def perm_update(pid):
     print "update of perm"
     new_item = request.get_json()
+    print new_item
     #get the datetime from the string
     new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
     if new_exp_time!=None:
