@@ -57,43 +57,35 @@ class Student(db.Model):
 class Course(db.Model):
   #reference sections via 'sections'
   id = db.Column(db.String(20), primary_key=True, autoincrement=False)
-  credits = db.Column(db.Numeric)
 
-  def __init__(self, id, credits):
+  def __init__(self, id):
     self.id = id
-    self.credits = credits
 
   def __repr__(self):
-    return "<Course(courseID='%s', credits='%s')>" % (self.id, self.credits)
+    return "<Course(courseID='%s')>" % (self.id)
 
 class Section(db.Model):
   #reference PERMs via 'PERMs', teach table via 'taught_by'
   id = db.Column(db.Integer, primary_key=True, autoincrement=False)
   sectionNum = db.Column(db.Integer)
-  enrollmentCap = db.Column(db.Integer)
-  defaultExpiration = db.Column(db.Interval)
   courseID = db.Column(db.String(20), ForeignKey(Course.id))
 
   #reference course via 'course'
   course = db.relationship("Course", backref=db.backref('sections', order_by=sectionNum))
 
-  def __init__(self,cap,exp,course, sectionNum,id):
-    self.enrollmentCap = cap
-    self.defaultExpiration = exp
+  def __init__(self,course, sectionNum,id):
     self.courseID = course
     self.sectionNum = sectionNum
     self.id = id
 
   def __repr__(self):
-    return "<Section(sectionID='%s', enrollmentCap='%s', defaultExpiration='%s', courseID='%s', sectionNum ='%s')>" % (
-      self.id, self.enrollmentCap, self.defaultExpiration, self.courseID, self.sectionNum)
+    return "<Section(sectionID='%s', courseID='%s', sectionNum ='%s')>" % (
+      self.id, self.courseID, self.sectionNum)
 
   def serialize(self): #lets us serialize it!!
     result = {}
     for key in self.__mapper__.c.keys():
         result[key] = getattr(self,key)
-        if (key=="defaultExpiration"):
-          result[key] = serialize_timedelta(getattr(self,key))
     return result
 
 class PERM(db.Model):

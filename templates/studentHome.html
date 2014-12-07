@@ -56,10 +56,11 @@
 							<p style="display:inline" contenteditable="false"><%-expirationTime%></p>
 						</td>						
 						<% } %>
-
+						<% if (status != "Cancelled") { %>
 						<td id="student-perm-display-cancel">
 							<button type="button" id="perm-cancel-button" class='test'> ✘ </button>
 						</td>
+						<% } %>
 					</tr>
 				</table>
 			</div>
