@@ -54,6 +54,11 @@ body {
 	color: #a9a9a9;
 }
 
+#todoapp #empty {
+	padding: 15px;
+	text-align: center;
+	font-weight: bold;
+}
 #todoapp h1 {
 	position: absolute;
 	top: -120px;

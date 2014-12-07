@@ -29,36 +29,38 @@ def prof_home(pid):
 
 @app.route('/section/<string:secid>')
 def prof_perms(secid):
+    this_section = db.session.query(Section).get(secid)
+    this_section_num = this_section.sectionNum
+    this_course_id = this_section.courseID
     perms = []
-    perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").filter(PERM.sectionID==secid).join(Student).filter(Student.id == PERM.studentID).all()
-    thisCourse = db.session.query(Section).filter(Section.id==secid).first( )
-
     #404 redirect
-    if(thisCourse is None) :
+    if(this_section is None) :
         return render_template('four_oh_four.html'), 404
+    perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").filter(PERM.sectionID==secid).join(Student).filter(Student.id == PERM.studentID).all()
+    if (len(perm_set)==0):
+        return render_template("prof_perms_empty.html", courseID = this_course_id, sectionNum = this_section_num)
+    
 
     mMap = {}
     satMap = {}
     sections = db.session.query(Section).get(secid).course.sections
-    this_section_num = db.session.query(Section).get(secid).sectionNum
     student_sections = {}
     for p in perm_set :
-        satisfyingCourses = ""
         student_perms = []
-        print student_perms
         for section in sections:
             this_student = p.student.id
             student_perms.append((section.sectionNum, db.session.query(PERM).filter(PERM.sectionID==section.id).filter(PERM.status!="Cancelled").filter(PERM.studentID==this_student).first()))
         m = ""
+        satisfiesMajor = []
         for i in range(len(p.student.majors_in)) :
             maj = p.student.majors_in[i].major
             m = m + str(maj.serializeString(i)) + "MAJ_DIV"
-            satisfyingCourses = satisfyingCourses + "   " + maj.getSatisfyingCourses()
+            satisfiesMajor = satisfiesMajor+[True for satisfiesMajor in maj.satisfied_by if satisfiesMajor.courseID==this_course_id]
         mMap[str(p.id)] = m
-        satMap[str(p.id)] = str(thisCourse.id) in satisfyingCourses
+        satMap[str(p.id)] = satisfiesMajor
         student_sections[str(p.id)]= {sectionNum:perm.serialize() for (sectionNum, perm) in student_perms if perm!=None}
-    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"totalSections":len(sections)}.items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":satMap[str(p.id)]}.items() + {"perms":student_sections[str(p.id)]}.items()) for p in perm_set]
-    return render_template('prof_perms.html', perms=perms, courseID = sections[0].courseID, sectionNum = this_section_num)
+    perms = [dict(p.serialize().items() + p.student.serialize(True).items() + {"totalSections":len(sections)}.items() + {"majors":mMap[str(p.id)]}.items() + {"satisfiesMaj":(len(satMap[str(p.id)])!=0)}.items() + {"perms":student_sections[str(p.id)]}.items()) for p in perm_set]
+    return render_template('prof_perms.html', perms=perms, courseID = this_course_id, sectionNum = this_section_num)
 
 
 @app.route('/student/<string:sid>')
@@ -91,10 +93,12 @@ def studentperm_create():
     print "Creation of perm"
     st_perm = request.get_json()
     #Find section id based on given course
-    db_section_id_q = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionNum'], Section.courseID==st_perm[u'course']).first()
-    db_section_id = int(db_section_id_q.serialize()['id'])
-
+    db_section = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionNum'], Section.courseID==st_perm[u'course']).first()
+    if (db_section==None):
+        return "Invalid Course "+st_perm[u'course']+"-"+st_perm[u'sectionNum'], 409
+    db_section_id = db_section.id
     section_rank = st_perm[u'sectionRank']
+    #check rankings here
 
     #Create exp date 2 weeks from now
     now_time = datetime.now()

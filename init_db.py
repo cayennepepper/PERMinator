@@ -27,7 +27,7 @@ db.session.commit()
 print "Okay"
 db.session.add_all([
 	(PERM(section = 1, student = 45, blurb = "Sarah's PERM for CS133 Section 1", 
-		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1)),
+		status = "Expired", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=10)), sectionRank = 1)),
 	(PERM(section = 4, student =45 , blurb = "Sarah's PERM for CS133 Section 3", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 2)),
 	(PERM(section = 1, student = 10234873, blurb = "Potential CS minor with a lot of interests", 
@@ -51,7 +51,9 @@ pitzer_fr_major = db.session.query(Major).filter(Major.college=="Pitzer" and Maj
 db.session.add_all([
 	(MajorsIn(majorID=pitzer_fr_major.id, studentID=10234873)),
 	(MajorsIn(majorID=pomona_bio_major.id, studentID=45)),
-	(MajorsIn(majorID=pomona_cs_major.id, studentID=45))
+	(MajorsIn(majorID=pomona_cs_major.id, studentID=45)),
+	(SatisfiesMajor(majorID=pomona_cs_major.id, courseID="CS133")),
+	(SatisfiesMajor(majorID=pitzer_fr_major.id, courseID="RLST40")),
 	])
 db.session.commit()
 
