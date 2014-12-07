@@ -69,7 +69,7 @@ def student_home(sid):
     student = db.session.query(Student).filter(Student.id==sid).first()
     if(student is None) :
         return render_template('four_oh_four.html'), 404
-    student_perms = db.session.query(PERM).filter(PERM.studentID==sid, PERM.status!='Cancelled').all()
+    student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
     student_perms = [studentperm.serialize() for studentperm in student_perms]
 
     new_student_perms = []
