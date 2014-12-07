@@ -67,7 +67,7 @@ def student_home(sid):
     student = db.session.query(Student).filter(Student.id==sid).first()
     if(student is None) :
         return render_template('four_oh_four.html'), 404
-    student_perms = db.session.query(PERM).filter(PERM.studentID==sid).all()
+    student_perms = db.session.query(PERM).filter(PERM.studentID==sid, PERM.status!='Cancelled').all()
     student_perms = [studentperm.serialize() for studentperm in student_perms]
 
     new_student_perms = []
@@ -84,10 +84,11 @@ def student_home(sid):
         studentperm['course'] = db_section_course_id
         studentperm['sectionNum'] = db_section_num
 
-    return render_template('studentHome.html', studentperms=student_perms)
+    return render_template('studentHome.html', studentperms=student_perms, sid = sid)
 
 @app.route('/perms/', methods=['POST'])
 def studentperm_create():
+    print "Creation of perm"
     st_perm = request.get_json()
     #Find section id based on given course
     db_section_id_q = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionNum'], Section.courseID==st_perm[u'course']).first()
@@ -95,12 +96,18 @@ def studentperm_create():
 
     section_rank = st_perm[u'sectionRank']
 
-    db.session.add(PERM(section=db_section_id, student=123, blurb=st_perm[u'blurb'], status='REQUESTED', submissionTime=datetime.now(), expirationTime=datetime.now(), sectionRank=section_rank))
+    #Create exp date 2 weeks from now
+    now_time = datetime.now()
+    future_time = now_time + timedelta(days=14)
+    print "now date: ", now_time, " future date: ", future_time
+
+    db.session.add(PERM(section=db_section_id, student=st_perm[u'studentID'], blurb=st_perm[u'blurb'], status=st_perm[u'status'], submissionTime=now_time, expirationTime=future_time, sectionRank=section_rank))
     db.session.commit()
     return "Good"
 
 @app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
 def perm_update(pid):
+    print "update of perm"
     new_item = request.get_json()
     #get the datetime from the string
     new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
@@ -114,6 +121,7 @@ def perm_update(pid):
             new_year = datetime.now().year
         new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
         if (datetime.now() - new_exp_datetime > timedelta(0)):
+            print "PAST EXP DATE"
             return "ERROR: Past Expiration Date", 409
         else :
             db.session.query(PERM).filter(PERM.id==pid).update({
@@ -125,6 +133,7 @@ def perm_update(pid):
             db.session.commit()
             return "success"
     else:
+        print "INVALID EXP DATE"
         return "ERROR: Invalid Expiration Date", 409
 
 @app.errorhandler(404)

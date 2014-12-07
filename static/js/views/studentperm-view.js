@@ -17,11 +17,14 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
+			'click #student-perm-display-blurb': 'edit',
+			'click #student-perm-display-sectionrank': 'edit',
+			'click #perm-cancel-button': 'cancelPerm',
 			'dblclick label': 'edit',
-			'click .destroy': 'clear',
-			'keypress .edit': 'updateOnEnter',
+			// 'keypress .edit': 'updateOnEnter',
 			'keypress': 'updateOnEnter',
-			'keydown .edit': 'revertOnEscape',
+			'click .destroy': 'clear',
+			'keydown': 'revertOnEscape',
 			'blur .edit': 'close'
 		},
 
@@ -29,14 +32,14 @@ var app = app || {};
 		// a one-to-one correspondence between a **Todo** and a **TodoView** in this
 		// app, we set a direct reference on the model for convenience.
 		initialize: function () {
-			this.$newperm = $('#input-perm');
-			this.$sectionid = $('#section-field');
-			this.$blurb = $('#blurb-field');
-			this.$course = $('#course-field');
+			this.$blurbEdit = $('#student-perm-display-blurb');
+			this.$sectionRankEdit = $('#student-perm-display-sectionrank');
 
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
 			this.listenTo(this.model, 'visible', this.toggleVisible);
+
+
 		},
 
 		// Re-render the titles of the todo item.
@@ -51,28 +54,38 @@ var app = app || {};
 			// }
 
 			this.$el.html(this.template(this.model.toJSON()));
-			// this.$el.toggleClass('completed', this.model.get('completed'));
-			// this.toggleVisible();
-			// this.$input = this.$('.edit');
 			return this;
+
+			// this.$el.html(this.template(this.model.toJSON()));
+			// // this.$el.toggleClass('completed', this.model.get('completed'));
+			// // this.toggleVisible();
+			// this.$input = this.$('.edit');
+			// return this;
 		},
 
+
+		// If you're pressing `escape` we revert your change by simply leaving
+		// the `editing` state.
+		revertOnEscape: function (e) {
+			if (e.which === ESC_KEY) {
+				this.$el.removeClass('editing');
+			}
+		},
 
 		// Switch this view into `"editing"` mode, displaying the input field.
 		edit: function () {
 			this.$el.addClass('editing');
-			this.$input.focus();
 		},
 
-		// Close the `"editing"` mode, saving changes to the todo.
+		// Close the `"editing"` mode, saving changes to the perm.
 		close: function () {
-			var value = this.$input.val();
-			var trimmedValue = value.trim();
+			var untrimmedBlurbValue = this.$('.b_input_class').val();
+			var blurbValue = untrimmedBlurbValue.trim();
+			var untrimmedRankValue = this.$('.rank_input_class').val()
+			var rankValue = untrimmedRankValue.trim();
 
-			var sid = this.$sectionid.val().trim();
-			var blb = this.$blurb.val().trim();
-			var crs = this.$course.val().trim();
-
+			console.log("untrimmed blurb: ")
+			console.log("blurb: " + blurbValue + " rank: " + rankValue);
 
 			// We don't want to handle blur events from an item that is no
 			// longer being edited. Relying on the CSS class here has the
@@ -82,13 +95,18 @@ var app = app || {};
 				return;
 			}
 
-			if (sid && blb && crs) {
-				this.model.save({ section: sid, blurb: blb, course: crs});
+			if (blurbValue && rankValue) {
+				this.model.save({ sectionRank: rankValue, blurb: blurbValue}, 
+					{dataType: 'text',
+						error: function(model, response){
+						model.set({errorMsg: response.responseText});
+						model.trigger('change');
+				}, success: function(model, response){
+						model.set({errorMsg: null});
+						model.trigger('change');
+				}})
 
-				if (value !== trimmedValue) {
-					// Model values changes consisting of whitespaces only are not causing change to be triggered
-					// Therefore we've to compare untrimmed version with a trimmed one to chech whether anything changed
-					// And if yes, we've to trigger change event ourselves
+				if (blurbValue !== untrimmedBlurbValue || rankValue != untrimmedRankValue) {
 					this.model.trigger('change');
 				}
 			} else {
@@ -100,24 +118,23 @@ var app = app || {};
 
 		// If you hit `enter`, we're through editing the item.
 		updateOnEnter: function (e) {
-			console.log("aloha");
 			if (e.which === ENTER_KEY) {
-				console.log("hiiiii");
 				this.close();
 			}
 		},
 
-		// If you're pressing `escape` we revert your change by simply leaving
-		// the `editing` state.
-		revertOnEscape: function (e) {
-			if (e.which === ESC_KEY) {
-				this.$el.removeClass('editing');
-			}
-		},
+		cancelPerm: function (){
+			console.log('Got into fun function!');
+			this.model.save({ status: "Cancelled"}, 
+				{dataType: 'text',
+						error: function(model, response){
+						model.set({errorMsg: response.responseText});
+						model.trigger('change');
+				}, success: function(model, response){
+						model.set({errorMsg: null});
+						model.trigger('change');
+				}})
 
-		// Remove the item, destroy the model from *localStorage* and delete its view.
-		clear: function () {
-			this.model.destroy();
 		}
 	});
 })(jQuery);

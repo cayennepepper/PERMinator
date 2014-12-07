@@ -69,14 +69,11 @@ var app = app || {};
 
 		//Students' Perms
 		addOneStudentPerm:  function(studentperm) {
-			console.log("Added one student perm");
-			console.log(studentperm);
 			var view = new app.StudentpermView({model: studentperm});
 			this.$studentpermList.append(view.render().el);
 		},
 
 		addAllStudentPerms: function () {
-			console.log("Added all student perms");
 			this.$studentpermList.html('');
 			app.studentperms.each(this.addOneStudentPerm, this);
 		},
@@ -86,7 +83,9 @@ var app = app || {};
 				sectionNum: this.$new_section_input.val().trim(),
 				blurb: this.$new_blurb_input.val().trim(),
 				sectionRank: this.$new_section_rank_input.val().trim(),
-				course:this.$new_course_input.val().trim()
+				course:this.$new_course_input.val().trim(),
+				studentID: app.sid,
+				status: 'Requested'
 			};
 		},
 
