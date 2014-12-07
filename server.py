@@ -30,12 +30,15 @@ def prof_home(pid):
 @app.route('/section/<string:secid>')
 def prof_perms(secid):
     this_section = db.session.query(Section).get(secid)
-    this_section_num = this_section.sectionNum
-    this_course_id = this_section.courseID
-    perms = []
+
     #404 redirect
     if(this_section is None) :
         return render_template('four_oh_four.html'), 404
+        
+    this_section_num = this_section.sectionNum
+    this_course_id = this_section.courseID
+    perms = []
+
     perm_set = db.session.query(PERM).filter(PERM.status!="Cancelled").filter(PERM.sectionID==secid).join(Student).filter(Student.id == PERM.studentID).all()
     if (len(perm_set)==0):
         return render_template("prof_perms_empty.html", courseID = this_course_id, sectionNum = this_section_num)

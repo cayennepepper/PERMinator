@@ -42,18 +42,21 @@ db.session.add_all([
 	(Major(college="Pomona", name="Computer Science", satisfiedBy="CSCI 051	CSCI 051G	CSCI 052	CSCI 055	CSCI 062	CSCI 081	CSCI 105	CSCI 131	CSCI 140	CSCI 151	CSCI 158	CSCI 159	CSCI 181H 	CSCI 181J 	CSCI 181K 	CSCI 190	CSCI 191	CSCI 192	CSCI 199DRPO 	CSCI 199IRPO 	CSCI 199RAPO	CSCI 133	CSCI 135	CSCI 124	CSCI 125	CSCI 132	CSCI 134	CSCI 136	CSCI 141	CSCI 142	CSCI 144	CSCI 147	CSCI 152	CSCI 153	CSCI 154	CSCI 155	CSCI 156	CSCI 157	CSCI 183	CSCI 184	MATH 031	MATH 060	MATH 055	MATH 103")),
 	(Major(college="HMC", name="Computer Science", satisfiedBy="CSCI 005	CSCI 060	CSCI 070	CSCI 055	CSCI 062	CSCI 081	CSCI 105	CSCI 131	CSCI 140	CSCI 151	CSCI 158	CSCI 159	CSCI 181H 	CSCI 181J 	CSCI 181K 	CSCI 190	CSCI 191	CSCI 192	CSCI 199DRPO 	CSCI 199IRPO 	CSCI 199RAPO	CSCI 133	CSCI 135	CSCI 124	CSCI 125	CSCI 132	CSCI 134	CSCI 136	CSCI 141	CSCI 142	CSCI 144	CSCI 147	CSCI 152	CSCI 153	CSCI 154	CSCI 155	CSCI 156	CSCI 157	CSCI 183	CSCI 184	MATH 031	MATH 060	MATH 055	MATH 103")),
 	(Major(college="Pitzer", name="French", satisfiedBy="French courses")),
-	(Major(college="Pomona", name="Biology", satisfiedBy="Biology courses"))
+	(Major(college="Pomona", name="Biology", satisfiedBy="Biology courses")),
+	(Major(college="CMC", name="Religious Studies", satisfiedBy="Religious studies courses")),
 	])
 db.session.commit()
 pomona_cs_major = db.session.query(Major).filter(Major.college=="Pomona" and Major.name=="Computer Science").first()
 pomona_bio_major = db.session.query(Major).filter(Major.college=="HMC" and Major.name=="Computer Science").first()
 pitzer_fr_major = db.session.query(Major).filter(Major.college=="Pitzer" and Major.name=="French").first()
+cmc_rs_major = db.session.query(Major).filter(Major.college=="CMC" and Major.name=="Religious Studies").first()
 db.session.add_all([
 	(MajorsIn(majorID=pitzer_fr_major.id, studentID=10234873)),
 	(MajorsIn(majorID=pomona_bio_major.id, studentID=45)),
 	(MajorsIn(majorID=pomona_cs_major.id, studentID=45)),
+	(MajorsIn(majorID=cmc_rs_major.id, studentID=123)),
 	(SatisfiesMajor(majorID=pomona_cs_major.id, courseID="CS133")),
-	(SatisfiesMajor(majorID=pitzer_fr_major.id, courseID="RLST40")),
+	(SatisfiesMajor(majorID=cmc_rs_major.id, courseID="RLST40")),
 	])
 db.session.commit()
 
