@@ -33,7 +33,7 @@ db.session.add_all([
 	(PERM(section = 1, student = 10234873, blurb = "Potential CS minor with a lot of interests", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None)),
 	(PERM(section = 1, student = 123, blurb = "Blurbey", 
-		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1))
+		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None))
 	])
 db.session.add_all([
 	(Teach(profID=90, sectionID=1)),
