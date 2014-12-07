@@ -66,7 +66,6 @@ var app = app || {};
 			app.prof_perms.each(this.addOnePERM, this);
 		},
 
-
 		//Students' Perms
 		addOneStudentPerm:  function(studentperm) {
 			var view = new app.StudentpermView({model: studentperm});

@@ -25,46 +25,47 @@
 			</section>
 			<footer id="footer"></footer>
 		</section>
+
+		<perm-display-table id="perm-display-table">
 		<script type="text/template" id="studentperm-template">
-			<div class="view">
-				<% sid = {{sid}}%>
-				<perm-display-table id="perm-display-table">
-					<tr>
-						<td id="student-perm-display-course">
+			<div class="view">					
+						<td id="student-perm-display-course" class="st-perm-display-elt">
 							<p style="display:inline"><b>Course: </b></p>
 							<p style="display:inline" contenteditable="false"><%-course%></p>
 						</td>
-						<td id="student-perm-display-sectionid">
+						<td id="student-perm-display-sectionid"class="st-perm-display-elt">
 							<p style="display:inline"><b>  Section: </b></p>
 							<p style="display:inline" contenteditable="false"><%-sectionNum%></p>
 						</td>
-						<td id="temp0">
+						<td id="b_input_column" class="st-perm-display-elt">
 							<p style="display:inline"><b>  Blurb: </b></p>
 							<input class="b_input_class" style="display:inline" id="student-perm-display-blurb" value="<%-blurb%>">	
 						</td>
-						<td id="temp">
+						<td id="rank_input_column" class="st-perm-display-elt">
 							<p style="display:inline"><b>  Section Rank: </b></p>
 							<input class="rank_input_class" style="display:inline" id="student-perm-display-sectionrank" value=<%-sectionRank%>></input>
 						</td>
-						<td id="student-perm-display-status">
+						<td id="student-perm-display-status" class="st-perm-display-elt">
 							<p style="display:inline"><b>  Status: </b></p>
 							<p style="display:inline" contenteditable="false"><%-status%></p>
 						</td>
 						<% if (status == "Accepted") { %>
-						<td id="student-perm-display-expiration">
+						<td id="student-perm-display-expiration" class="st-perm-display-elt">
 							<p style="display:inline"><b>  Expiration Time: </b></p>
 							<p style="display:inline" contenteditable="false"><%-expirationTime%></p>
 						</td>						
 						<% } %>
 						<% if (status != "Cancelled") { %>
-						<td id="student-perm-display-cancel">
-							<button type="button" id="perm-cancel-button" class='test'> ✘ </button>
+						<td id="student-perm-display-cancel" class="st-perm-display-elt">
+							<button type="button" id="perm-cancel-button"> ✘ </button>
 						</td>
-						<% } %>
-					</tr>
-				</table>
+						<% } %>	
 			</div>
 		</script>
+		</table>
+
+
+
 		<script type="text/template" id="stats-template">
 			<span id="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %> left</span>
 			<ul id="filters">
