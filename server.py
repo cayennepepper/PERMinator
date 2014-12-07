@@ -119,31 +119,41 @@ def perm_update(pid):
     new_item = request.get_json()
     print new_item
     #get the datetime from the string
-    new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
-    if new_exp_time!=None:
-        new_year = new_exp_time.group(5)
-        if (new_year!=None):
-            new_year = int(new_year)
-            if (new_year<100):
-                new_year = new_year+2000
+    new_status = new_item[u'status']
+    if new_status=="Approved" or new_status=="Requested": #only check for a valid expiration date if we care
+        new_exp_time = re.match("(\d?\d)/(\d?\d)((/(\d\d\d?\d?))?)", new_item[u'expirationTime'])
+        if new_exp_time!=None:
+            new_year = new_exp_time.group(5)
+            if (new_year!=None):
+                new_year = int(new_year)
+                if (new_year<100):
+                    new_year = new_year+2000
+            else:
+                new_year = datetime.now().year
+            new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
+            if (datetime.now() - new_exp_datetime > timedelta(0)):
+                print "PAST EXP DATE"
+                return "ERROR: Past Expiration Date", 409
+            else :
+                db.session.query(PERM).filter(PERM.id==pid).update({
+                PERM.status:new_item[u'status'], 
+                PERM.expirationTime:new_exp_datetime, 
+                PERM.sectionRank:new_item[u'sectionRank'], 
+                PERM.blurb:new_item[u'blurb']
+                })
+                db.session.commit()
+                return "success"
         else:
-            new_year = datetime.now().year
-        new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
-        if (datetime.now() - new_exp_datetime > timedelta(0)):
-            print "PAST EXP DATE"
-            return "ERROR: Past Expiration Date", 409
-        else :
-            db.session.query(PERM).filter(PERM.id==pid).update({
-            PERM.status:new_item[u'status'], 
-            PERM.expirationTime:new_exp_datetime, 
-            PERM.sectionRank:new_item[u'sectionRank'], 
-            PERM.blurb:new_item[u'blurb']
-            })
-            db.session.commit()
-            return "success"
+            print "INVALID EXP DATE"
+            return "ERROR: Invalid Expiration Date", 409
     else:
-        print "INVALID EXP DATE"
-        return "ERROR: Invalid Expiration Date", 409
+        db.session.query(PERM).filter(PERM.id==pid).update({
+                PERM.status:new_item[u'status'], 
+                PERM.sectionRank:new_item[u'sectionRank'], 
+                PERM.blurb:new_item[u'blurb']
+                })
+        db.session.commit()
+        return "Fine!"
 
 @app.errorhandler(404)
 def page_not_found(e):

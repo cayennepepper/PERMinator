@@ -7,9 +7,9 @@ var app = app || {};
 	app.ProfPerm = Backbone.Model.extend({
 		
 		defaults:  {
-			sectionID: 0,
+			sectionID: 1,
 			showBlurb: false, 
-			errorMsg: null
+			errorMsg: null,
 		}
 	});
 })();

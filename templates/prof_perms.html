@@ -105,21 +105,19 @@
 							<% if (section!={{sectionNum}}) { %>
 								<div><b><%- "Section "+section%></b></div>
 								<% } %>
-							<% if (perms[section].sectionRank==null) { %>
-								<div class="blue">Only Choice</div>
-								<% } %>
-								<% if (perms[section].sectionRank==1) { %>
+								<% if (perms[section].sectionRank==null) { %>
+									<div>Not Ranked</div>
+									<% } else if (perms[section].sectionRank==1) { %>
 									<div class="blue">First Choice</div>
-									<% } %>
-									<% if (perms[section].sectionRank==2) { %>
+									<% } else if (perms[section].sectionRank==2) { %>
 									<div>Second Choice</div>
-									<% } %>
-									<% if (perms[section].sectionRank==3) { %>
+									<% } else if (perms[section].sectionRank==3) { %>
 									<div>Third Choice</div>
-									<% } %>
-									<% if (perms[section].sectionRank==4) { %>
+									<% } else if (perms[section].sectionRank==4) { %>
 									<div>Fourth Choice</div>
-									<% } %>
+									<% } else { %>
+									<div><%-perms[section].sectionRank+"th Choice"%></div>
+									<% } %> 
 								
 							<% if (perms[section].sectionID!=sectionID) { %>
 								<div class=<%-perms[section].status%>><%- perms[section].status %></div>
