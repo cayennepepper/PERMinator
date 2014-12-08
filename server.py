@@ -99,6 +99,18 @@ def studentperm_create():
     db_section = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionNum'], Section.courseID==st_perm[u'course']).first()
     if (db_section==None):
         return "Invalid Course "+st_perm[u'course']+"-"+st_perm[u'sectionNum'], 409
+
+    db_existing_perms = db.session.query(PERM).filter(PERM.sectionID == db_section.id, PERM.studentID==st_perm[u'studentID'] ).all()
+    for existing in db_existing_perms :
+        if(existing.status != "Cancelled"):
+            return "You already have a PERM for this section", 409
+
+    db_other_perms = db.session.query(PERM).filter(PERM.studentID==st_perm[u'studentID']).join(Section).filter(Section.id == PERM.sectionID).filter(Section.courseID==st_perm[u'course']).all()
+    for other in db_other_perms :
+        if(int(other.sectionRank) == int(st_perm[u'sectionRank']) and other.status != "Cancelled"):
+            return "You already have a PERM with this ranking. Please choose a different ranking.", 409
+
+
     db_section_id = db_section.id
     section_rank = st_perm[u'sectionRank']
     #check rankings here
