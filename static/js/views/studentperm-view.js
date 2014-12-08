@@ -99,6 +99,8 @@ var app = app || {};
 					this.model.trigger('change');
 				}
 			} else {
+				this.model.set({errorMsg: "Missing blurb or section rank", sectionRank: rankValue, blurb: blurbValue});
+				this.model.trigger('change');
 			}
 
 			this.$el.removeClass('editing');
