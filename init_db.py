@@ -15,6 +15,17 @@ db.session.add_all([(
 	(Student(id=007, sFirstName='Mauricio', sLastName='Molina', year=2015, college="Pomona", sEmail="mauricio@edu")),
 	(Course(id="CSCI133")),
 	(Course(id="RLST40")),
+	(Course(id="CSCI55")),
+	(Course(id="CSCI52")),
+	(Course(id="CSCI62")),
+	(Course(id="CSCI51")),
+	(Course(id="MATH121")),
+	(Course(id="ANTH10")),
+	(Course(id="BIOL41C")),
+	(Course(id="BIOL40")),
+	(Course(id="NEUR101")),
+	(Course(id="FREN33")),
+
 	(Professor(profID=90, pFirstName="Melanie", pLastName="Wu"))
 	])
 db.session.commit()
@@ -27,7 +38,15 @@ db.session.add_all([
 	(HasTaken(courseID="CSCI133", studentID=123)),
 	(HasTaken(courseID="CSCI133", studentID=10234873)),
 	(HasTaken(courseID="RLST40", studentID=007)),
-	(HasTaken(courseID="RLST40", studentID=45))
+	(HasTaken(courseID="CSCI55", studentID=45)),
+	(HasTaken(courseID="CSCI62", studentID=45)),
+	(HasTaken(courseID="CSCI51", studentID=45)),
+	(HasTaken(courseID="MATH121", studentID=45)),
+	(HasTaken(courseID="BIOL41C", studentID=45)),
+	(HasTaken(courseID="BIOL40", studentID=45)),
+	(HasTaken(courseID="NEUR101", studentID=45)),
+	(HasTaken(courseID="FREN33", studentID=45)),
+	(HasTaken(courseID="FREN33", studentID=10234873))
 	])
 db.session.commit()
 print "Okay"

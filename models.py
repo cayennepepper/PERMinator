@@ -208,7 +208,7 @@ class HasTaken(db.Model):
   course = db.relationship("Course", backref=db.backref('taken_by'))
   studentID = db.Column(db.Integer, ForeignKey(Student.id), primary_key=True, autoincrement=False)
   #reference student via 'student'
-  student = db.relationship("Student", backref=db.backref('courses_taken'))
+  student = db.relationship("Student", backref=db.backref('courses_taken', order_by=courseID))
 
   def __init__(self, courseID,studentID):
     self.courseID = courseID
