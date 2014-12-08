@@ -92,8 +92,7 @@ var app = app || {};
 			if (e.which === ENTER_KEY && this.$new_blurb_input.val().trim()) {
 
 				app.studentperms.create(this.permAttributes(),
-					{dataType: 'text',
-						error: function(model, response){
+					{error: function(model, response){
 							model.set({errorMsg: response.responseText});
 							model.trigger('change');
 						}, success: function(model, response){
