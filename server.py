@@ -99,12 +99,12 @@ def studentperm_create():
     #Find section id based on given course
     db_section = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionNum'], Section.courseID==st_perm[u'course']).first()
     if (db_section==None):
-        return "Invalid Course "+st_perm[u'course']+"-"+st_perm[u'sectionNum'], 409
+        return "Invalid Course "+st_perm[u'course']+"-"+st_perm[u'sectionNum']+". This PERM will not be saved.", 409
 
     db_existing_perms = db.session.query(PERM).filter(PERM.sectionID == db_section.id, PERM.studentID==st_perm[u'studentID'] ).all()
     for existing in db_existing_perms :
         if(existing.status != "Cancelled"):
-            return "You already have a PERM for this section", 409
+            return "You already have a PERM for this section. This PERM will not be saved.", 409
 
     db_other_perms = db.session.query(PERM).filter(PERM.studentID==st_perm[u'studentID']).join(Section).filter(Section.id == PERM.sectionID).filter(Section.courseID==st_perm[u'course']).all()
     for other in db_other_perms :
@@ -150,7 +150,7 @@ def perm_update(pid):
                 new_year = datetime.now().year
             new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
             if (datetime.now() - new_exp_datetime > timedelta(0)):
-                return "ERROR: Past Expiration Date", 409
+                return "Past Expiration Date. Please choose an expiration in the future.", 409
             else :
                 db.session.query(PERM).filter(PERM.id==pid).update({
                 PERM.status:new_item[u'status'], 
@@ -161,7 +161,7 @@ def perm_update(pid):
                 db.session.commit()
                 return "success"
         else:
-            return "ERROR: Invalid Expiration Date", 409
+            return "Invalid Expiration Date. Please input in the format dd/mm/yyyy.", 409
     else:
         db.session.query(PERM).filter(PERM.id==pid).update({
                 PERM.status:new_item[u'status'], 
