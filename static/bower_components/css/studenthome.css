@@ -289,6 +289,7 @@ label[for='toggle-all'] {
 
  #error {
  	color: red;
+ 	width: 200px;
  }
 
  .rank_input_class {
