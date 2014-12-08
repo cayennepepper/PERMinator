@@ -53,12 +53,6 @@ var app = app || {};
 
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
-
-			// this.$el.html(this.template(this.model.toJSON()));
-			// // this.$el.toggleClass('completed', this.model.get('completed'));
-			// // this.toggleVisible();
-			// this.$input = this.$('.edit');
-			// return this;
 		},
 
 
@@ -82,9 +76,6 @@ var app = app || {};
 			var untrimmedRankValue = this.$('.rank_input_class').val()
 			var rankValue = untrimmedRankValue.trim();
 
-			// console.log("untrimmed blurb: ")
-			// console.log("blurb: " + blurbValue + " rank: " + rankValue);
-
 			// We don't want to handle blur events from an item that is no
 			// longer being edited. Relying on the CSS class here has the
 			// benefit of us not having to maintain state in the DOM and the
@@ -94,11 +85,9 @@ var app = app || {};
 			}
 
 			if (blurbValue && rankValue) {
-				console.log("got into here");
 				this.model.save({ sectionRank: rankValue, blurb: blurbValue}, 
 					{dataType: 'text',
 						error: function(model, response){
-						console.log("response Text: "+ response.responseText);
 						model.set({errorMsg: response.responseText});
 						model.trigger('change');
 				}, success: function(model, response){
@@ -110,7 +99,6 @@ var app = app || {};
 					this.model.trigger('change');
 				}
 			} else {
-				// this.clear();
 			}
 
 			this.$el.removeClass('editing');
@@ -119,16 +107,14 @@ var app = app || {};
 		// If you hit `enter`, we're through editing the item.
 		updateOnEnter: function (e) {
 			if (e.which === ENTER_KEY) {
-				console.log("WOAH");
 				this.close();
 			}
 		},
 
 		cancelPerm: function (){
-			console.log('Got into fun function!');
 			this.model.save({ status: "Cancelled"}, 
 				{dataType: 'text',
-						error: function(model, response){
+					error: function(model, response){
 						model.set({errorMsg: response.responseText});
 						model.trigger('change');
 				}, success: function(model, response){

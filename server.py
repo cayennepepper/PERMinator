@@ -95,7 +95,6 @@ def student_home(sid):
 
 @app.route('/perms/', methods=['POST'])
 def studentperm_create():
-    print "Creation of perm"
     st_perm = request.get_json()
     #Find section id based on given course
     db_section = db.session.query(Section).filter(Section.sectionNum==st_perm[u'sectionNum'], Section.courseID==st_perm[u'course']).first()
@@ -120,7 +119,6 @@ def studentperm_create():
     #Create exp date 2 weeks from now
     now_time = datetime.now()
     future_time = now_time + timedelta(days=14)
-    print "now date: ", now_time, " future date: ", future_time
 
     db.session.add(PERM(section=db_section_id, student=st_perm[u'studentID'], blurb=st_perm[u'blurb'], status=st_perm[u'status'], submissionTime=now_time, expirationTime=future_time, sectionRank=section_rank))
     db.session.commit()
@@ -129,16 +127,12 @@ def studentperm_create():
 
 @app.route('/perms/<string:pid>', methods=['PUT', 'PATCH'])
 def perm_update(pid):
-    print "update of perm"
     new_item = request.get_json()
-    print new_item
 
     if(new_item[u'status'] != "Cancelled") :
         if u'course' in new_item.keys():
             db_other_perms = db.session.query(PERM).filter(PERM.studentID==new_item[u'studentID']).join(Section).filter(Section.id == PERM.sectionID).filter(Section.courseID==new_item[u'course']).all()
             for other in db_other_perms :
-                print other.id
-                print pid
                 if(int(other.sectionRank) == int(new_item[u'sectionRank']) and other.status != "Cancelled" and int(other.id) != int(pid)):
                     return "You already have a PERM with this ranking. Please choose a different ranking.", 409
 
@@ -156,7 +150,6 @@ def perm_update(pid):
                 new_year = datetime.now().year
             new_exp_datetime = datetime(new_year, int(new_exp_time.group(1)), int(new_exp_time.group(2)))
             if (datetime.now() - new_exp_datetime > timedelta(0)):
-                print "PAST EXP DATE"
                 return "ERROR: Past Expiration Date", 409
             else :
                 db.session.query(PERM).filter(PERM.id==pid).update({
@@ -168,7 +161,6 @@ def perm_update(pid):
                 db.session.commit()
                 return "success"
         else:
-            print "INVALID EXP DATE"
             return "ERROR: Invalid Expiration Date", 409
     else:
         db.session.query(PERM).filter(PERM.id==pid).update({
