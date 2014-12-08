@@ -19,30 +19,18 @@ class Student(db.Model):
   year = db.Column(db.Integer)
   college = db.Column(db.String(6))
   sEmail = db.Column(db.String(50))
-  courseHistory = db.Column(db.String(5000))
 
-  def __init__(self, id, sFirstName, sLastName, year, college, sEmail, courseHistory):
+  def __init__(self, id, sFirstName, sLastName, year, college, sEmail):
     self.id = id
     self.sFirstName = sFirstName
     self.sLastName = sLastName
     self.year = year
     self.college = college
     self.sEmail = sEmail
-    self.courseHistory = courseHistory
     
   def __repr__(self):
-    return "<Student(id='%s', sFirstName='%s', sLastName='%s', year='%s', college='%s', sEmail='%s', courseHistory='%s')>" % (
-      self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail,self.courseHistory)
-
-  def getAlphabatizedCourses(self):
-    courseHistory = getattr(self,"courseHistory")
-    course_div = "COURSE_DIV"
-    courses = courseHistory.split(course_div)
-    courses.sort()
-    courseHistory = ""
-    for c in courses:
-      courseHistory = courseHistory + c + course_div
-    return courseHistory
+    return "<Student(id='%s', sFirstName='%s', sLastName='%s', year='%s', college='%s', sEmail='%s')>" % (
+      self.id, self.sFirstName, self.sLastName, self.year, self.college,self.sEmail)
 
   #ignore_id is a boolean. true if we don't want to serialize the id
   def serialize(self, ignore_id=False): #lets us serialize it!!
@@ -50,8 +38,6 @@ class Student(db.Model):
     for key in self.__mapper__.c.keys():
       if (not ignore_id or key!="id"):
         result[key] = getattr(self,key)
-      if (key=="courseHistory"):
-        result[key] = self.getAlphabatizedCourses()
     return result
 
 class Course(db.Model):
@@ -215,6 +201,21 @@ class SatisfiesMajor(db.Model):
 
   def __repr__(self):
     return "<SatisfiesMajor(majorID='%s', courseID='%s')>" % (self.majorID, self.courseID)
+
+class HasTaken(db.Model):
+  courseID = db.Column(db.String(20), ForeignKey(Course.id), primary_key=True, autoincrement=False)
+  #reference major via 'major'
+  course = db.relationship("Course", backref=db.backref('taken_by'))
+  studentID = db.Column(db.Integer, ForeignKey(Student.id), primary_key=True, autoincrement=False)
+  #reference student via 'student'
+  student = db.relationship("Student", backref=db.backref('courses_taken', order_by=courseID))
+
+  def __init__(self, courseID,studentID):
+    self.courseID = courseID
+    self.studentID = studentID
+
+  def __repr__(self):
+    return "<HasTaken(studentID='%s', courseID='%s')>" % (self.studentID, self.courseID)
   
 
 

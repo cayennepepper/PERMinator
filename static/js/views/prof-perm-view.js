@@ -87,7 +87,6 @@ var app = app || {};
 		// Close the `"editing"` mode, saving changes to the todo.
 		close: function () {
 			var value = this.$('.expdate').val();
-			var trimmedValue = value.trim();
 
 			// We don't want to handle blur events from an item that is no
 			// longer being edited. Relying on the CSS class here has the
@@ -96,6 +95,7 @@ var app = app || {};
 			if (!this.$el.hasClass('editing') && this.model.get('status')!="Expired") {
 				return;
 			}
+			var trimmedValue = value.trim();
 
 			if (trimmedValue) {
 				this.model.save({ expirationTime: trimmedValue }, 

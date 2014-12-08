@@ -291,15 +291,15 @@ label[for='toggle-all'] {
  	color: red;
  }
 
-/* .rank_input_class {
+ .rank_input_class {
  	width: 80%;
 	height: 100%;
  }
 
  .b_input_class {
- 	width: 80%;
-	height: 100%;
- }*/
+ 	width: 200px;
+	height: 30px;
+ }
 /*
 	Hack to remove background from Mobile Safari.
 	Can't use it globally since it destroys checkboxes in Firefox and Opera
