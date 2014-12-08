@@ -90,7 +90,18 @@ var app = app || {};
 
 		createOnEnterNewPerm: function (e) {
 			if (e.which === ENTER_KEY && this.$new_blurb_input.val().trim()) {
-				app.studentperms.create(this.permAttributes());
+
+				app.studentperms.create(this.permAttributes(),
+					{dataType: 'text',
+						error: function(model, response){
+							model.set({errorMsg: response.responseText});
+							model.trigger('change');
+						}, success: function(model, response){
+							model.set({errorMsg: null});
+							model.trigger('change');
+						}
+					}
+					);
 				this.$new_section_input.val('');
 				this.$new_blurb_input.val('');
 				this.$new_course_input.val('');

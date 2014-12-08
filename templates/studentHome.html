@@ -28,39 +28,49 @@
 
 		<perm-display-table id="perm-display-table">
 		<script type="text/template" id="studentperm-template">
-			<div class="view">					
-						<td id="student-perm-display-course" class="st-perm-display-elt">
+			<div class="view">	
+			
+						<td width="10%" id="student-perm-display-course" class="st-perm-display-elt">
 							<p style="display:inline"><b>Course: </b></p>
-							<p style="display:inline" contenteditable="false"><%-course%></p>
+							<p contenteditable="false"><%-course%></p>
+							<% if (errorMsg!=null) { %>
+				    			<div id="error">
+				    				<%-errorMsg%>
+				    			</div>
+				    		<% } %>	
 						</td>
-						<td id="student-perm-display-sectionid"class="st-perm-display-elt">
+						<td width="10%" id="student-perm-display-sectionid"class="st-perm-display-elt">
 							<p style="display:inline"><b>  Section: </b></p>
-							<p style="display:inline" contenteditable="false"><%-sectionNum%></p>
+							<p contenteditable="false"><%-sectionNum%></p>
 						</td>
-						<td id="b_input_column" class="st-perm-display-elt">
-							<p style="display:inline"><b>  Blurb: </b></p>
-							<input class="b_input_class" style="display:inline" id="student-perm-display-blurb" value="<%-blurb%>">	
+						<td width="40%" id="b_input_column" class="st-perm-display-elt">
+							<placeholder><b>  Blurb: </b></p>
+							<textarea rows="5" cols="40" class="b_input_class" style="display:inline" id="student-perm-display-blurb"><%-blurb%></textarea>
 						</td>
-						<td id="rank_input_column" class="st-perm-display-elt">
+						<td width="10%" id="rank_input_column" class="st-perm-display-elt">
 							<p style="display:inline"><b>  Section Rank: </b></p>
-							<input class="rank_input_class" style="display:inline" id="student-perm-display-sectionrank" value=<%-sectionRank%>></input>
+							<p>	
+							<input class="rank_input_class" id="student-perm-display-sectionrank" value=<%-sectionRank%>></input>
 						</td>
-						<td id="student-perm-display-status" class="st-perm-display-elt">
+						<td width="10%" id="student-perm-display-status" class="st-perm-display-elt">
 							<p style="display:inline"><b>  Status: </b></p>
-							<p style="display:inline" contenteditable="false"><%-status%></p>
+							<p contenteditable="false"><%-status%></p>
 						</td>
-						<% if (status == "Accepted") { %>
-						<td id="student-perm-display-expiration" class="st-perm-display-elt">
-							<p style="display:inline"><b>  Expiration Time: </b></p>
-							<p style="display:inline" contenteditable="false"><%-expirationTime%></p>
+						<% if (status == "Approved" || status=="Expired") { %>
+						<td width="10%"id="student-perm-display-expiration" class="st-perm-display-elt">
+							<p style="display:inline"><b>  Expires: </b></p>
+							<p contenteditable="false"><%-expirationTime%></p>
 						</td>						
 						<% } %>
 						<% if (status != "Cancelled") { %>
-						<td id="student-perm-display-cancel" class="st-perm-display-elt">
+						<td width="10%" id="student-perm-display-cancel" class="st-perm-display-elt">
 							<button type="button" id="perm-cancel-button"> ✘ </button>
 						</td>
 						<% } %>	
 			</div>
+			<p><p>
+
+			<div>
 		</script>
 		</table>
 

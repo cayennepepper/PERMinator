@@ -279,8 +279,16 @@ label[for='toggle-all'] {
 	height: 100%;
 }
  .st-perm-display-elt {
- 	width: 19%;
+ 	/*width: 19%;*/
 	height: 100%;
+ }
+
+ td {
+ 	padding: 7px;
+ }
+
+ #error {
+ 	color: red;
  }
 
 /* .rank_input_class {

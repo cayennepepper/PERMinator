@@ -7,9 +7,8 @@ var app = app || {};
 	// Studentperm Item View
 	// --------------
 
-	// The DOM element for a todo item...
 	app.StudentpermView = Backbone.View.extend({
-		//... is a list tag.
+		//Each view is a row in the table described in studentHome.html
 		tagName:  'tr',
 
 		// Cache the template function for a single item.
@@ -21,9 +20,8 @@ var app = app || {};
 			'click #student-perm-display-sectionrank': 'edit',
 			'click #perm-cancel-button': 'cancelPerm',
 			'dblclick label': 'edit',
-			// 'keypress .edit': 'updateOnEnter',
 			'keypress': 'updateOnEnter',
-			'click .destroy': 'clear',
+			// 'click .destroy': 'clear',
 			'keydown': 'revertOnEscape',
 			'blur .edit': 'close'
 		},
@@ -84,8 +82,8 @@ var app = app || {};
 			var untrimmedRankValue = this.$('.rank_input_class').val()
 			var rankValue = untrimmedRankValue.trim();
 
-			console.log("untrimmed blurb: ")
-			console.log("blurb: " + blurbValue + " rank: " + rankValue);
+			// console.log("untrimmed blurb: ")
+			// console.log("blurb: " + blurbValue + " rank: " + rankValue);
 
 			// We don't want to handle blur events from an item that is no
 			// longer being edited. Relying on the CSS class here has the
@@ -96,9 +94,11 @@ var app = app || {};
 			}
 
 			if (blurbValue && rankValue) {
+				console.log("got into here");
 				this.model.save({ sectionRank: rankValue, blurb: blurbValue}, 
 					{dataType: 'text',
 						error: function(model, response){
+						console.log("response Text: "+ response.responseText);
 						model.set({errorMsg: response.responseText});
 						model.trigger('change');
 				}, success: function(model, response){
@@ -110,7 +110,7 @@ var app = app || {};
 					this.model.trigger('change');
 				}
 			} else {
-				this.clear();
+				// this.clear();
 			}
 
 			this.$el.removeClass('editing');
@@ -119,6 +119,7 @@ var app = app || {};
 		// If you hit `enter`, we're through editing the item.
 		updateOnEnter: function (e) {
 			if (e.which === ENTER_KEY) {
+				console.log("WOAH");
 				this.close();
 			}
 		},

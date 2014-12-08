@@ -15,6 +15,7 @@ var app = app || {};
 			submissionTime:'',
 			expirationTime:'',
 			sectionRank:'',
+			errorMsg:null
 		},
 
 	});
