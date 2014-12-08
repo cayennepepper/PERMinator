@@ -66,7 +66,13 @@ var app = app || {};
 		},
 
 		changeStatus: function(newStatus) {
-			this.model.save({ status: newStatus });
+			this.model.save({ status: newStatus }, 
+					{dataType: 'text',
+						error: function(model, response){
+						model.set({errorMsg: response.responseText});
+				}, success: function(model, response){
+						model.set({errorMsg: null});
+				}});
 			this.model.trigger('change');
 		},
 
