@@ -38,21 +38,21 @@ db.session.add_all([
 	(HasTaken(courseID="CSCI133", studentID=123)),
 	(HasTaken(courseID="CSCI133", studentID=10234873)),
 	(HasTaken(courseID="RLST40", studentID=007)),
-	(HasTaken(courseID="CSCI55", studentID=45)),
-	(HasTaken(courseID="CSCI62", studentID=45)),
-	(HasTaken(courseID="CSCI51", studentID=45)),
-	(HasTaken(courseID="MATH121", studentID=45)),
-	(HasTaken(courseID="BIOL41C", studentID=45)),
-	(HasTaken(courseID="BIOL40", studentID=45)),
-	(HasTaken(courseID="NEUR101", studentID=45)),
-	(HasTaken(courseID="FREN33", studentID=45)),
+	(HasTaken(courseID="CSCI55", studentID=007)),
+	(HasTaken(courseID="CSCI62", studentID=007)),
+	(HasTaken(courseID="CSCI51", studentID=007)),
+	(HasTaken(courseID="MATH121", studentID=007)),
+	(HasTaken(courseID="BIOL41C", studentID=007)),
+	(HasTaken(courseID="BIOL40", studentID=007)),
+	(HasTaken(courseID="NEUR101", studentID=007)),
+	(HasTaken(courseID="FREN33", studentID=007)),
 	(HasTaken(courseID="FREN33", studentID=10234873))
 	])
 db.session.commit()
 print "Okay"
 db.session.add_all([
 	(PERM(section = 1, student = 45, blurb = "Sarah's PERM for CSCI133 Section 1", 
-		status = "Expired", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=10)), sectionRank = 1)),
+		status = "Approved", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=1)), sectionRank = 1)),
 	(PERM(section = 4, student =45 , blurb = "Sarah's PERM for CSCI133 Section 3", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 2)),
 	(PERM(section = 1, student = 10234873, blurb = "Potential CS minor with a lot of interests",
