@@ -133,11 +133,12 @@ def perm_update(pid):
     new_item = request.get_json()
     print new_item
 
-    if u'course' in new_item.keys():
-        db_other_perms = db.session.query(PERM).filter(PERM.studentID==new_item[u'studentID']).join(Section).filter(Section.id == PERM.sectionID).filter(Section.courseID==new_item[u'course']).all()
-        for other in db_other_perms :
-            if(int(other.sectionRank) == int(new_item[u'sectionRank']) and other.status != "Cancelled"):
-                return "You already have a PERM with this ranking. Please choose a different ranking.", 409
+    if(new_item[u'status'] != "Cancelled") :
+        if u'course' in new_item.keys():
+            db_other_perms = db.session.query(PERM).filter(PERM.studentID==new_item[u'studentID']).join(Section).filter(Section.id == PERM.sectionID).filter(Section.courseID==new_item[u'course']).all()
+            for other in db_other_perms :
+                if(int(other.sectionRank) == int(new_item[u'sectionRank']) and other.status != "Cancelled"):
+                    return "You already have a PERM with this ranking. Please choose a different ranking.", 409
 
     #get the datetime from the string
     new_status = new_item[u'status']
