@@ -9,13 +9,13 @@ db.create_all()
 #populate with data
 
 db.session.add_all([(
-	Student(id=45, sFirstName='Sarah', sLastName='Jundt', year=2015, college = "Pomona", sEmail = "sarah@pomona.edu", courseHistory = "Sarah's course history")),
-	(Student(id=10234873, sFirstName='George', sLastName='Price', year=2015, college = "Pomona", sEmail = "gwp02011@pomona.edu", courseHistory = "ARHI         Art HistoryCOURSE_DIVBIOL         BiologyCOURSE_DIVCOMPA        Computer Science ACOURSE_DIVENGLA        English Language & CompositionCOURSE_DIVENGLI        English Literature & CompositionCOURSE_DIVHISTA        American HistoryCOURSE_DIVHISTE        European HistoryCOURSE_DIVMATHA        Mathematics Calculus ABCOURSE_DIVMATHB        Mathematics Calculus BCCOURSE_DIVPHYSB        Physics BCOURSE_DIVBIOL040  PO  Introductory Genetics w/LabCOURSE_DIVCHEM051  PO  Gen Chemistry w/Lab AcceleratedCOURSE_DIVCHEM051 LPO  Lab, General Chemistry (Accel)COURSE_DIVHIST040  AF  History of Africa to 1800COURSE_DIVID  001  PO  Critical Inquiry Seminar: From Information to KnowledgeCOURSE_DIVPE  023  PO  Yoga - KundaliniCOURSE_DIVBIOL041C PO  Intro Cell Chem & Cell Bio w/LabCOURSE_DIVBIOL041CLPO  Lab, Intro Cell Chem & Cell BiolCOURSE_DIVCSCI052  PO  Fundamentals of Computer ScienceCOURSE_DIVLGCS010  PO  Introduction to LinguisticsCOURSE_DIVMATH060  PO  Linear AlgebraCOURSE_DIVPE  016  PO  Weight TrainingCOURSE_DIVCSCI062 LPO  Data Structures/Adv Program LabCOURSE_DIVCSCI081  PO  Computability & LogicCOURSE_DIVFREN044  PO  Advanced FrenchCOURSE_DIVMATH113  PO  Number Theory and CryptographyCOURSE_DIVART 027  PO  Wood SculptureCOURSE_DIVMATH103  PO  Combinatorial MathematicsCOURSE_DIVFREN105  PO  Culture, Phonetics, and StyleCOURSE_DIVGERM001  PO  Elementary GermanCOURSE_DIVRLST158  PO  Jewish MysticismCOURSE_DIVCSCI105  HM  Computer SystemsCOURSE_DIVCSCI140  PO  AlgorithmsCOURSE_DIVPARI001  AB  InternshipCOURSE_DIVPARI002  AB  French Language & Culture ICOURSE_DIVPARI003  AB  Literary History of 18-20CCOURSE_DIVPARI004  AB  French Lexical Units-SentenceCOURSE_DIVPARI005  AB  The European UnionCOURSE_DIVCSCI133  PO  Database SystemsCOURSE_DIVCSCI159  PO  Natural Language Processing                 COURSE_DIVCSCI190  PO  Computer Science Senior Seminar                                                        COURSE_DIVFREN015  PO  Advanced Plus ConversationCOURSE_DIVRUSS001  PO  Elementary RussianCOURSE_DIVCSCI131  HM  Programming Languages COURSE_DIVCSCI151  HM  Artificial Intelligence COURSE_DIVCSCI181B HM  Advanced Topics in Algorithms / Computer Science Seminar  COURSE_DIVCSCI192  PO  Senior Project  COURSE_DIVRLST142  AF  Prob of Evil: Afr-Amer Engagmnts")),
-	(Student(id=123, sFirstName='Anna', sLastName='Turner', year=2015, college="Pomona", sEmail="anna@edu", courseHistory = "Anna's course history")),
-	(Student(id=007, sFirstName='Mauricio', sLastName='Molina', year=2015, college="Pomona", sEmail="mauricio@edu", courseHistory = "Mauricio's course history")),
+	Student(id=45, sFirstName='Sarah', sLastName='Jundt', year=2015, college = "Pomona", sEmail = "sarah@pomona.edu")),
+	(Student(id=10234873, sFirstName='George', sLastName='Price', year=2015, college = "Pomona", sEmail = "gwp02011@pomona.edu")),
+	(Student(id=123, sFirstName='Anna', sLastName='Turner', year=2015, college="Pomona", sEmail="anna@edu")),
+	(Student(id=007, sFirstName='Mauricio', sLastName='Molina', year=2015, college="Pomona", sEmail="mauricio@edu")),
 	(Course(id="CSCI133")),
 	(Course(id="RLST40")),
-	(Professor(profID=90, pFirstName="Melanie", pLastName="Wu")),
+	(Professor(profID=90, pFirstName="Melanie", pLastName="Wu"))
 	])
 db.session.commit()
 db.session.add_all([
@@ -23,6 +23,11 @@ db.session.add_all([
 	(Section( id=3,sectionNum=2, course="CSCI133")),
 	(Section( id=4,sectionNum=3, course="CSCI133")),
 	(Section( id=2,sectionNum=1, course="RLST40")),
+	(HasTaken(courseID="CSCI133", studentID=45)),
+	(HasTaken(courseID="CSCI133", studentID=123)),
+	(HasTaken(courseID="CSCI133", studentID=10234873)),
+	(HasTaken(courseID="RLST40", studentID=007)),
+	(HasTaken(courseID="RLST40", studentID=45))
 	])
 db.session.commit()
 print "Okay"
@@ -62,4 +67,3 @@ db.session.add_all([
 	(SatisfiesMajor(majorID=cmc_rs_major.id, courseID="RLST40")),
 	])
 db.session.commit()
-

@@ -135,16 +135,17 @@
 					<div>
 						<span style="width:48px"></span><i><%- blurb %></i><p>
 					</div>
-					<% historySet = courseHistory.split("COURSE_DIV") %>
-					<% for(histCourse = 0; histCourse < historySet.length/2; histCourse++) { %>
+					<% for(histCourse = 0; histCourse < courseHistory.length/2; histCourse++) { %>
 						<div>
 							<span style="width:1000px">
 							<span style="width:48px"></span>
 								<span style="width:450px">
-									<%- historySet[histCourse] %>
+									<%- courseHistory[histCourse] %>
 								</span>
 								<span style="width:450px">
-									<%- historySet[histCourse + Math.floor(historySet.length/2)] %>
+									<% if (courseHistory.length >1) { %>
+										<%- courseHistory[histCourse + Math.floor(courseHistory.length/2)] %>
+									<% } %>
 								</span>
 								
 							</span>
