@@ -19,9 +19,6 @@ var app = app || {};
 
 		},
 
-		// At initialization we bind to the relevant events on the `Todos`
-		// collection, when items are added or changed. Kick things off by
-		// loading any preexisting todos that might be saved in *localStorage*.
 		initialize: function () {
 			this.$prof_perm_list = $('#prof-perm-list');
 			this.$list = $('#todo-list')
@@ -42,19 +39,15 @@ var app = app || {};
 			this.$new_section_rank_input = $('#section-rank-field');
 		},
 
-		// Add a single todo item to the list by creating a view for it, and
-		// appending its element to the `<ul>`.
 		addOneSection: function (section) {
 			var view = new app.SectionView({ model: section });
 			this.$list.append(view.render().el);
 		},
 
-		// Add all items in the **Todos** collection at once.
 		addAllSections: function () {
 			this.$list.html('');
 			app.prof_sections.each(this.addOneSection, this);
 		},
-
 
 		addOnePERM: function (prof_perm) {
 			var view = new app.ProfPermView({ model: prof_perm });

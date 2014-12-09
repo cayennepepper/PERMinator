@@ -45,7 +45,6 @@ var app = app || {};
 		// Switch this view into `"editing"` mode, displaying the input field.
 		edit: function () {
 			this.$el.addClass('editing');
-			// this.$expDate.focus();
 		},
 
 		showBlurb: function() {
@@ -84,13 +83,12 @@ var app = app || {};
 			}
 		},
 
-		// Re-render the titles of the todo item.
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
 
-		// Close the `"editing"` mode, saving changes to the todo.
+		// Close the `"editing"` mode, saving changes to the perm.
 		close: function () {
 			var value = this.$('.expdate').val();
 

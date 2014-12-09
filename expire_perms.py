@@ -1,3 +1,5 @@
+#Changes the status of PERMs whose expiration date is in the past to "Expired"
+
 from models import PERM
 from datetime import datetime, timedelta
 import time

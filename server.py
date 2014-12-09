@@ -114,8 +114,6 @@ def studentperm_create():
 
     db_section_id = db_section.id
     section_rank = st_perm[u'sectionRank']
-    #check rankings here
-
     #Create exp date 2 weeks from now
     now_time = datetime.now()
     future_time = now_time + timedelta(days=14)
