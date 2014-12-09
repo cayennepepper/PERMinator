@@ -39,7 +39,7 @@ db.session.add_all([
 	(HasTaken(courseID="CSCI133", studentID=45)),
 	(HasTaken(courseID="CSCI133", studentID=123)),
 	(HasTaken(courseID="CSCI133", studentID=10234873)),
-	(HasTaken(courseID="RLST40", studentID=10234873)),
+	(HasTaken(courseID="CSCI51", studentID=10234873)),
 	(HasTaken(courseID="RLST40", studentID=007)),
 	(HasTaken(courseID="CSCI55", studentID=007)),
 	(HasTaken(courseID="CSCI62", studentID=007)),
