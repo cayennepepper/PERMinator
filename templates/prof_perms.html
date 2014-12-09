@@ -135,7 +135,7 @@
 					<div>
 						<span style="width:48px"></span><i><%- blurb %></i><p>
 					</div>
-					<% for(histCourse = 0; histCourse < courseHistory.length/2; histCourse++) { %>
+					<% for(histCourse = 0; histCourse < Math.floor(courseHistory.length/2)+1; histCourse++) { %>
 						<div>
 							<span style="width:1000px">
 							<span style="width:48px"></span>
@@ -144,7 +144,7 @@
 								</span>
 								<span style="width:450px">
 									<% if (courseHistory.length >1) { %>
-										<%- courseHistory[histCourse + Math.floor(courseHistory.length/2)] %>
+										<%- courseHistory[histCourse + Math.floor(courseHistory.length/2)+1] %>
 									<% } %>
 								</span>
 								
