@@ -109,7 +109,7 @@ def studentperm_create():
     db_other_perms = db.session.query(PERM).filter(PERM.studentID==st_perm[u'studentID']).join(Section).filter(Section.id == PERM.sectionID).filter(Section.courseID==st_perm[u'course']).all()
     for other in db_other_perms :
         if(int(other.sectionRank) == int(st_perm[u'sectionRank']) and other.status != "Cancelled"):
-            return "You already have a PERM with this ranking. Please choose a different ranking.", 409
+            return "You already have a PERM with this ranking. Please choose a different ranking. This PERM will not be saved otherwise.", 409
 
 
     db_section_id = db_section.id
