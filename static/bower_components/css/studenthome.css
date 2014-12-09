@@ -23,6 +23,14 @@ input[type="checkbox"] {
   outline: none;
 }
 
+.Denied {
+	color: rgb(150,0,0);
+}
+
+.Approved {
+	color: rgb(0,150,0);
+}
+
 #todoapp {
 	background: #fff;
 	background: rgba(255, 255, 255, 0.9);
