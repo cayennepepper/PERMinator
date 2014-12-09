@@ -25,7 +25,7 @@ def prof_home(pid):
         return render_template('four_oh_four.html'), 404
 
     sections = [teach.section.serialize() for teach in prof_teach]
-    return render_template('prof_home.html', sections=sections)
+    return render_template('prof_home.html', sections=sections, name=db.session.query(Professor).get(pid).pFirstName)
 
 @app.route('/section/<string:secid>')
 def prof_perms(secid):
@@ -91,7 +91,7 @@ def student_home(sid):
         studentperm['course'] = db_section_course_id
         studentperm['sectionNum'] = db_section_num
 
-    return render_template('studentHome.html', studentperms=student_perms, sid = sid)
+    return render_template('studentHome.html', studentperms=student_perms, sid = sid, name=student.sFirstName)
 
 @app.route('/perms/', methods=['POST'])
 def studentperm_create():
