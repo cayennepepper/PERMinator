@@ -59,7 +59,7 @@ db.session.add_all([
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None)),
 	(PERM(section = 2, student = 7, blurb = "Please let me take this class!!", 
 		status = "Approved", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1)),
-	(PERM(section = 3, student = 7, blurb = "I don't care about this class", 
+	(PERM(section = 3, student = 7, blurb = "I love databases!!", 
 		status = "Expired", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=10)), sectionRank = 1)),
 	(PERM(section = 1, student = 123, blurb = "Blurbey", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1))
