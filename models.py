@@ -148,7 +148,7 @@ class Major(db.Model):
   college = db.Column(db.Enum("HMC", "CMC", "Pomona", "Pitzer", "Scripps"))
   name = db.Column(db.String(50))
 
-  def __init__(self, college, name, satisfiedBy):
+  def __init__(self, college, name):
     self.college = college
     self.name = name
 

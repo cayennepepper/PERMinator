@@ -68,11 +68,11 @@ db.session.add_all([
 	(Teach(profID=90, sectionID=1)),
 	(Teach(profID=90, sectionID=3)),
 	(Teach(profID=90, sectionID=4)),
-	(Major(college="Pomona", name="Computer Science", satisfiedBy="CSCI 051	CSCI 051G	CSCI 052	CSCI 055	CSCI 062	CSCI 081	CSCI 105	CSCI 131	CSCI 140	CSCI 151	CSCI 158	CSCI 159	CSCI 181H 	CSCI 181J 	CSCI 181K 	CSCI 190	CSCI 191	CSCI 192	CSCI 199DRPO 	CSCI 199IRPO 	CSCI 199RAPO	CSCI 133	CSCI 135	CSCI 124	CSCI 125	CSCI 132	CSCI 134	CSCI 136	CSCI 141	CSCI 142	CSCI 144	CSCI 147	CSCI 152	CSCI 153	CSCI 154	CSCI 155	CSCI 156	CSCI 157	CSCI 183	CSCI 184	MATH 031	MATH 060	MATH 055	MATH 103")),
-	(Major(college="HMC", name="Computer Science", satisfiedBy="CSCI 005	CSCI 060	CSCI 070	CSCI 055	CSCI 062	CSCI 081	CSCI 105	CSCI 131	CSCI 140	CSCI 151	CSCI 158	CSCI 159	CSCI 181H 	CSCI 181J 	CSCI 181K 	CSCI 190	CSCI 191	CSCI 192	CSCI 199DRPO 	CSCI 199IRPO 	CSCI 199RAPO	CSCI 133	CSCI 135	CSCI 124	CSCI 125	CSCI 132	CSCI 134	CSCI 136	CSCI 141	CSCI 142	CSCI 144	CSCI 147	CSCI 152	CSCI 153	CSCI 154	CSCI 155	CSCI 156	CSCI 157	CSCI 183	CSCI 184	MATH 031	MATH 060	MATH 055	MATH 103")),
-	(Major(college="Pitzer", name="French", satisfiedBy="French courses")),
-	(Major(college="Pomona", name="Biology", satisfiedBy="Biology courses")),
-	(Major(college="CMC", name="Religious Studies", satisfiedBy="Religious studies courses")),
+	(Major(college="Pomona", name="Computer Science")),
+	(Major(college="HMC", name="Computer Science")),
+	(Major(college="Pitzer", name="French")),
+	(Major(college="Pomona", name="Biology")),
+	(Major(college="CMC", name="Religious Studies")),
 	])
 db.session.commit()
 pomona_cs_major = db.session.query(Major).filter(Major.college=="Pomona" and Major.name=="Computer Science").first()
