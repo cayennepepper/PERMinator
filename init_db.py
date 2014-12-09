@@ -52,7 +52,7 @@ db.session.commit()
 print "Okay"
 db.session.add_all([
 	(PERM(section = 1, student = 45, blurb = "Sarah's PERM for CSCI133 Section 1", 
-		status = "Approved", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=1)), sectionRank = 1)),
+		status = "Expired", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=1)), sectionRank = 1)),
 	(PERM(section = 4, student =45 , blurb = "Sarah's PERM for CSCI133 Section 3", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 2)),
 	(PERM(section = 1, student = 10234873, blurb = "Potential CS minor with a lot of interests",
