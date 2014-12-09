@@ -54,19 +54,19 @@ db.session.add_all([
 db.session.commit()
 print "Okay"
 db.session.add_all([
-	(PERM(section = 1, student = 45, blurb = "Sarah's PERM for CSCI133 Section 1", 
+	(PERM(section = 1, student = 45, blurb = "Don't care about this section", 
 		status = "Expired", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=1)), sectionRank = 1)),
-	(PERM(section = 4, student =45 , blurb = "Sarah's PERM for CSCI133 Section 3", 
+	(PERM(section = 4, student =45 , blurb = "I had a large breakfast today", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 2)),
-	(PERM(section = 1, student = 10234873, blurb = "Potential CS minor with a lot of interests",
+	(PERM(section = 1, student = 10234873, blurb = "I am skewed plywood",
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = None)),
 	(PERM(section = 10, student = 7, blurb = "Please let me take this class!!", 
 		status = "Approved", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1)),
-	(PERM(section = 2, student = 7, blurb = "I'll get into this class", 
+	(PERM(section = 2, student = 7, blurb = "This class doesn't exist", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1)),
-	(PERM(section = 3, student = 7, blurb = "I love databases!!", 
+	(PERM(section = 3, student = 7, blurb = "I love databases!!omg", 
 		status = "Expired", submissionTime = datetime.now(), expirationTime = (datetime.now()-timedelta(days=10)), sectionRank = 1)),
-	(PERM(section = 1, student = 123, blurb = "Blurbey", 
+	(PERM(section = 1, student = 123, blurb = "Exit through the git shop.", 
 		status = "Requested", submissionTime = datetime.now(), expirationTime = (datetime.now()+timedelta(days=10)), sectionRank = 1))
 	])
 db.session.add_all([
