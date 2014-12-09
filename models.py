@@ -12,7 +12,6 @@ def serialize_permtime(date_time):
   return m + "/" + d + "/" + y
 
 class Student(db.Model):
-  #reference PERMs via 'PERMs', majorsIn table via 'majors_in'
   id = db.Column(db.Integer, primary_key=True, autoincrement=False)
   sFirstName = db.Column(db.String(50))
   sLastName = db.Column(db.String(50))
@@ -216,8 +215,3 @@ class HasTaken(db.Model):
 
   def __repr__(self):
     return "<HasTaken(studentID='%s', courseID='%s')>" % (self.studentID, self.courseID)
-  
-
-
-
-
